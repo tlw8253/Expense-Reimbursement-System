@@ -9,26 +9,30 @@
 
         <!-- include JavaScript file -->
         <script src="index.js"></script>
-
         <link rel="stylesheet" href="css/index.css" />
+
     </head>
 
     <body>
+        
         <h1>Wally World Movie Studios</h1>
         <h2>Expense Reimbursement System</h2>
         <h3>Login to Contine</h3>
 
-            <!-- Login Form -->
-       <div>
-            <label for="username">Enter Company's Username:</label>
-            <input type="text" name="username" id="username">
-        </div>
-        <div>
-            <label for="password">Password: </label>
-            <input type="password" name="password" id="password">
-        </div>
-        <div>
-            <input type="submit" value="Login">
-        </div>
+        <form name="login" onsubmit="return validateForm()" method="get">
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required>
+            </div>
+            <div>
+                <label for="password">Password: </label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            <div>
+                <input type="submit" value="Login">
+            </div>
+        </form>
+
+        
     </body>
 </html>

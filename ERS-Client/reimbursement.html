@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <!-- All employees in the company can login and submit requests for reimbursement and view their past tickets and pending requests-->
+
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Employee Requests</title>
+
+        <!-- include JavaScript file -->
+        <script src="index.js"></script>
+
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+
+     <!-- Employee Reimbursement Page -->
+    <body>
+        <h1>Wally World Movie Studios</h1>
+        <h2>Expense Reimbursement System</h2>
+        <h3>Employee Requests</h3>
+ 
+        <!-- there will be two sections that will appear based on selection.
+                for now display both sections-->
+        <div>
+            <br>
+            <h3>Select from list to start an action:</h3>
+            <select id="reimb_type">
+                <option value="default">Select an item</option>
+                <option value="view">View Previous Request</option>
+                <option value="create">Create New Request</option>
+            </select>
+            <br>
+
+            <br><br><br><br>
+            <form name="select_item">
+                <div>
+                    <h3>Search for Reinbursement Requests</h3>
+                    <input type="radio" id="all_records" name="all_records" value="ALL">
+                    <label for="all_records">Select to retrieve all reimbursement requests.</label><br>
+                    <input type="radio" id="all_pending_records" name="all_pending_records" value="ALL PENDING">
+                    <label for="all_pending_records">Select to retrieve all pending reimbursement requests.</label>
+                    <br><br>                    
+                    <b><p>Or Search by Reinbursement Number</p></b>
+                    <label for="reimbursement_number">Enter Reinbursement Number: </label>
+                    <input type="text" name="reimbursement_number" id="reimbursement_number">
+                </div>
+                <div>
+                    <input type="submit" value="Search">
+                </div>
+            </form>
+        </div>
+
+        <br><br><br><br>
+
+        <div>
+            <br>
+            <h3>Select a Request Type</h3>
+            <select id="reimb_type">
+                <option value="default">Select Request Type</option>
+                <option value="lodging">LODGING</option>
+                <option value="travel">TRAVEL</option>
+                <option value="food">FOOD</option>
+                <option value="other">OTHER</option>
+            </select>
+            <br>
+        </div>
+
+
+        <div>
+            <form name="create_request">
+                <div>
+                    <h3>Create New Reinbursement Requests</h3>
+                    <label for="reimbursement_amount">Enter Reinbursement Amount: </label>
+                    <input type="text" name="reimbursement_amount" id="reimbursement_amount"> <br>
+                    <label for="reimbursement_description">Enter Reinbursement Description: </label>
+                    <input type="text" name="reimbursement_description" id="reimbursement_description"> <br>
+                    <label for="reimbursement_receipt">Upload Reinbursement Receipt: </label>
+                    <input type="file" name="reimbursement_receipt" id="reimbursement_receipt" accept="accept=image/png, image/jpeg, image/jpg, .doc,.docx,"> <br>
+                </div>
+                <div>
+                    <input type="submit" value="Create">
+                </div>
+            </form>
+        </div>
+
+
+
+
+    </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <!-- Finance managers can log in and view all reimbursement requests and past history for 
+            all employees in the company. Finance managers are authorized to approve and deny 
+            requests for expense reimbursement. -->
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Finance Reimbursement Review</title>
+
+        <!-- include JavaScript file -->
+        <script src="index.js"></script>
+
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+
+    <body>
+        <h1>Wally World Movie Studios</h1>
+        <h2>Expense Reimbursement System</h2>
+        <h3>Finance Reimbursement Review</h3>
+
+        <br><br><br><br>
+        <div>
+            <form name="select_for_requestsr">
+                <div>
+                    <h3>Search for Reinbursement Requests</h3>
+                    <h4>Enter one value OR select for all records</h4>
+                    <label for="reimbursement_number">Enter Reinbursement Number: </label>
+                    <input type="text" name="reimbursement_number" id="reimbursement_number"><br>
+                    <label for="employee_username">Enter Employee Username: </label>
+                    <input type="text" name="employee_username" id="employee_username"><br>
+                    <input type="radio" id="all_records" name="all_records" value="ALL">
+                    <label for="all_records">Select to retrieve all reimbursement requests.</label><br>
+                </div>
+                <div>
+                    <input type="submit" value="Search">
+                </div>
+            </form>
+        </div>
+
+
+        <br><br><br><br>
+        
+
+
+
+
+            <form name="search_results">
+                <div>
+                    <table style="width:100%" border: 1px solid black;>
+                        <tr>
+                          <th>Select</th>
+                          <th>Username</th>
+                          <th>Request Number</th>
+                          <th>Type</th>
+                          <th>Amount</th>
+                          <th>Description</th>
+                          <th>Status</th>
+                        </tr>
+                        <tr>
+                          <td><input type="radio" id="this_record" name="this_records" value="">
+                            <label for="all_records">  </label></td>
+                          <td>Username</td>
+                          <td>Request Number</td>
+                          <td>Type</td>
+                          <td>Amount</td>
+                          <td>Description</td>
+                          <td>Status</td>
+                        </tr>
+                      </table>
+                        </div>
+                <div>
+                    <input type="submit" value="Choose">
+                </div>
+            </form>
+        </div>
+
+
+    </body>
+</html>

@@ -22,3 +22,16 @@ div {
     color: black;    
 }
 
+label{
+    display: inline-block;
+    
+}
+
+input[type='submit'],
+label{
+    margin-top:  1rem;
+}
+
+table, th, td {
+    border: 1px solid black;
+  }
