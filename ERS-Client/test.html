@@ -1,33 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
+<!doctype html>
 
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Test</title>
+<html>
 
-        <!-- include JavaScript file -->
-        <script src="index.js"></script>
+  <head>
+    <title>Hide content until loaded with CSS</title>
+    <style type="text/css" media="screen">
+      .hide-single-child > :only-child {
+        display: none;
+      }
+    </style>
+  </head>
 
-        <link rel="stylesheet" href="css/style.css" />
-    </head>
+  <body>
+    <div class='hide-single-child'>
+      <div>
+        <h1>Content Hidden</h1>
+        <script>
+          alert('Note that content is hidden until you click "Ok".');
+        </script>
+      </div>
+      <div></div>
+    </div>
+  </body>
 
-     <!-- Employee Reimbursement Page -->
-    <body>
-        <h1>Wally World Movie Studios</h1>
-        <h1>Expense Reimbursement System</h1>
-        <h2>Test</h2>
-
-           
-    
-        <div>
-            <br>
-            <!-- text input -->
-            <h4>Select from list to start an action:</h4>
-        </div>
-
-        <form>
-        </form>
-    </body>
 </html>

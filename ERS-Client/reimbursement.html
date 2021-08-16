@@ -11,13 +11,14 @@
         <title>Employee Requests</title>
 
         <!-- include JavaScript file -->
-        <script src="index.js"></script>
+        <script src="js/reimbursement.js"></script>
 
         <link rel="stylesheet" href="css/style.css" />
+
     </head>
 
      <!-- Employee Reimbursement Page -->
-    <body>
+    <body onload="onPageLoad()">
         <h1>Wally World Movie Studios</h1>
         <h2>Expense Reimbursement System</h2>
         <h3>Employee Requests</h3>
@@ -27,15 +28,15 @@
         <div>
             <br>
             <h3>Select from list to start an action:</h3>
-            <select id="reimb_type">
+            <select id="reimb_type" onchange="startAction(this)">
                 <option value="default">Select an item</option>
                 <option value="view">View Previous Request</option>
                 <option value="create">Create New Request</option>
             </select>
-            <br>
+        </div>
 
-            <br><br><br><br>
-            <form name="select_item">
+            <br><br>           
+            <form name="select_item" id="select_item" style="display:none">
                 <div>
                     <h3>Search for Reinbursement Requests</h3>
                     <input type="radio" id="all_records" name="all_records" value="ALL">
@@ -52,25 +53,24 @@
                 </div>
             </form>
         </div>
+     
+        <form name="create_request" id="create_request" style="display:none">
 
-        <br><br><br><br>
-
-        <div>
-            <br>
-            <h3>Select a Request Type</h3>
-            <select id="reimb_type">
-                <option value="default">Select Request Type</option>
-                <option value="lodging">LODGING</option>
-                <option value="travel">TRAVEL</option>
-                <option value="food">FOOD</option>
-                <option value="other">OTHER</option>
-            </select>
-            <br>
-        </div>
+            <div name="selec_request_type" id="selec_request_type" style="display:none">
+                <br>
+                <h3>Select a Request Type</h3>
+                <select id="reimb_type">
+                    <option value="default">Select Request Type</option>
+                    <option value="lodging">LODGING</option>
+                    <option value="travel">TRAVEL</option>
+                    <option value="food">FOOD</option>
+                    <option value="other">OTHER</option>
+                </select>
+                <br>
+            </div>
 
 
-        <div>
-            <form name="create_request">
+            <div>
                 <div>
                     <h3>Create New Reinbursement Requests</h3>
                     <label for="reimbursement_amount">Enter Reinbursement Amount: </label>
@@ -83,10 +83,8 @@
                 <div>
                     <input type="submit" value="Create">
                 </div>
-            </form>
-        </div>
-
-
+        </form>
+        
 
 
     </body>
