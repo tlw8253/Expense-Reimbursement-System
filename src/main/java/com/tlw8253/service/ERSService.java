@@ -7,22 +7,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
-import com.tlw8253.dao.GeneralDAOImpl;
+import com.tlw8253.dao.ERSDAOImpl;
 import com.tlw8253.dao.GenericDAO;
 import com.tlw8253.exception.DatabaseException;
 import com.tlw8253.exception.*;
 import com.tlw8253.model.General;
 
-public class GeneralService implements Constants {
-	private Logger objLogger = LoggerFactory.getLogger(GeneralService.class);
+public class ERSService implements Constants {
+	private Logger objLogger = LoggerFactory.getLogger(ERSService.class);
 //	private GeneralDAOImpl objGenericDAOImpl;
 	private GenericDAO<General> objGeneralDAO;
 
-	public GeneralService() {
-		this.objGeneralDAO = new GeneralDAOImpl();
+	public ERSService() {
+		this.objGeneralDAO = new ERSDAOImpl();
 	}
 
-	public GeneralService(GenericDAO<General> objMockedGeneralDAO) {
+	public ERSService(GenericDAO<General> objMockedGeneralDAO) {
 		this.objGeneralDAO = objMockedGeneralDAO;
 	}
 

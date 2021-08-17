@@ -1,11 +1,15 @@
+"use strict";
 
 
 function onPageLoad() {
-    //do nothing for now
-  }
+
+
+}
 
 function startAction(selectObject){
      var value = selectObject.value;  
+
+     alert(value);
     if (value == 'view'){        
         hideCreateRequest();
         showSelectItem();
@@ -14,6 +18,12 @@ function startAction(selectObject){
         hideSelectItem();
         showCreateRequest();
     }    
+}
+
+function new_reinbursement_request(selectObject){
+  alert("new_reinbursement_request");
+  console.log("new_reinbursement_request(selectObject)");
+
 }
 
 

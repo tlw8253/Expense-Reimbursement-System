@@ -15,10 +15,10 @@ import com.tlw8253.dto.AddOrEditDTO;
 import com.tlw8253.model.General;
 import com.tlw8253.util.ConnectionUtility;
 
-public class GeneralDAOImpl implements GenericDAO<General>, Constants {
-	private Logger objLogger = LoggerFactory.getLogger(GeneralDAOImpl.class);
+public class ERSDAOImpl implements GenericDAO<General>, Constants {
+	private Logger objLogger = LoggerFactory.getLogger(ERSDAOImpl.class);
 
-	public GeneralDAOImpl() {
+	public ERSDAOImpl() {
 		super();
 	}
 

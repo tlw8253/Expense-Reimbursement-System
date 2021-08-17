@@ -36,12 +36,13 @@
         </div>
 
             <br><br>           
-            <form name="select_item" id="select_item" style="display:none">
+            <form name="select_item" id="select_item" style="display:none" method="GET">
                 <div>
                     <h3>Search for Reinbursement Requests</h3>
-                    <input type="radio" id="all_records" name="all_records" value="ALL">
+                    <!-- name field must match to prevent both radio buttons from being marked-->
+                    <input type="radio" id="all_records" name="search_type" value="ALL">
                     <label for="all_records">Select to retrieve all reimbursement requests.</label><br>
-                    <input type="radio" id="all_pending_records" name="all_pending_records" value="ALL PENDING">
+                    <input type="radio" id="all_pending_records" name="search_type" value="ALL PENDING">
                     <label for="all_pending_records">Select to retrieve all pending reimbursement requests.</label>
                     <br><br>                    
                     <b><p>Or Search by Reinbursement Number</p></b>
@@ -54,7 +55,7 @@
             </form>
         </div>
      
-        <form name="create_request" id="create_request" style="display:none">
+        <form name="create_request" id="create_request" style="display:none" onsubmit="new_reinbursement_request(this)" method="POST">
 
             <div name="selec_request_type" id="selec_request_type" style="display:none">
                 <br>
@@ -76,7 +77,10 @@
                     <label for="reimbursement_amount">Enter Reinbursement Amount: </label>
                     <input type="text" name="reimbursement_amount" id="reimbursement_amount"> <br>
                     <label for="reimbursement_description">Enter Reinbursement Description: </label>
-                    <input type="text" name="reimbursement_description" id="reimbursement_description"> <br>
+                   <!--<input type="text" name="reimbursement_description" id="reimbursement_description"> <br>--> 
+                    <label for="Description">Reimbursment Description:</label> <br>
+                    <textarea rows="5" cols="50" name="reimbursement_description"
+                                        id="reimbursement_description" minlength="10" maxlength="255" required></textarea><br>       
                     <label for="reimbursement_receipt">Upload Reinbursement Receipt: </label>
                     <input type="file" name="reimbursement_receipt" id="reimbursement_receipt" accept="accept=image/png, image/jpeg, image/jpg, .doc,.docx,"> <br>
                 </div>

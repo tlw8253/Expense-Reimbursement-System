@@ -5,7 +5,7 @@ import com.tlw8253.dto.ExceptionMessageDTO;
 import com.tlw8253.exception.RecordNotFoundException;
 import com.tlw8253.exception.BadParameterException;
 import com.tlw8253.exception.DatabaseException;
-import com.tlw8253.exception.GeneralException;
+import com.tlw8253.exception.ERSException;
 
 import io.javalin.Javalin;
 import io.javalin.http.ExceptionHandler;
@@ -24,7 +24,7 @@ public class ExceptionController implements Controller, Constants {
 	};
 	
 	
-	private ExceptionHandler<GeneralException> genericExceptionHandler = (e, ctx) -> {
+	private ExceptionHandler<ERSException> genericExceptionHandler = (e, ctx) -> {
 		ctx.status(ciStatusCodeImA_Teapot); 
 		
 		ExceptionMessageDTO messageDTO = new ExceptionMessageDTO();
@@ -55,7 +55,7 @@ public class ExceptionController implements Controller, Constants {
 	@Override
 	public void mapEndpoints(Javalin app) {
 		app.exception(DatabaseException.class, databaseExceptionHandler);
-		app.exception(GeneralException.class, genericExceptionHandler);
+		app.exception(ERSException.class, genericExceptionHandler);
 		app.exception(BadParameterException.class, badParameterExceptionHandler);
 		app.exception(RecordNotFoundException.class, AccountNotFoundExceptionHandler);
 	}

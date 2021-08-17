@@ -12,11 +12,11 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
 import com.tlw8253.model.General;
-import com.tlw8253.service.GeneralService;
+import com.tlw8253.service.ERSService;
 
-public class GeneralController implements Controller, Constants {
-	private Logger objLogger = LoggerFactory.getLogger(GeneralController.class);
-	private GeneralService objGeneralService;
+public class ERSController implements Controller, Constants {
+	private Logger objLogger = LoggerFactory.getLogger(ERSController.class);
+	private ERSService objGeneralService;
 
 	Map<String, String> mPathParmaMap;
 	Map<String, List<String>> mQueryParmaMap;
@@ -24,8 +24,8 @@ public class GeneralController implements Controller, Constants {
 	int imQueryParmaMap = 0;
 	boolean bmQueryParmaMapIsEmpty = true;
 
-	public GeneralController() {		
-		this.objGeneralService = new GeneralService();
+	public ERSController() {		
+		this.objGeneralService = new ERSService();
 	}
 
 	//
@@ -169,6 +169,43 @@ public class GeneralController implements Controller, Constants {
 		objCtx.status(ciStatusCodeSuccess);
 		objCtx.json("NonSpecific() message or object");
 	};
+	
+	//
+	// ### GET /non_specific -
+	private Handler getERS_Login = (objCtx) -> {
+		String sMethod = "getERS_Login(): ";
+		boolean bContinue = true;
+		objLogger.trace(sMethod + "Entered");
+		
+		String sParamUserName = "";
+		String sParamPassword = "";
+
+		setContextMaps(objCtx);
+		
+		//expect 2 query parameters with login request
+		if (imQueryParmaMap != 0) {
+			
+			//Check for body params before erroring here		
+			
+			objLogger.debug(sMethod + csMsgBadParamNoPathParm);
+			objCtx.status(ciStatusCodeErrorBadRequest);
+			objCtx.json(csMsgBadParamNoPathParm);
+			bContinue = false;
+		} else {
+			sParamUserName = objCtx.queryParam(csParamUserName);
+			objLogger.debug(sMethod + "Context query parameter username: [" + sParamUserName + "]");
+			sParamPassword = objCtx.queryParam(csParamUserName);
+			objLogger.debug(sMethod + "Context query parameter password: [" + sParamPassword + "]");
+		}
+
+		if(bContinue) {
+		// List<General> lstGeneral = objGeneralService.getReturnGeneral();
+		}
+		
+		objCtx.status(ciStatusCodeSuccess);
+		objCtx.json(sMethod);
+	};
+
 
 	@Override
 	public void mapEndpoints(Javalin app) {
@@ -176,6 +213,7 @@ public class GeneralController implements Controller, Constants {
 		//000.02 GET Get general request All Records: Records Returned
 		//http://localhost:3015/general
 		app.get(csRootEndpointGeneral, getReturnGeneral);		
+		app.get(csRootEndpointERS_Login, getERS_Login);
 		
 		app.post(csRootEndpointGeneral + "/:" + csParamPathName, postCreateGeneral);
 		

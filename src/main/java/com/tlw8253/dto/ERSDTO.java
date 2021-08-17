@@ -2,16 +2,16 @@ package com.tlw8253.dto;
 
 import com.tlw8253.app.Constants;
 
-public class GeneralDTO extends AddOrEditDTO implements Constants{
+public class ERSDTO extends AddOrEditDTO implements Constants{
 	//Class attributes are store in the parent in HashMap tables.	
 	
 	//
 	//###
-	public GeneralDTO() {
+	public ERSDTO() {
 		super();
 	}
 
-	public GeneralDTO(String sSomeName, int iSomeInt, double dSomeDouble, boolean bSomeBoolean) {
+	public ERSDTO(String sSomeName, int iSomeInt, double dSomeDouble, boolean bSomeBoolean) {
 		
 	}
 

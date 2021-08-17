@@ -32,12 +32,16 @@ public interface Constants {
 	int ciListingPort = 3015;
 	
 	//End Points
-	String csRootEndpointGeneral = "/general"; 
+	String csRootEndpointGeneral = "/general";
+	String csRootEndpointERS = "/ers";
+	String csRootEndpointERS_Login = "/ers_login"; 
 
 	//HTTP request parameter constants
 	String csParamPathGeneralId = "general_path_id";
 	String csParamQueryGeneralId = "general_query_id";
 	String csParamPathName = "name";
+	String csParamUserName = "username";
+	String csParamPassword = "password";
 
 	
 	//General Model Attribute Constants

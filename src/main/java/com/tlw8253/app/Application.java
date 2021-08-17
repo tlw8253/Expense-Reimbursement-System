@@ -10,7 +10,7 @@ import com.tlw8253.controller.AccountController;
 import com.tlw8253.controller.ClientController;
 */
 //import com.tlw8253.controller.TestController; TODO:
-import com.tlw8253.controller.GeneralController;
+import com.tlw8253.controller.ERSController;
 
 import io.javalin.Javalin;
 
@@ -35,7 +35,7 @@ public class Application implements Constants {
 		
 		objJavalinApp = Javalin.create();
 		objLogger.debug(sMethod + "mapControllers(new ExceptionController(), new GeneralController());");
-		mapControllers(/*new TestController(),*/ new ExceptionController(), new GeneralController());
+		mapControllers(/*new TestController(),*/ new ExceptionController(), new ERSController());
 		
 		objLogger.info(sMethod + "Starting listening on port: [" + ciListingPort + "]");
 		objJavalinApp.start(ciListingPort); // start up our Javalin server on port defined for this program	

@@ -24,16 +24,16 @@ import org.mockito.Mockito;
 
 
 import com.tlw8253.app.Constants;
-import com.tlw8253.dao.GeneralDAOImpl;
+import com.tlw8253.dao.ERSDAOImpl;
 import com.tlw8253.dao.GenericDAO;
 import com.tlw8253.model.General;
 
-public class GeneralServiceTest implements Constants {
-	private static Logger objLogger = LoggerFactory.getLogger(GeneralServiceTest.class);
+public class ERSServiceTest implements Constants {
+	private static Logger objLogger = LoggerFactory.getLogger(ERSServiceTest.class);
 	private GenericDAO<General> objMockDAO;
-	private GeneralService objMockService;
+	private ERSService objMockService;
 
-	public GeneralServiceTest() {
+	public ERSServiceTest() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -52,7 +52,7 @@ public class GeneralServiceTest implements Constants {
 		objLogger.trace("setUp()");
 		//fake DAO using the GenericDAO<T> interface class		
 		this.objMockDAO = mock(GenericDAO.class);
-		this.objMockService = new GeneralService();
+		this.objMockService = new ERSService();
 	}
 
 	@After
