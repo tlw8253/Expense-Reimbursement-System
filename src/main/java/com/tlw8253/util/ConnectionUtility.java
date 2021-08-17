@@ -20,7 +20,7 @@ public class ConnectionUtility {
 				
 		DriverManager.registerDriver(new Driver());
 		String sURL = System.getenv("ps_db_url");		
-		sURL = "jdbc:mariadb://localhost:3306/shell";
+		sURL = "jdbc:mariadb://localhost:3306/exp_reimb_sys2";
 		
 		String sUsername = System.getenv("p0_db_username");
 		String sPassword = System.getenv("p0_db_password");

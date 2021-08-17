@@ -1,6 +1,7 @@
 package com.tlw8253.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,10 +13,10 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
 import com.tlw8253.dto.AddOrEditDTO;
-import com.tlw8253.model.General;
+import com.tlw8253.model.EmployeeJDBC;
 import com.tlw8253.util.ConnectionUtility;
 
-public class ERSDAOImpl implements GenericDAO<General>, Constants {
+public class ERSDAOImpl implements GenericDAO<EmployeeJDBC>, Constants {
 	private Logger objLogger = LoggerFactory.getLogger(ERSDAOImpl.class);
 
 	public ERSDAOImpl() {
@@ -23,11 +24,13 @@ public class ERSDAOImpl implements GenericDAO<General>, Constants {
 	}
 
 	@Override
-	public List<General> getAllRecords() throws SQLException {
+	public List<EmployeeJDBC> getAllRecords() throws SQLException {
 		String sMethod = "getAllRecords(): ";
 		objLogger.trace(sMethod + "Entered");
+		
+/*		
 
-		List<General> lstGeneral = new ArrayList<>(10);
+		List<Employee> lstGeneral = new ArrayList<>(10);
 		
 		try (Connection conConnection = ConnectionUtility.getConnection()) {
 			Statement objStatement = conConnection.createStatement();
@@ -42,7 +45,7 @@ public class ERSDAOImpl implements GenericDAO<General>, Constants {
 				double dShellDouble = objResultSet.getDouble(csShellTblShellDbl);
 				boolean bShellBoolean = objResultSet.getBoolean(csShellTblShellBool);
 
-				General objGeneral = new General(sShellName, iShellInt, dShellDouble, bShellBoolean);
+				Employee objGeneral = new Employee(sShellName, iShellInt, dShellDouble, bShellBoolean);
 				objGeneral.setRecordId(iShellId);
 				objLogger.debug(sMethod + "Add general object to list: [" + objGeneral.toString() + "]");
 				lstGeneral.add(objGeneral);
@@ -52,16 +55,18 @@ public class ERSDAOImpl implements GenericDAO<General>, Constants {
 		
 		objLogger.debug(sMethod + "lstNonSpecificModel: [" + lstGeneral.toString() + "]");
 		return lstGeneral;
+*/
+		return null;
 	}
 
 	@Override
-	public General getByRecordIdentifer(String sRecordIdentifier) throws SQLException {
+	public EmployeeJDBC getByRecordIdentifer(String sRecordIdentifier) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public General addRecord(AddOrEditDTO objGenericAddDTO) throws SQLException {
+	public EmployeeJDBC addRecord(AddOrEditDTO objGenericAddDTO) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -74,13 +79,57 @@ public class ERSDAOImpl implements GenericDAO<General>, Constants {
 	}
 
 	@Override
-	public General getByRecordId(int sRecordId) throws SQLException {
+	public EmployeeJDBC getByRecordId(int sRecordId) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public General editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO) throws SQLException {
+	public EmployeeJDBC editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EmployeeJDBC getLoginJDBC(String sUsername) throws SQLException {
+		String sMethod = "getLogin(): ";
+
+		try (Connection conConnection = ConnectionUtility.getConnection()) {
+			String sSQL = "SELECT * FROM " + csDBEmployeeTable + " WHERE " + csEmployeeTblUsername + " = ?";
+			objLogger.debug(sMethod + "sSQL statement: [" + sSQL + "]");
+			
+			PreparedStatement objPreparedStatmnt = conConnection.prepareStatement(sSQL);
+			objPreparedStatmnt.setString(1, sUsername); 
+			objLogger.debug(sMethod + "objPreparedStatmnt: [" + objPreparedStatmnt.toString() + "]");
+			
+			// Execute the query
+			ResultSet objResultSet = objPreparedStatmnt.executeQuery();
+			if (objResultSet.next()) {
+				String sPassword = objResultSet.getString(csEmployeeTblPassword);
+				String sFirstName = objResultSet.getString(csEmployeeTblFirstName);
+				String sLastName = objResultSet.getString(csEmployeeTblLastName);
+				String sEmail = objResultSet.getString(csEmployeeTblEmail);
+				
+				EmployeeJDBC objEmployee = new EmployeeJDBC(sUsername, sPassword, sFirstName, sLastName, sEmail);
+				objLogger.debug(sMethod + "objEmployee: [" + objEmployee.toString() + "]");
+				return objEmployee;
+				
+			}else {
+				objLogger.debug(sMethod + "Employee with username: [" + sUsername + "] not found in database.");
+				return null;
+			}
+
+
+		}
+
+		
+		
+		
+		
+	}
+
+	@Override
+	public EmployeeJDBC getLogin(String sUsername) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

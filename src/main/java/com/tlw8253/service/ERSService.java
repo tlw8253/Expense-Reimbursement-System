@@ -9,41 +9,112 @@ import org.slf4j.LoggerFactory;
 import com.tlw8253.app.Constants;
 import com.tlw8253.dao.ERSDAOImpl;
 import com.tlw8253.dao.GenericDAO;
-import com.tlw8253.exception.DatabaseException;
 import com.tlw8253.exception.*;
-import com.tlw8253.model.General;
+import com.tlw8253.model.EmployeeJDBC;
 
 public class ERSService implements Constants {
 	private Logger objLogger = LoggerFactory.getLogger(ERSService.class);
 //	private GeneralDAOImpl objGenericDAOImpl;
-	private GenericDAO<General> objGeneralDAO;
+	private GenericDAO<EmployeeJDBC> objErsDAO;
 
 	public ERSService() {
-		this.objGeneralDAO = new ERSDAOImpl();
+		this.objErsDAO = new ERSDAOImpl();
 	}
 
-	public ERSService(GenericDAO<General> objMockedGeneralDAO) {
-		this.objGeneralDAO = objMockedGeneralDAO;
+	public ERSService(GenericDAO<EmployeeJDBC> objMockedGeneralDAO) {
+		this.objErsDAO = objMockedGeneralDAO;
 	}
 
-	
-	public List<General> getReturnGeneral() throws DatabaseException, RecordNotFoundException {
+	public List<EmployeeJDBC> getReturnGeneral() throws DatabaseException, RecordNotFoundException {
 		String sMethod = "getReturnGeneral(): ";
 		objLogger.trace(sMethod + "Entered");
 
 		try {
-			List<General> lstGeneral = objGeneralDAO.getAllRecords();
+			List<EmployeeJDBC> lstGeneral = objErsDAO.getAllRecords();
 			if (lstGeneral.size() == 0) {
-				objLogger.debug(sMethod + csMsgGeneralRecordNotFound);
-				throw new RecordNotFoundException(csMsgGeneralRecordNotFound);
+				objLogger.debug(sMethod + "record not found");
+				throw new RecordNotFoundException("record not found");
 			}
-			
+
 			objLogger.debug(sMethod + "lstGeneral: [" + lstGeneral.toString() + "]");
 			return lstGeneral;
 		} catch (SQLException objE) {
 			objLogger.debug(sMethod + "SQLException: [" + objE.getMessage() + "]");
-			throw new DatabaseException(csMsgDB_ErrorGettingAllGeneral);
+			throw new DatabaseException(sMethod);
 		}
 	}
 
+
+	//
+	//###
+	public EmployeeJDBC getErsLoginJDBC(String sUsername, String sPassword) throws DatabaseException, RecordNotFoundException, AuthenticationFailureException {
+		String sMethod = "getErsLogin(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		try {
+			EmployeeJDBC objEmployee = objErsDAO.getLoginJDBC(sUsername);
+
+			if (objEmployee == null) {
+				String sMsg = "Employee with username: [" + sUsername + "] not in database.";
+				objLogger.debug(sMethod + sMsg);
+				throw new RecordNotFoundException(csMsgEmployeeRecordNotFound);
+			}
+			objLogger.debug(sMethod + "objEmployee: [" + objEmployee.toString() + "]");
+
+			// password validation here
+			String sEmpPwdDB = objEmployee.getPassword();
+			if(sEmpPwdDB.equalsIgnoreCase(sPassword)) {		
+				objLogger.debug(sMethod + "Employee with username: [" + sUsername + "] authenticated.");
+				return objEmployee;
+			} else {
+				objLogger.debug(sMethod + "Employee with username: [" + sUsername + "] failed autentication.");
+				throw new AuthenticationFailureException(csMsgAutenticationFailed);
+			}
+
+			
+
+		} catch (SQLException objE) {
+			objLogger.debug(sMethod + "SQLException: [" + objE.getMessage() + "]");
+			throw new DatabaseException(csMsgDB_ErrorGettingWithLogin);
+		}
+		
+	}
+
+	
+	//
+	//###
+	public EmployeeJDBC getErsLogin(String sUsername, String sPassword) throws DatabaseException, RecordNotFoundException, AuthenticationFailureException {
+		String sMethod = "getErsLogin(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		try {
+			EmployeeJDBC objEmployee = objErsDAO.getLogin(sUsername);
+
+			if (objEmployee == null) {
+				String sMsg = "Employee with username: [" + sUsername + "] not in database.";
+				objLogger.debug(sMethod + sMsg);
+				throw new RecordNotFoundException(csMsgEmployeeRecordNotFound);
+			}
+			objLogger.debug(sMethod + "objEmployee: [" + objEmployee.toString() + "]");
+
+			// password validation here
+			String sEmpPwdDB = objEmployee.getPassword();
+			if(sEmpPwdDB.equalsIgnoreCase(sPassword)) {		
+				objLogger.debug(sMethod + "Employee with username: [" + sUsername + "] authenticated.");
+				return objEmployee;
+			} else {
+				objLogger.debug(sMethod + "Employee with username: [" + sUsername + "] failed autentication.");
+				throw new AuthenticationFailureException(csMsgAutenticationFailed);
+			}
+
+			
+
+		} catch (SQLException objE) {
+			objLogger.debug(sMethod + "SQLException: [" + objE.getMessage() + "]");
+			throw new DatabaseException(csMsgDB_ErrorGettingWithLogin);
+		}
+		
+	}
+	
+	
 }

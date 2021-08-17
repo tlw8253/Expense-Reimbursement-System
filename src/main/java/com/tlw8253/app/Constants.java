@@ -35,6 +35,7 @@ public interface Constants {
 	String csRootEndpointGeneral = "/general";
 	String csRootEndpointERS = "/ers";
 	String csRootEndpointERS_Login = "/ers_login"; 
+	String csRootEndpointERS_LoginJDBC = "/ers_login_jdbc"; 
 
 	//HTTP request parameter constants
 	String csParamPathGeneralId = "general_path_id";
@@ -49,15 +50,17 @@ public interface Constants {
 	
 
 	//database constants 
-	String csDatabaseName = "shell";							//database name
-	String csShellTable = csDatabaseName + "." + "shell";		//client table project0.client
+	String csDatabaseName = "exp_reimb_sys";							//database name
+	String csEmployeeTable = "employee";
+	String csDBEmployeeTable = csDatabaseName + "." + csEmployeeTable;		
 		
 	//table constants these must match the table attributes
-	String csShellTblShellId = "shell_id";
-	String csShellTblShellName = "shell_name";
-	String csShellTblShellInt = "shell_int";
-	String csShellTblShellDbl = "shell_double";
-	String csShellTblShellBool = "shell_boolean";
+	//  table: employhee
+	String csEmployeeTblUsername = "emp_username";
+	String csEmployeeTblPassword = "emp_password";
+	String csEmployeeTblFirstName = "emp_first_name";
+	String csEmployeeTblLastName = "emp_last_name";
+	String csEmployeeTblEmail = "emp_email";
 	
 	
 	/*
@@ -72,12 +75,14 @@ shell_boolean BOOLEAN NOT NULL
 	//HTTP request parameter constants
 
 	//Define program messages to use in the program and for testing
-	String csMsgDB_ErrorGettingAllGeneral = "Error with database getting all General records.";	
-	String csMsgGeneralRecordNotFound = "General was not found in the database.";
+	String csMsgDB_ErrorGettingWithLogin = "Error with database during employee login.";	
+	String csMsgEmployeeRecordNotFound = "Employee was not found in the database.";
 	
 	String csMsgBadParamNoPathParm = "Parmeter(s) expected. No Path Parameter(s) Received.";
 	String csMsgBadParamNoQueryParm = "Parmeter(s) expected. No Query Parameter(s) Received.";
 	String csMsgBadParamNoBodyParm = "Parmeter(s) expected. No Body Parameter(s) Received.";
+	
+	String csMsgAutenticationFailed = "Autentication failed for username and password provided.";
 	
 	/*
 	String csMsgDB_ErrorGettingByClientId = "Database error getting the client by id.";

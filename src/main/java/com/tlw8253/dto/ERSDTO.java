@@ -4,93 +4,63 @@ import com.tlw8253.app.Constants;
 
 public class ERSDTO extends AddOrEditDTO implements Constants{
 	//Class attributes are store in the parent in HashMap tables.	
-	
+
 	//
 	//###
 	public ERSDTO() {
 		super();
 	}
 
-	public ERSDTO(String sSomeName, int iSomeInt, double dSomeDouble, boolean bSomeBoolean) {
-		
+	public ERSDTO(String username, String password, String firstName, String lastName, String email) {
+		setUsername(username);
+		setPassword(password);
+		setFirstName(firstName);
+		setLastName(lastName);
+		setEmail(email);		
 	}
 
-	public String getSomeName() {
-		return super.getDataElement(csShellTblShellName);
+	//### Getters
+	public String getUsername() {
+		return super.getDataElement(csEmployeeTblUsername);
 	}
 
-	public String getSomeInt() {
-		return super.getDataElement(csShellTblShellInt);
-	}
-	public int getSomeIntAsInt() {
-		return super.getIntDataElement(csShellTblShellInt);
+	public String getPassword() {
+		return super.getDataElement(csEmployeeTblUsername);
 	}
 
-	public String getSomeDouble() {
-		return super.getDataElement(csShellTblShellDbl);
-	}
-	public double getSomeDoubleAsDouble() {
-		return super.getDoubleDataElement(csShellTblShellDbl);
+	public String getFirstName() {
+		return super.getDataElement(csEmployeeTblUsername);
 	}
 
-	public String isSomeBoolean() {
-		return super.getDataElement(csShellTblShellBool);
-	}
-	public boolean isSomeBooleanAsBool() {
-		return super.isBooleanDataElement(csShellTblShellBool);
-	}
-	
-	public String recordId() {
-		return super.getDataElement(csShellTblShellId);
-	}
-	public int recordIdAsInt() {
-		return super.getIntDataElement(csShellTblShellId);
-	}
-	
-	
-	//Need to provide string setters for all model attributes by the name.
-	//  Cannot overload the set method because objCtx.bodyAsClass(AddOrEditDTO.class);
-	//  is using the set using the primitive parameter methods instead of string like I thought it would
-
-	public void setSomeName(String sSomeName) {
-		super.setDataElement(csShellTblShellName, sSomeName);
+	public String getLastName() {
+		return super.getDataElement(csEmployeeTblUsername);
 	}
 
-	public void setSomeInt(int sSomeInt) {
-		super.setDataElement(csShellTblShellInt, sSomeInt);
+	public String getEmail() {
+		return super.getDataElement(csEmployeeTblUsername);
 	}
 
-	public void setSomeDouble(double sSomeDouble) {
-		super.setDataElement(csShellTblShellDbl, sSomeDouble);
+	//### Setters
+	public void setUsername(String username) {
+		super.setDataElement(csEmployeeTblUsername, username);
 	}
 
-	public void setSomeBoolean(boolean sSomeBoolean) {
-		super.setDataElement(csShellTblShellBool, sSomeBoolean);
-	}
-	
-	public void setRecordId(String sRecordId) {
-		super.setDataElement(csShellTblShellId, sRecordId);
+	public void setPassword(String password) {
+		super.setDataElement(csEmployeeTblPassword, password);
 	}
 
-
-	//
-	//Provide setters for primitives
-	//All primitive validation expected in caller
-	public void setSomeIntAsInt(int sSomeInt) {
-		super.setDataElement(csShellTblShellId, sSomeInt);
+	public void setFirstName(String firstName) {
+		super.setDataElement(csEmployeeTblFirstName, firstName);
 	}
 
-	public void setSomeDoubleAsDouble(double sSomeDouble) {
-		super.setDataElement(csShellTblShellId, sSomeDouble);
+	public void setLastName(String lastName) {
+		super.setDataElement(csEmployeeTblLastName, lastName);
 	}
 
-	public void setSomeBooleanAsBool(boolean sSomeBoolean) {
-		super.setDataElement(csShellTblShellId, sSomeBoolean);
+	public void setEmail(String email) {
+		super.setDataElement(csEmployeeTblEmail, email);
 	}
 
-	public void setRecordIdAsInt(int iRecordId) {
-		super.setDataElement(csShellTblShellId, iRecordId);
-	}
 
 	
 	

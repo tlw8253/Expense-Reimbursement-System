@@ -1,33 +1,24 @@
--- CREATE USER 'shell'@localhost IDENTIFIED BY 'shell';
+CREATE USER 'exp_reimb_sys2'@localhost IDENTIFIED BY 'exp_reimb_sys2';
 
 
-DROP TABLE IF EXISTS shell;
+DROP TABLE IF EXISTS employee;
 
--- create shell table
-CREATE TABLE shell(
-shell_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-shell_name VARCHAR(255) NOT NULL CHECK(LENGTH(shell_name)> 0),
-shell_int INTEGER NOT NULL,
-shell_double DOUBLE NOT NULL,
-shell_boolean BOOLEAN NOT NULL
+-- create exp_reimb_sys table
+CREATE TABLE employee(
+emp_username VARCHAR(10) PRIMARY KEY NOT NULL,
+emp_password VARCHAR(20) NOT NULL CHECK(LENGTH(emp_password)>= 6),
+emp_first_name VARCHAR(60) NOT NULL,
+emp_last_name VARCHAR(60) NOT NULL,
+emp_email VARCHAR(60) NOT NULL
 );
 
-INSERT INTO shell (shell_name, shell_int, shell_double, shell_boolean)
+INSERT INTO employee (emp_username, emp_password, emp_first_name, emp_last_name, emp_email)
 VALUES 
-('Arnold', 1, 1.1, true),
-('Linda', 3, 3.1, false),
--- ('Michael', 'Biehn', 'Kyle Reese'),
-('Edward', 5, 5.5, true),
--- ('Earl', 'Boen', 'Dr. Siberman'),
--- ('Lance', 'Henriksen', 'Detective Hal Vukovich'),
--- ('Bill', 'Paxton', 'Punk Leader'),
--- ('Paul', 'Winfield', 'Lieutenant Ed Traxler'),
--- ('kristanna', 'Loken', 'Terminatrix'),
--- ('William', 'Wisher Jr.', 'Policeman #1'),
-('Robert', 10, 10.01, false);
+('tlw874', '12345678','Tomas', 'Ykel', 'tlw874@wwms.com'),
+('zwz123', '12345678','Zack', 'Brow', 'zwz123@wwms.com');
 
 
-SELECT * FROM shell;
+SELECT * FROM employee;
 
 
 

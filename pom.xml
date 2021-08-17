@@ -16,9 +16,15 @@
 
 		<!-- database connection library -->
 		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.5.6.Final</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
-			<version>2.7.3</version>
+			<version>2.7.4</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/junit/junit -->

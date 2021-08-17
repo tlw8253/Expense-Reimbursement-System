@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
-import com.tlw8253.model.General;
+import com.tlw8253.model.EmployeeJDBC;
 import com.tlw8253.service.ERSService;
 
 public class ERSController implements Controller, Constants {
@@ -59,123 +59,14 @@ public class ERSController implements Controller, Constants {
 				+ bmQueryParmaMapIsEmpty + "]");
 	}
 
-	//
-	// ### GET /non_specific -
-	private Handler getReturnGeneral = (objCtx) -> {
-		String sMethod = "getReturnGeneral(): ";
-		boolean bContinue = true;
-		objLogger.trace(sMethod + "Entered");
-		
-		String sParamPathGeneralId = "";
-		String sParamQueryGeneralId = "";
-
-		setContextMaps(objCtx);
-		
-		
-		if (imPathParmaMapSize == 0) {
-			objLogger.debug(sMethod + csMsgBadParamNoPathParm);
-			objCtx.status(ciStatusCodeErrorBadRequest);
-			objCtx.json(csMsgBadParamNoPathParm);
-			bContinue = false;
-
-		} else {
-			sParamPathGeneralId = objCtx.pathParam(csParamPathName);
-			objLogger.debug(sMethod + "Context path parameter general id: [" + sParamPathGeneralId + "]");
-		}
-
-		if (imQueryParmaMap == 0) {
-			
-			//Check for body params before erroring here
-			
-			
-			objLogger.debug(sMethod + csMsgBadParamNoPathParm);
-			objCtx.status(ciStatusCodeErrorBadRequest);
-			objCtx.json(csMsgBadParamNoPathParm);
-			bContinue = false;
-		} else {
-			sParamQueryGeneralId = objCtx.queryParam(csParamQueryGeneralId);
-			objLogger.debug(sMethod + "Context query parameter general id: [" + sParamQueryGeneralId + "]");
-		}
-
-		 List<General> lstGeneral = objGeneralService.getReturnGeneral();
-		
-		objCtx.status(ciStatusCodeSuccess);
-		objCtx.json(lstGeneral);
-	};
-
-	//
-	// ### POST /non_specific -
-	private Handler postCreateGeneral = (objCtx) -> {
-		String sMethod = "postNonSpecific(): ";
-		objLogger.trace(sMethod + "Entered");
-
-		String sParamPathGeneralId = "";
-		String sParamQueryGeneralId = "";
-
-		setContextMaps(objCtx);
-		
-		
-		if (imPathParmaMapSize == 0) {
-			objLogger.debug(sMethod + "No context path parameter received.");
-		} else {
-			sParamPathGeneralId = objCtx.pathParam(csParamPathGeneralId);
-			objLogger.debug(sMethod + "Context path parameter general id: [" + sParamPathGeneralId + "]");
-		}
-
-		if (imQueryParmaMap == 0) {
-			objLogger.debug(sMethod + "No context query parameter received.");
-		} else {
-			sParamQueryGeneralId = objCtx.queryParam(csParamQueryGeneralId);
-			objLogger.debug(sMethod + "Context query parameter general id: [" + sParamQueryGeneralId + "]");
-		}
-
-		 List<General> lstGeneral = objGeneralService.getReturnGeneral();
-		
-		objCtx.status(ciStatusCodeSuccess);
-		objCtx.json(lstGeneral);
-	
-	};
-
-	// ### PUT /non_specific -
-	private Handler putUpdateGeneral = (objCtx) -> {
-		String sMethod = "postNonSpecific(): ";
-		objLogger.trace(sMethod + "Entered");
-
-		logContextParameters(objCtx);
-
-		String sParamPathNonSpecificId = objCtx.pathParam(csParamPathGeneralId);
-		objLogger.debug(sMethod + "Context path parameter non specific id: [" + sParamPathNonSpecificId + "]");
-
-		String sParamQueryNonSpecificId = objCtx.queryParam(csParamQueryGeneralId);
-		objLogger.debug(sMethod + "Context query parameter non specific id: [" + sParamQueryNonSpecificId + "]");
-
-		objCtx.status(ciStatusCodeSuccess);
-		objCtx.json("NonSpecific() message or object");
-	};
-
-	// ### DELETE /non_specific -
-	private Handler deleteRemoveGeneral = (objCtx) -> {
-		String sMethod = "postNonSpecific(): ";
-		objLogger.trace(sMethod + "Entered");
-
-		logContextParameters(objCtx);
-
-		String sParamPathNonSpecificId = objCtx.pathParam(csParamPathGeneralId);
-		objLogger.debug(sMethod + "Context path parameter non specific id: [" + sParamPathNonSpecificId + "]");
-
-		String sParamQueryNonSpecificId = objCtx.queryParam(csParamQueryGeneralId);
-		objLogger.debug(sMethod + "Context query parameter non specific id: [" + sParamQueryNonSpecificId + "]");
-
-		objCtx.status(ciStatusCodeSuccess);
-		objCtx.json("NonSpecific() message or object");
-	};
 	
 	//
-	// ### GET /non_specific -
-	private Handler getERS_Login = (objCtx) -> {
-		String sMethod = "getERS_Login(): ";
+	// ### 
+	private Handler getErsLoginJDBC = (objCtx) -> {
+		String sMethod = "getErsLogin(): ";
 		boolean bContinue = true;
 		objLogger.trace(sMethod + "Entered");
+		EmployeeJDBC objEmployee = null;
 		
 		String sParamUserName = "";
 		String sParamPassword = "";
@@ -183,8 +74,7 @@ public class ERSController implements Controller, Constants {
 		setContextMaps(objCtx);
 		
 		//expect 2 query parameters with login request
-		if (imQueryParmaMap != 0) {
-			
+		if (imQueryParmaMap != 2) {			
 			//Check for body params before erroring here		
 			
 			objLogger.debug(sMethod + csMsgBadParamNoPathParm);
@@ -194,33 +84,64 @@ public class ERSController implements Controller, Constants {
 		} else {
 			sParamUserName = objCtx.queryParam(csParamUserName);
 			objLogger.debug(sMethod + "Context query parameter username: [" + sParamUserName + "]");
-			sParamPassword = objCtx.queryParam(csParamUserName);
+			sParamPassword = objCtx.queryParam(csParamPassword);
 			objLogger.debug(sMethod + "Context query parameter password: [" + sParamPassword + "]");
 		}
 
 		if(bContinue) {
-		// List<General> lstGeneral = objGeneralService.getReturnGeneral();
+		  objEmployee = objGeneralService.getErsLoginJDBC(sParamUserName, sParamPassword);
+		  objLogger.debug(sMethod + "objEmployee: [" + objEmployee.toString() + "]");
 		}
 		
 		objCtx.status(ciStatusCodeSuccess);
-		objCtx.json(sMethod);
+		objCtx.json(objEmployee);
 	};
 
+	//
+	// ### 
+	private Handler getErsLogin = (objCtx) -> {
+		String sMethod = "getErsLogin(): ";
+		boolean bContinue = true;
+		objLogger.trace(sMethod + "Entered");
+		EmployeeJDBC objEmployee = null;
+		
+		String sParamUserName = "";
+		String sParamPassword = "";
 
+		setContextMaps(objCtx);
+		
+		//expect 2 query parameters with login request
+		if (imQueryParmaMap != 2) {			
+			//Check for body params before erroring here		
+			
+			objLogger.debug(sMethod + csMsgBadParamNoPathParm);
+			objCtx.status(ciStatusCodeErrorBadRequest);
+			objCtx.json(csMsgBadParamNoPathParm);
+			bContinue = false;
+		} else {
+			sParamUserName = objCtx.queryParam(csParamUserName);
+			objLogger.debug(sMethod + "Context query parameter username: [" + sParamUserName + "]");
+			sParamPassword = objCtx.queryParam(csParamPassword);
+			objLogger.debug(sMethod + "Context query parameter password: [" + sParamPassword + "]");
+		}
+
+		if(bContinue) {
+		  objEmployee = objGeneralService.getErsLogin(sParamUserName, sParamPassword);
+		  objLogger.debug(sMethod + "objEmployee: [" + objEmployee.toString() + "]");
+		}
+		
+		objCtx.status(ciStatusCodeSuccess);
+		objCtx.json(objEmployee);
+	};
+
+	
 	@Override
 	public void mapEndpoints(Javalin app) {
 
-		//000.02 GET Get general request All Records: Records Returned
-		//http://localhost:3015/general
-		app.get(csRootEndpointGeneral, getReturnGeneral);		
-		app.get(csRootEndpointERS_Login, getERS_Login);
+		//
+		app.get(csRootEndpointERS_LoginJDBC, getErsLoginJDBC);
+		app.get(csRootEndpointERS_Login, getErsLogin);
 		
-		app.post(csRootEndpointGeneral + "/:" + csParamPathName, postCreateGeneral);
-		
-		
-		
-		app.put(csRootEndpointGeneral, putUpdateGeneral);
-		app.delete(csRootEndpointGeneral, deleteRemoveGeneral);
 	}
 
 }

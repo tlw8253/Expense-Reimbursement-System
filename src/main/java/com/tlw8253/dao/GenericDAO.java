@@ -43,5 +43,9 @@ public interface GenericDAO<T> {
 	public abstract T editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO) throws SQLException;
 	
 	public abstract void deleteRecord(String sRecordIdentifier) throws SQLException;
+	
+	public abstract T getLogin(String sUsername) throws SQLException;
+	
+	public abstract T getLoginJDBC(String sUsername) throws SQLException;
 
 }
