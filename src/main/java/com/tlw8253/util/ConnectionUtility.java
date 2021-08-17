@@ -20,6 +20,24 @@ public class ConnectionUtility {
 				
 		DriverManager.registerDriver(new Driver());
 		String sURL = System.getenv("ps_db_url");		
+		sURL = "jdbc:mariadb://localhost:3306/exp_reimb_sys";
+		
+		String sUsername = System.getenv("p0_db_username");
+		String sPassword = System.getenv("p0_db_password");
+		//sPassword = "bogus";	//used for exception testing
+		
+		objLogger.debug(sMethod + "Attempting database connection: URL: [" + sURL + "] username: [" + sUsername + "]");
+		Connection conConnection = DriverManager.getConnection(sURL, sUsername, sPassword);
+			
+		return(conConnection);
+	}
+
+	public static Connection getConnectionJDBC() throws SQLException {
+		String sMethod = "getConnection(): ";
+		objLogger.trace(sMethod + "Entered");
+				
+		DriverManager.registerDriver(new Driver());
+		String sURL = System.getenv("ps_db_url");		
 		sURL = "jdbc:mariadb://localhost:3306/exp_reimb_sys2";
 		
 		String sUsername = System.getenv("p0_db_username");

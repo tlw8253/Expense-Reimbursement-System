@@ -7,78 +7,111 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.tlw8253.app.Constants;
 
 @Entity
-@Table(name = Constants.csEmployeeTable)
+@Table(name = Constants.csUserTable)
 
-public class Employee implements Constants{
-	
+public class User implements Constants {
+
+	// appears primary key must be an integer for hibernate to work
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
-	@Column(name = csEmployeeTblUsername, length = 10)	
+	@Column(name = csUserTblId)
+	private int userId = 0;
+
+	@Column(name = csUserTblUsername, length = 50, nullable = false, unique = true)
 	private String username = "";
-	
-	@Column(name = csEmployeeTblPassword, length = 20)
+
+	@Column(name = csUserTblPassword, length = 50, nullable = false)
 	private String password = "";
-	
-	@Column(name = csEmployeeTblFirstName, length = 60)
+
+	@Column(name = csUserTblFirstName, length = 100, nullable = false)
 	private String firstName = "";
-	
-	@Column(name = csEmployeeTblLastName, length = 60)
+
+	@Column(name = csUsrTblLastName, length = 100, nullable = false)
 	private String lastName = "";
-	
-	@Column(name = csEmployeeTblEmail, length = 60)
+
+	@Column(name = csUserTblEmail, length = 150, nullable = false)
 	private String email = "";
 
-	
-	public Employee(String sUsername, String sPassword, String sFirstName, String sLastName, String sEmail) {
+	@ManyToOne
+	@JoinColumn(name = csUserRolesTblUserRoleId, nullable = false) // optional, I just want to give my own name for the foreign key column
+	private UserRole userRole;
+
+	public User(String sUsername, String sPassword, String sFirstName, String sLastName, String sEmail) {
 		this.username = sUsername;
 		this.password = sPassword;
 		this.firstName = sFirstName;
 		this.lastName = sLastName;
-		this.email = sEmail;		
+		this.email = sEmail;
+	}
+
+	public UserRole getUserRole() {
+		return userRole;
+	}
+
+	public void setUserRoleId(UserRole userRole) {
+		this.userRole = userRole;
+	}
+
+	public int getId() {
+		return userId;
+	}
+
+	public void setId(int id) {
+		this.userId = id;
 	}
 
 	public String getUsername() {
 		return username;
 	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+
 	public String getLastName() {
 		return lastName;
 	}
+
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, firstName, lastName, password, username);
+		return Objects.hash(email, firstName, lastName, password, userId, userRole, username);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -87,18 +120,21 @@ public class Employee implements Constants{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Employee other = (Employee) obj;
+		User other = (User) obj;
 		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
+				&& userId == other.userId && Objects.equals(userRole, other.userRole)
 				&& Objects.equals(username, other.username);
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		return "Employee [sUsername=" + username + ", sPassword=" + password + ", sFirstName=" + firstName
-				+ ", sLastName=" + lastName + ", sEmail=" + email + "]";
+		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", email=" + email + ", userRole=" + userRole + "]";
 	}
+
+
+
 	
 	
 }

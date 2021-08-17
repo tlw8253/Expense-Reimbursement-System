@@ -2,7 +2,7 @@
 
 let button = document.getElementById('btn_login');
 button.addEventListener('click', retrieveDataWithFetchAsyncAwait);
-const url='http://localhost:3015/ers_login';
+const url='http://localhost:3015/ers_login_jdbc';
 
 /**
  * Fetch API (modern way)
@@ -39,7 +39,8 @@ async function retrieveDataWithFetchAsyncAwait() {
   
     try {
         let data = await fetch(sLoginURL, {                     
-          'method': 'GET'          
+          'method': 'GET',
+          'mode' : 'no-cors',          
         });
 
         let loginObject = await data.json();
@@ -81,4 +82,12 @@ alert("populateData(data)");
 
     tbody.append(pokemonRow);
     */
-}
+
+
+    function test(){
+      if(null == null){alert("null == null")}
+      
+    }
+
+
+  }

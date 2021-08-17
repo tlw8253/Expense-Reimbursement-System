@@ -50,17 +50,51 @@ public interface Constants {
 	
 
 	//database constants 
-	String csDatabaseName = "exp_reimb_sys";							//database name
-	String csEmployeeTable = "employee";
-	String csDBEmployeeTable = csDatabaseName + "." + csEmployeeTable;		
+	String csDatabaseNameJDBC = "exp_reimb_sys2";							//database name
+	
 		
 	//table constants these must match the table attributes
-	//  table: employhee
-	String csEmployeeTblUsername = "emp_username";
-	String csEmployeeTblPassword = "emp_password";
-	String csEmployeeTblFirstName = "emp_first_name";
-	String csEmployeeTblLastName = "emp_last_name";
-	String csEmployeeTblEmail = "emp_email";
+
+	//  table: Reimbursement Status
+	String csReimbStatusTable				= "ers_reimbursement_status";	//table name
+	String csReimbStatusTblReimbStatusId 	= "reimb_status_id";		//PK primary key
+	String csReimbStatusTblReimbStatus	 	= "reimb_status";			//String
+
+	//  table: Reimbursement Status
+	String csReimbTypeTable					= "ers_reimbursement_type";	//table name
+	String csReimbTypeTblReimbTypeId 		= "reimb_type_id";		//PK primary key
+	String csReimbTypeTblReimbType	 		= "reimb_type";			//String
+	
+	//  table: User Roles
+	String csUserRolesTable 				= "ers_user_roles";		//table name
+	String csUserRolesTblUserRoleId 		= "ers_user_role_id";	//PK primary key
+	String csUserRolesTblUserRole	 		= "user_role";			//String
+
+	
+	//  table: Reimbursement
+	String csReimburstementTable 		= "ers_reimbursement";	//table name		
+	String csReimbTblReimbId 			= "reimb_id";			//PK primary key
+	String csReimbTblReimbAmount 		= "reimb_amount";		//number / double
+	String csReimbTblReimbSubmitted 	= "reimb_submitted";	//time stamp
+	String csReimbTblReimbResolved 		= "reimb_resolved";		//time stamp
+	String csReimbTblReimbDescription 	= "reimb_description";	//string
+	String csReimbTblReimbReceipt 		= "reimb_receipt";		//blob - image or word doc
+	String csReimbTblReimbAuthor 		= "reimb_author";		//FK foreign key
+	String csReimbTblReimbResolver 		= "reimb_resolver";		//FK foreign key
+	String csReimbTblReimbStatusId 		= "reimb_status_id";	//FK foreign key
+	String csReimbTblReimbTypeId 		= "reimb_type_id";		//FK foreign key
+	
+	
+	//  table: user
+	String csUserTable = "ers_users";							//table name
+	String csDBUserTable = csDatabaseNameJDBC + "." + csUserTable;		//if using JDBC
+	String csUserTblId = "ers_users_id";
+	String csUserTblUsername = "ers_username";
+	String csUserTblPassword = "ers_password";
+	String csUserTblFirstName = "ers_first_name";
+	String csUsrTblLastName = "ers_last_name";
+	String csUserTblEmail = "ers_email";
+	String csUserTblRoleId = "ers_role_id";
 	
 	
 	/*
@@ -83,6 +117,8 @@ shell_boolean BOOLEAN NOT NULL
 	String csMsgBadParamNoBodyParm = "Parmeter(s) expected. No Body Parameter(s) Received.";
 	
 	String csMsgAutenticationFailed = "Autentication failed for username and password provided.";
+	
+	String csMsgDB_ErrorAddingEmployee = "Database error when adding an employee.";
 	
 	/*
 	String csMsgDB_ErrorGettingByClientId = "Database error getting the client by id.";

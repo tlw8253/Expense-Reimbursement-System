@@ -21,44 +21,44 @@ public class ERSDTO extends AddOrEditDTO implements Constants{
 
 	//### Getters
 	public String getUsername() {
-		return super.getDataElement(csEmployeeTblUsername);
+		return super.getDataElement(csUserTblUsername);
 	}
 
 	public String getPassword() {
-		return super.getDataElement(csEmployeeTblUsername);
+		return super.getDataElement(csUserTblUsername);
 	}
 
 	public String getFirstName() {
-		return super.getDataElement(csEmployeeTblUsername);
+		return super.getDataElement(csUserTblUsername);
 	}
 
 	public String getLastName() {
-		return super.getDataElement(csEmployeeTblUsername);
+		return super.getDataElement(csUserTblUsername);
 	}
 
 	public String getEmail() {
-		return super.getDataElement(csEmployeeTblUsername);
+		return super.getDataElement(csUserTblUsername);
 	}
 
 	//### Setters
 	public void setUsername(String username) {
-		super.setDataElement(csEmployeeTblUsername, username);
+		super.setDataElement(csUserTblUsername, username);
 	}
 
 	public void setPassword(String password) {
-		super.setDataElement(csEmployeeTblPassword, password);
+		super.setDataElement(csUserTblPassword, password);
 	}
 
 	public void setFirstName(String firstName) {
-		super.setDataElement(csEmployeeTblFirstName, firstName);
+		super.setDataElement(csUserTblFirstName, firstName);
 	}
 
 	public void setLastName(String lastName) {
-		super.setDataElement(csEmployeeTblLastName, lastName);
+		super.setDataElement(csUsrTblLastName, lastName);
 	}
 
 	public void setEmail(String email) {
-		super.setDataElement(csEmployeeTblEmail, email);
+		super.setDataElement(csUserTblEmail, email);
 	}
 
 

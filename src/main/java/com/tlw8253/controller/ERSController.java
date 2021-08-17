@@ -81,6 +81,7 @@ public class ERSController implements Controller, Constants {
 			objCtx.status(ciStatusCodeErrorBadRequest);
 			objCtx.json(csMsgBadParamNoPathParm);
 			bContinue = false;
+			
 		} else {
 			sParamUserName = objCtx.queryParam(csParamUserName);
 			objLogger.debug(sMethod + "Context query parameter username: [" + sParamUserName + "]");

@@ -8,21 +8,26 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
 import com.tlw8253.dao.ERSDAOImpl;
+import com.tlw8253.dao.ERSDAOJDBCImpl;
 import com.tlw8253.dao.GenericDAO;
+import com.tlw8253.dto.ERSDTO;
 import com.tlw8253.exception.*;
+import com.tlw8253.model.User;
 import com.tlw8253.model.EmployeeJDBC;
 
 public class ERSService implements Constants {
 	private Logger objLogger = LoggerFactory.getLogger(ERSService.class);
 //	private GeneralDAOImpl objGenericDAOImpl;
-	private GenericDAO<EmployeeJDBC> objErsDAO;
+	private GenericDAO<EmployeeJDBC> objErsDAOJDBC;
+	private GenericDAO<User> objErsDAOHib;
 
 	public ERSService() {
-		this.objErsDAO = new ERSDAOImpl();
+		this.objErsDAOJDBC = new ERSDAOJDBCImpl();
+		this.objErsDAOHib = new ERSDAOImpl();
 	}
 
 	public ERSService(GenericDAO<EmployeeJDBC> objMockedGeneralDAO) {
-		this.objErsDAO = objMockedGeneralDAO;
+		this.objErsDAOJDBC = objMockedGeneralDAO;
 	}
 
 	public List<EmployeeJDBC> getReturnGeneral() throws DatabaseException, RecordNotFoundException {
@@ -30,7 +35,7 @@ public class ERSService implements Constants {
 		objLogger.trace(sMethod + "Entered");
 
 		try {
-			List<EmployeeJDBC> lstGeneral = objErsDAO.getAllRecords();
+			List<EmployeeJDBC> lstGeneral = objErsDAOJDBC.getAllRecords();
 			if (lstGeneral.size() == 0) {
 				objLogger.debug(sMethod + "record not found");
 				throw new RecordNotFoundException("record not found");
@@ -52,7 +57,7 @@ public class ERSService implements Constants {
 		objLogger.trace(sMethod + "Entered");
 
 		try {
-			EmployeeJDBC objEmployee = objErsDAO.getLoginJDBC(sUsername);
+			EmployeeJDBC objEmployee = objErsDAOJDBC.getLoginJDBC(sUsername);
 
 			if (objEmployee == null) {
 				String sMsg = "Employee with username: [" + sUsername + "] not in database.";
@@ -88,7 +93,7 @@ public class ERSService implements Constants {
 		objLogger.trace(sMethod + "Entered");
 
 		try {
-			EmployeeJDBC objEmployee = objErsDAO.getLogin(sUsername);
+			EmployeeJDBC objEmployee = objErsDAOJDBC.getLogin(sUsername);
 
 			if (objEmployee == null) {
 				String sMsg = "Employee with username: [" + sUsername + "] not in database.";
@@ -114,6 +119,29 @@ public class ERSService implements Constants {
 			throw new DatabaseException(csMsgDB_ErrorGettingWithLogin);
 		}
 		
+	}
+	
+	
+	public User addNewEmployee(ERSDTO objERSDTO) throws DatabaseException {
+		String sMethod = "addNewEmployee(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		
+		String sUsername = objERSDTO.getDataElement(csUserTblUsername);
+		String sPassword = objERSDTO.getDataElement(csUserTblPassword);
+		String sFirstName = objERSDTO.getDataElement(csUserTblFirstName);
+		String sLastName = objERSDTO.getDataElement(csUsrTblLastName);
+		String sEmail = objERSDTO.getDataElement(csUserTblEmail);
+		
+		try {
+		User objEmployee = objErsDAOHib.addRecord(objERSDTO);
+		objLogger.debug(sMethod + "objEmployee: [" + objEmployee.toString() + "]");
+		return objEmployee;
+		
+		}catch(SQLException objE) {
+			objLogger.debug(sMethod + "Error adding username: [" + sUsername + "] SQLException: [" + objE.getMessage() + "]");
+			throw new DatabaseException(csMsgDB_ErrorAddingEmployee);
+		}
 	}
 	
 	
