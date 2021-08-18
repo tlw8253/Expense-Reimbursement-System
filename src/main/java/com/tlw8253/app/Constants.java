@@ -49,13 +49,16 @@ public interface Constants {
 	
 
 	//database constants 
-	String csDatabaseNameJDBC = "exp_reimb_sys2";							//database name
+	String csDatabaseName = "exp_reimb_sys";							//database name
+	
 	
 		
 	//table constants these must match the table attributes
 
 	//  table: Reimbursement Status
 	String csReimbStatusTable				= "ers_reimbursement_status";	//table name
+	String csDBReimbStatusTable = csDatabaseName + "." +csReimbStatusTable; //qualified table name
+	
 	String csReimbStatusTblReimbStatusId 	= "reimb_status_id";		//PK primary key
 	String csReimbStatusTblReimbStatus	 	= "reimb_status";			//String
 	String csReimbStatusTblReimbStatusDesc 	= "reimb_status_desc";		//String
@@ -89,7 +92,7 @@ public interface Constants {
 	
 	//  table: user
 	String csUserTable = "ers_users";							//table name
-	String csDBUserTable = csDatabaseNameJDBC + "." + csUserTable;		//if using JDBC
+	String csDBUserTable = csDatabaseName + "." + csUserTable;		//if using JDBC
 	String csUserTblId = "ers_users_id";
 	String csUserTblUsername = "ers_username";
 	String csUserTblPassword = "ers_password";
@@ -99,12 +102,21 @@ public interface Constants {
 	String csUserTblRoleId = "ers_role_id";
 	
 	
-	//HTTP request parameter constants
+	//HQL fully qualified class names
+	String csHQL_ModelPackage = "com.tlw8253.model";
+	String csHQL_ModelClassReimbStatus = csHQL_ModelPackage + ".ReimbursementStatus";
+	String csHQL_ModelClassReimbType = csHQL_ModelPackage + ".ReimbursementType";
+	String csHQL_ModelClassUsrRole = csHQL_ModelPackage + ".UserRole";
 
 	//Define program messages to use in the program and for testing
 	String csMsgDB_ErrorGettingWithLogin = "Error with database during employee login.";	
 	String csMsgDB_ErrorAddingReimbursementStatus = "Error with database when adding Reimbursement Status.";
-	
+	String csMsgDB_ErrorGettingReimbursementStatus = "Error with database when getting all Reimbursement Status.";
+	String csMsgDB_ErrorAddingReimbursementType = "Error with database when adding Reimbursement Type.";
+	String csMsgDB_ErrorGettingReimbursementType = "Error with database when getting all Reimbursement Types.";
+	String csMsgDB_ErrorAddingUserRole = "Error with database when adding User Role.";
+	String csMsgDB_ErrorGettingUserRole = "Error with database when getting all User Roles.";
+
 	
 	String csMsgEmployeeRecordNotFound = "Employee was not found in the database.";
 	
@@ -115,6 +127,8 @@ public interface Constants {
 	String csMsgBadParamQueryParm = "Parmeter(s) expected. Not right number of Query Parameter(s) received.";
 	
 	String csMsgBadParamReimbStatus = "Invalid Reimbursement Status parameters received.";
+	String csMsgBadParamReimbType = "Invalid Reimbursement Type parameters received.";
+	String csMsgBadParamUserRole = "Invalid User Role parameters received.";
 	
 	String csMsgAutenticationFailed = "Autentication failed for username and password provided.";
 	

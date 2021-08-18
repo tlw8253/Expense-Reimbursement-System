@@ -29,10 +29,15 @@ public class ReimbursementType implements Constants {
 
 		
 	public ReimbursementType() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
+	public ReimbursementType(String sRiemType, String sRiemTypeDesc) {
+		this.reimbType = sRiemType;
+		this.reimbTypeDesc = sRiemTypeDesc;
+	}
 
+	
 	public int getReimbTypeId() {
 		return reimbTypeId;
 	}

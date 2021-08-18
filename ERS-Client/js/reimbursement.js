@@ -9,7 +9,7 @@ function onPageLoad() {
 function startAction(selectObject){
      var value = selectObject.value;  
 
-     alert(value);
+    //alert(value);
     if (value == 'view'){        
         hideCreateRequest();
         showSelectItem();
@@ -21,7 +21,6 @@ function startAction(selectObject){
 }
 
 function new_reinbursement_request(selectObject){
-  alert("new_reinbursement_request");
   console.log("new_reinbursement_request(selectObject)");
 
 }

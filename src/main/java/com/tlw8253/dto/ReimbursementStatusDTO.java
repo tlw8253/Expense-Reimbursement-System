@@ -19,6 +19,10 @@ public class ReimbursementStatusDTO extends AddOrEditDTO implements Constants{
 		super();
 	}
 
+	public ReimbursementStatusDTO(String sReimbStatus, String sReimbStatusDesc) {
+		setReimbStatus(sReimbStatus);
+		setReimbStatusDescription(sReimbStatusDesc);
+	}
 
 	public String getReimbStatusId() {
 		return super.getDataElement(csReimbStatusTblReimbStatusId);

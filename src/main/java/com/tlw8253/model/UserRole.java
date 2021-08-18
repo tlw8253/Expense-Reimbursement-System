@@ -29,7 +29,12 @@ public class UserRole implements Constants {
 
 	
 	public UserRole() {
-		// TODO Auto-generated constructor stub
+		super();
+	}
+
+	public UserRole(String sUserRole, String sUserRoleDesc) {
+		this.userRole = sUserRole;
+		this.userRoleDesc = sUserRoleDesc;
 	}
 
 	public int getUserRoleId() {

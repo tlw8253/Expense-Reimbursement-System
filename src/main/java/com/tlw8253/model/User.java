@@ -43,6 +43,10 @@ public class User implements Constants {
 	@JoinColumn(name = csUserRolesTblUserRoleId, nullable = false) // optional, I just want to give my own name for the foreign key column
 	private UserRole userRole;
 
+	public User() {
+		super();
+	}
+	
 	public User(String sUsername, String sPassword, String sFirstName, String sLastName, String sEmail) {
 		this.username = sUsername;
 		this.password = sPassword;

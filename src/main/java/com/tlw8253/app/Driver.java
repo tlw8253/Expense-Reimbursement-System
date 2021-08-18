@@ -14,10 +14,14 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.dto.ERSDTO;
 import com.tlw8253.dto.ReimbursementStatusDTO;
+import com.tlw8253.dto.ReimbursementTypeDTO;
+import com.tlw8253.dto.UserRoleDTO;
 import com.tlw8253.exception.BadParameterException;
 import com.tlw8253.exception.DatabaseException;
 import com.tlw8253.model.ReimbursementStatus;
+import com.tlw8253.model.ReimbursementType;
 import com.tlw8253.model.User;
+import com.tlw8253.model.UserRole;
 import com.tlw8253.service.ERSAdminService;
 import com.tlw8253.service.ERSService;
 import com.tlw8253.util.SessionFactorySingleton;
@@ -40,37 +44,202 @@ public class Driver implements Constants {
 		String sMethod = "main(): ";
 		objLogger.trace(sMethod + "Entered");
 		
-		
 		//createTablesViaHibernate();
-//		testAddNewEmployee();
-		ersAdminAddValues();
+		//ersAdminAddStaticTableValues();
+		//addReimbursementStatusTestException();
+		//getAllReimbursementStatusTest();
+		//addReimbursementType();
+		addUserRole();
+		
+
+		
+	}
+	
+	
+	//
+	//###
+	private static void ersAdminAddStaticTableValues() {
+		addReimbursementStatus();
+		addReimbursementType();
+		addUserRole();
+	}
+	
+	//
+	//###
+	private static void addUserRole() {
+		String sMethod = "addUserRole(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		String sUserRole = "EMPLOYEE";
+		String sUserRoleDesc = "Any person actively employeed by the company with a valid username.";
+		objLogger.debug(sMethod + "Adding type: [" + sUserRole+ "] description: [" + sUserRoleDesc +"]");
+		addUsrRole(sUserRole, sUserRoleDesc);
+		
+		sUserRole = "FINANCEMGR";
+		sUserRoleDesc = "Finance managers are authorized to approve and deny requests for expense reimbursement.";
+		objLogger.debug(sMethod + "Adding type: [" + sUserRole+ "] description: [" + sUserRoleDesc +"]");
+		addUsrRole(sUserRole, sUserRoleDesc);
+
+		sUserRole = "SUPERMAN";
+		sUserRoleDesc = "A super user of the system.  A system admin.";
+		objLogger.debug(sMethod + "Adding type: [" + sUserRole+ "] description: [" + sUserRoleDesc +"]");
+		addUsrRole(sUserRole, sUserRoleDesc);
 
 	}
+
+	//
+	//###
+	private static void addUsrRole(String sUserRole, String sUserRoleDesc) {
+		String sMethod = "addReimbType(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		ERSAdminService objAdminService = new ERSAdminService();
+		UserRoleDTO objUserRoleDTO = new UserRoleDTO();
+
+		objLogger.debug(sMethod + "Setting DTO: sUserRole: [" + sUserRole + "] sUserRoleDesc: [" + sUserRoleDesc + "]");
+		
+		objUserRoleDTO.setUserRole(sUserRole);
+		objUserRoleDTO.setUserRoleDescription(sUserRoleDesc);
+
+		objLogger.debug(sMethod + "objUserRoleDTO: [" + objUserRoleDTO.toString() + "]");
+
 	
-	private static void ersAdminAddValues() {
-		addReimbursementStatus();
+		try {
+			UserRole objUserRole = objAdminService.addUserRole(objUserRoleDTO);
+			objLogger.debug(sMethod + "objUserRole: [" + objUserRole.toString() + "]");
+		} catch (Exception e) {
+			objLogger.error(sMethod + "Exception during processing: [" + e.getMessage() + "]");
+			//throw new DatabaseException(e.getMessage());
+		}	
+	}
+
+	
+	//
+	//###
+	private static void addReimbursementType() {
+		String sMethod = "addReimbursementType(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		String sType = "LODGING";
+		String sTypeDesc = "Reimbursement expense related to overnight stays related to business travel.";
+		objLogger.debug(sMethod + "Adding type: [" + sType+ "] description: [" + sTypeDesc +"]");
+		addReimbType(sType, sTypeDesc);
+		
+		sType = "TRAVEL";
+		sTypeDesc = "Reimbursement expense related to planes, trains, automobiles, etc.";
+		objLogger.debug(sMethod + "Adding type: [" + sType+ "] description: [" + sTypeDesc +"]");
+		addReimbType(sType, sTypeDesc);
+
+		sType = "FOOD";
+		sTypeDesc = "Reimbursement expense related to meals related to business travel.";
+		objLogger.debug(sMethod + "Adding type: [" + sType+ "] description: [" + sTypeDesc +"]");
+		addReimbType(sType, sTypeDesc);
+
+		sType = "OTHER";
+		sTypeDesc = "Reimbursement expense related to other expenses related to the business.";
+		objLogger.debug(sMethod + "Adding type: [" + sType+ "] description: [" + sTypeDesc +"]");
+		addReimbType(sType, sTypeDesc);
+
+	}
+
+	//
+	//###
+	private static void addReimbType(String sType, String sTypeDesc) {
+		String sMethod = "addReimbType(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		ERSAdminService objAdminService = new ERSAdminService();
+		ReimbursementTypeDTO objReimbTypeDTO = new ReimbursementTypeDTO();
+
+		objReimbTypeDTO.setReimbType(sType);
+		objReimbTypeDTO.setReimbTypeDescription(sTypeDesc);
+		
+		try {
+			ReimbursementType objReimbType = objAdminService.addReimbursementType(objReimbTypeDTO);
+			objLogger.debug(sMethod + "objReimbType: [" + objReimbType.toString() + "]");
+		} catch (Exception e) {
+			objLogger.error(sMethod + "Exception during processing: [" + e.getMessage() + "]");
+			//throw new DatabaseException(e.getMessage());
+		}		
+	}
+
+	
+	//
+	//###
+	private static void addReimbursementStatusTestException() {
+		String sMethod = "addReimbursementStatusTestException(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		//duplicate add of a status
+		String sStatus = "PENDING";
+		String sStatusDesc = "The status when a reimbursement request is first created and submitted by an user.";
+		objLogger.debug(sMethod + "Adding status: [" + sStatus+ "] description: [" + sStatusDesc +"]");
+		addReimbStatus(sStatus, sStatusDesc);
 	}
 	
+	//
+	//###
 	private static void addReimbursementStatus() {
 		String sMethod = "addReimbursementStatus(): ";
 		objLogger.trace(sMethod + "Entered");
 
+		String sStatus = "PENDING";
+		String sStatusDesc = "The status when a reimbursement request is first created and submitted by an user.";
+		objLogger.debug(sMethod + "Adding status: [" + sStatus+ "] description: [" + sStatusDesc +"]");
+		addReimbStatus(sStatus, sStatusDesc);
+		
+		sStatus = "APPROVED";
+		sStatusDesc = "The status when a reimbursement request is reviewed and approved by the Finance Manager.";
+		objLogger.debug(sMethod + "Adding status: [" + sStatus+ "] description: [" + sStatusDesc +"]");
+		addReimbStatus(sStatus, sStatusDesc);
+
+		sStatus = "DENIED";
+		sStatusDesc = "The status when a reimbursement request is reviewed and denied by the Finance Manager.";
+		addReimbStatus(sStatus, sStatusDesc);
+		
+	}
+	
+	//
+	//###
+	private static void addReimbStatus(String sStatus, String sStatusDesc) {
+		String sMethod = "addReimbStatus(): ";
+		objLogger.trace(sMethod + "Entered");
+
 		ERSAdminService objAdminService = new ERSAdminService();
 		ReimbursementStatusDTO objReimbStatusDTO = new ReimbursementStatusDTO();
-		
-		String sStatus = "INITIAL";
-		String sStatusDesc = "The status when a reimbursement request is first created and submitted by an user.";
+
 		objReimbStatusDTO.setReimbStatus(sStatus);
 		objReimbStatusDTO.setReimbStatusDescription(sStatusDesc);
 		
 		try {
 			ReimbursementStatus objReimbStatus = objAdminService.addReimbursementStatus(objReimbStatusDTO);
-			objLogger.trace(sMethod + "objReimbStatus: [" + objReimbStatus.toString() + "]");
-		} catch (DatabaseException | BadParameterException e) {
-			e.printStackTrace();
-		}
+			objLogger.debug(sMethod + "objReimbStatus: [" + objReimbStatus.toString() + "]");
+		} catch (Exception e) {
+			objLogger.error(sMethod + "Exception during processing: [" + e.getMessage() + "]");
+			//throw new DatabaseException(e.getMessage());
+		}		
 	}
 	
+	//
+	//###
+	private static void getAllReimbursementStatusTest() {
+		String sMethod = "getAlladdReimbursementStatusTest(): ";
+		objLogger.trace(sMethod + "Entered");
+		
+		ERSAdminService objAdminService = new ERSAdminService();
+
+		try {
+			List<ReimbursementStatus> lstReimbStatus = objAdminService.getAllReimbursementStatus();
+			objLogger.debug(sMethod + "lstReimbStatus: [" + lstReimbStatus.toString() + "]");
+		} catch (Exception e) {
+			objLogger.error(sMethod + "Exception during processing: [" + e.getMessage() + "]");
+			//throw new DatabaseException(e.getMessage());
+		}		
+	}
+
+	
+	//
+	//###
 	private static void createTablesViaHibernate() {
 		String sMethod = "testAddNewEmployee(): ";
 		objLogger.trace(sMethod + "Entered");
@@ -83,6 +252,8 @@ public class Driver implements Constants {
 
 	}
 	
+	//
+	//###
 	public static void testAddNewEmployee() {
 		String sMethod = "testAddNewEmployee(): ";
 		objLogger.trace(sMethod + "Entered");

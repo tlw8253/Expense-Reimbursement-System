@@ -19,23 +19,25 @@
 
      <!-- Employee Reimbursement Page -->
     <body onload="onPageLoad()">
+
+        
         <h1>Wally World Movie Studios</h1>
         <h2>Expense Reimbursement System</h2>
         <h3>Employee Requests</h3>
  
         <!-- there will be two sections that will appear based on selection.
                 for now display both sections-->
-        <div>
-            <br>
-            <h3>Select from list to start an action:</h3>
-            <select id="reimb_type" onchange="startAction(this)">
-                <option value="default">Select an item</option>
-                <option value="view">View Previous Request</option>
-                <option value="create">Create New Request</option>
-            </select>
-        </div>
-
-            <br><br>           
+             <div>
+                <br>
+                <h3>Select from list to start an action:</h3>
+                <select id="reimb_type" onchange="startAction(this)">
+                    <option value="default">Select an item</option>
+                    <option value="view">View Previous Request</option>
+                    <option value="create">Create New Request</option>
+                </select>
+            </div>
+ 
+        <br><br>           
             <form name="select_item" id="select_item" style="display:none" method="GET">
                 <div>
                     <h3>Search for Reinbursement Requests</h3>
@@ -53,41 +55,37 @@
                     <input type="submit" value="Search">
                 </div>
             </form>
-        </div>
-     
-        <form name="create_request" id="create_request" style="display:none" onsubmit="new_reinbursement_request(this)" method="POST">
+ 
+            <form name="create_request" id="create_request" style="display:none" onsubmit="new_reinbursement_request(this)" method="POST">
+                <div name="selec_request_type" id="selec_request_type" style="display:none">
+                    <br>
+                    <h3>Select a Request Type</h3>
+                    <select id="reimb_type">
+                        <option value="default">Select Request Type</option>
+                        <option value="lodging">LODGING</option>
+                        <option value="travel">TRAVEL</option>
+                        <option value="food">FOOD</option>
+                        <option value="other">OTHER</option>
+                    </select>
+                    <br>
+                </div>
 
-            <div name="selec_request_type" id="selec_request_type" style="display:none">
-                <br>
-                <h3>Select a Request Type</h3>
-                <select id="reimb_type">
-                    <option value="default">Select Request Type</option>
-                    <option value="lodging">LODGING</option>
-                    <option value="travel">TRAVEL</option>
-                    <option value="food">FOOD</option>
-                    <option value="other">OTHER</option>
-                </select>
-                <br>
-            </div>
-
-
-            <div>
                 <div>
-                    <h3>Create New Reinbursement Requests</h3>
-                    <label for="reimbursement_amount">Enter Reinbursement Amount: </label>
-                    <input type="text" name="reimbursement_amount" id="reimbursement_amount"> <br>
-                    <label for="reimbursement_description">Enter Reinbursement Description: </label>
-                   <!--<input type="text" name="reimbursement_description" id="reimbursement_description"> <br>--> 
-                    <label for="Description">Reimbursment Description:</label> <br>
-                    <textarea rows="5" cols="50" name="reimbursement_description"
+                    <div>
+                        <h3>Create New Reinbursement Requests</h3>
+                        <label for="reimbursement_amount">Enter Reinbursement Amount: </label>
+                        <input type="text" name="reimbursement_amount" id="reimbursement_amount" required> <br>
+                        <label for="Description">Enter Reimbursment Description:</label> <br>
+                        <textarea rows="5" cols="75" name="reimbursement_description"
                                         id="reimbursement_description" minlength="10" maxlength="255" required></textarea><br>       
-                    <label for="reimbursement_receipt">Upload Reinbursement Receipt: </label>
-                    <input type="file" name="reimbursement_receipt" id="reimbursement_receipt" accept="accept=image/png, image/jpeg, image/jpg, .doc,.docx,"> <br>
+                        <label for="reimbursement_receipt">Upload Reinbursement Receipt: </label>
+                        <input type="file" name="reimbursement_receipt" id="reimbursement_receipt" accept="accept=image/png, image/jpeg, image/jpg, .doc,.docx," required> <br>
+                    </div>
+                    <div>
+                        <input type="submit" value="Create">
+                    </div>
                 </div>
-                <div>
-                    <input type="submit" value="Create">
-                </div>
-        </form>
+            </form>
         
 
 

@@ -13,53 +13,52 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
 import com.tlw8253.dto.AddOrEditDTO;
-import com.tlw8253.model.ReimbursementStatus;
+import com.tlw8253.model.ReimbursementType;
 import com.tlw8253.util.SessionFactorySingleton;
 
 
-public class ReimbursementStatusDAOImpl implements GenericDAO<ReimbursementStatus>, Constants{
-	private Logger objLogger = LoggerFactory.getLogger(ReimbursementStatusDAOImpl.class);
+public class ReimbursementTypeDAOImpl implements GenericDAO<ReimbursementType>, Constants{
+	private Logger objLogger = LoggerFactory.getLogger(ReimbursementTypeDAOImpl.class);
 
-	public ReimbursementStatusDAOImpl() {
+	public ReimbursementTypeDAOImpl() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public List<ReimbursementStatus> getAllRecords() throws SQLException {
+	public List<ReimbursementType> getAllRecords() throws SQLException {
 		String sMethod = "getAllRecords(): ";
 		objLogger.trace(sMethod + "Entered");
 
-		//String sSQL = "SELECT * FROM " + csDBReimbStatusTable + ";";
 		// load a complete persistent objects into memory
-		String sHQL = "FROM " + csHQL_ModelClassReimbStatus; //fully qualify class name in HQL
+		String sHQL = "FROM " + csHQL_ModelClassReimbType; //fully qualify class name in HQL
 		
 		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 
-		List<ReimbursementStatus> lstReimbursementStatus = session.createQuery(sHQL).getResultList();
-		objLogger.debug(sMethod + "lstReimbursementStatus: [" + lstReimbursementStatus.toString() + "]");
+		List<ReimbursementType> lstReimbursementType = session.createQuery(sHQL).getResultList();
+		objLogger.debug(sMethod + "lstReimbursementType: [" + lstReimbursementType.toString() + "]");
 		
 		tx.commit();
 		session.close();
 		
-		return lstReimbursementStatus;
+		return lstReimbursementType;
 	}
 
 	@Override
-	public ReimbursementStatus getByRecordId(int sRecordId) throws SQLException {
+	public ReimbursementType getByRecordId(int sRecordId) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ReimbursementStatus getByRecordIdentifer(String sRecordIdentifier) throws SQLException, HibernateException {
+	public ReimbursementType getByRecordIdentifer(String sRecordIdentifier) throws SQLException, HibernateException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ReimbursementStatus addRecord(AddOrEditDTO objAddOrEditDTO) throws SQLException, HibernateException {
+	public ReimbursementType addRecord(AddOrEditDTO objAddOrEditDTO) throws SQLException, HibernateException {
 		String sMethod = "addRecord(): ";
 		objLogger.trace(sMethod + "Entered");
 
@@ -67,10 +66,10 @@ public class ReimbursementStatusDAOImpl implements GenericDAO<ReimbursementStatu
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
 
-		String sStatus = objAddOrEditDTO.getDataElement(csReimbStatusTblReimbStatus);
-		String sStatusDesc = objAddOrEditDTO.getDataElement(csReimbStatusTblReimbStatusDesc);
+		String sStatus = objAddOrEditDTO.getDataElement(csReimbTypeTblReimbType);
+		String sStatusDesc = objAddOrEditDTO.getDataElement(csReimbTypeTblReimbTypeDesc);
 		
-		ReimbursementStatus objReimbStatus = new ReimbursementStatus(sStatus, sStatusDesc);
+		ReimbursementType objReimbStatus = new ReimbursementType(sStatus, sStatusDesc);
 		
 		session.persist(objReimbStatus);
 		
@@ -81,7 +80,7 @@ public class ReimbursementStatusDAOImpl implements GenericDAO<ReimbursementStatu
 	}
 
 	@Override
-	public ReimbursementStatus editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO)
+	public ReimbursementType editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
@@ -94,13 +93,13 @@ public class ReimbursementStatusDAOImpl implements GenericDAO<ReimbursementStatu
 	}
 
 	@Override
-	public ReimbursementStatus getLogin(String sUsername) throws SQLException {
+	public ReimbursementType getLogin(String sUsername) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ReimbursementStatus getLoginJDBC(String sUsername) throws SQLException {
+	public ReimbursementType getLoginJDBC(String sUsername) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

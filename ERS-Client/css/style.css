@@ -1,3 +1,7 @@
+body {
+    background-color:powderblue;
+    }
+
 h1 {
     text-align: center;
     color: black;
@@ -19,7 +23,7 @@ p {
 
 div {
     text-align: center;
-    color: black;    
+    color: black;        
 }
 
 label{
@@ -35,3 +39,19 @@ label{
 table, th, td {
     border: 1px solid black;
   }
+
+form{
+    width: 500px;
+    align-self: center;
+    text-align: center;
+    color: black;        
+    border-width: medium 5px thick 5px;
+    border-style: solid; 
+    padding: 35px 70px 40px 80px;
+    display: block;
+}
+
+#select_item{
+    background-color: white;
+
+}
