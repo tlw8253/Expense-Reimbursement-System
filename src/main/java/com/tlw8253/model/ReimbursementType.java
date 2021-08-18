@@ -24,6 +24,9 @@ public class ReimbursementType implements Constants {
 	@Column(name = csReimbTypeTblReimbType, length = 10, nullable = false, unique = true)
 	private String reimbType = "";
 
+	@Column(name = csReimbTypeTblReimbTypeDesc, length = 150, nullable = false)
+	private String reimbTypeDesc = "";
+
 		
 	public ReimbursementType() {
 		// TODO Auto-generated constructor stub
@@ -50,9 +53,19 @@ public class ReimbursementType implements Constants {
 	}
 
 
+	public String getReimbTypeDesc() {
+		return reimbTypeDesc;
+	}
+
+
+	public void setReimbTypeDesc(String reimbTypeDesc) {
+		this.reimbTypeDesc = reimbTypeDesc;
+	}
+
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(reimbType, reimbTypeId);
+		return Objects.hash(reimbType, reimbTypeDesc, reimbTypeId);
 	}
 
 
@@ -65,14 +78,17 @@ public class ReimbursementType implements Constants {
 		if (getClass() != obj.getClass())
 			return false;
 		ReimbursementType other = (ReimbursementType) obj;
-		return Objects.equals(reimbType, other.reimbType) && reimbTypeId == other.reimbTypeId;
+		return Objects.equals(reimbType, other.reimbType) && Objects.equals(reimbTypeDesc, other.reimbTypeDesc)
+				&& reimbTypeId == other.reimbTypeId;
 	}
 
 
 	@Override
 	public String toString() {
-		return "ReimbursementType [reimbTypeId=" + reimbTypeId + ", reimbType=" + reimbType + "]";
+		return "ReimbursementType [reimbTypeId=" + reimbTypeId + ", reimbType=" + reimbType + ", reimbTypeDesc="
+				+ reimbTypeDesc + "]";
 	}
+
 
 	
 	

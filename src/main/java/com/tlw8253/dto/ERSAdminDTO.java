@@ -5,6 +5,7 @@ import com.tlw8253.app.Constants;
 public class ERSAdminDTO extends AddOrEditDTO implements Constants{
 	//Class attributes are store in the parent in HashMap tables.	
 
+	/*Stored in hashmaps in the super class
 	//ers_reimbursement_status table
 	private int reimbStatusId;
 	private String reimbStatus;
@@ -16,7 +17,7 @@ public class ERSAdminDTO extends AddOrEditDTO implements Constants{
 	//ers_user_roles table
 	private int userRoleId;
 	private String userRole;
-	
+	*/
 	
 	//
 	//###
@@ -25,63 +26,87 @@ public class ERSAdminDTO extends AddOrEditDTO implements Constants{
 	}
 
 
-	public int getReimbStatusId() {
-		return reimbStatusId;
+	public String getReimbStatusId() {
+		return super.getDataElement(csReimbStatusTblReimbStatusId);
+	}
+	public int getReimbStatusIdAsInt() {
+		return super.getIntDataElement(csReimbStatusTblReimbStatusId);
 	}
 
 
 	public String getReimbStatus() {
-		return reimbStatus;
+		return super.getDataElement(csReimbStatusTblReimbStatus);
 	}
 
 
-	public int getReimbTypeId() {
-		return reimbTypeId;
+	public String getReimbTypeId() {
+		return super.getDataElement(csReimbTypeTblReimbTypeId);
+	}
+	public int getReimbTypeIdAsInt() {
+		return super.getIntDataElement(csReimbTypeTblReimbTypeId);
 	}
 
 
 	public String getReimType() {
-		return reimType;
+		return super.getDataElement(csReimbTypeTblReimbType);
 	}
 
 
-	public int getUserRoleId() {
-		return userRoleId;
+	public String getUserRoleId() {
+		return super.getDataElement(csUserRolesTblUserRoleId);
+	}
+	public int getUserRoleIdAsInt() {
+		return super.getIntDataElement(csUserRolesTblUserRoleId);
 	}
 
 
 	public String getUserRole() {
-		return userRole;
+		return super.getDataElement(csUserRolesTblUserRole);
 	}
 
 
 	public void setReimbStatusId(int reimbStatusId) {
-		this.reimbStatusId = reimbStatusId;
+		super.setDataElement(csReimbStatusTblReimbStatusId, reimbStatusId);
+	}
+	public void setReimbStatusId(String reimbStatusId) {
+		super.setDataElement(csReimbStatusTblReimbStatusId, reimbStatusId);
 	}
 
 
 	public void setReimbStatus(String reimbStatus) {
-		this.reimbStatus = reimbStatus;
+		super.setDataElement(csReimbStatusTblReimbStatus, reimbStatus);
 	}
 
 
 	public void setReimbTypeId(int reimbTypeId) {
-		this.reimbTypeId = reimbTypeId;
+		super.setDataElement(csReimbTypeTblReimbTypeId, reimbTypeId);
+	}
+	public void setReimbTypeId(String reimbTypeId) {
+		super.setDataElement(csReimbTypeTblReimbTypeId, reimbTypeId);
 	}
 
 
 	public void setReimType(String reimType) {
-		this.reimType = reimType;
+		super.setDataElement(csReimbTypeTblReimbType, reimType);
 	}
 
 
 	public void setUserRoleId(int userRoleId) {
-		this.userRoleId = userRoleId;
+		super.setDataElement(csUserRolesTblUserRoleId, userRoleId);
+	}
+	public void setUserRoleId(String userRoleId) {
+		super.setDataElement(csUserRolesTblUserRoleId, userRoleId);
 	}
 
 
 	public void setUserRole(String userRole) {
-		this.userRole = userRole;
+		super.setDataElement(csUserRolesTblUserRole, userRole);
+	}
+
+
+	@Override
+	public String toString() {
+		return super.toString();
 	}
 
 

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tlw8253.controller.Controller;
+import com.tlw8253.controller.ERSAdminController;
 import com.tlw8253.controller.ExceptionController;
 /*
 import com.tlw8253.controller.AccountController;
@@ -34,8 +35,8 @@ public class Application implements Constants {
 		objLogger.trace(sMethod + "Entered");
 		
 		objJavalinApp = Javalin.create();
-		objLogger.debug(sMethod + "mapControllers(new ExceptionController(), new GeneralController());");
-		mapControllers(/*new TestController(),*/ new ExceptionController(), new ERSController());
+		objLogger.debug(sMethod + "mapControllers(new ExceptionController(), new ERSController(), new ERSAdminController());");
+		mapControllers(/*new TestController(),*/ new ExceptionController(), new ERSController(), new ERSAdminController());
 		
 		objLogger.info(sMethod + "Starting listening on port: [" + ciListingPort + "]");
 		objJavalinApp.start(ciListingPort); // start up our Javalin server on port defined for this program	

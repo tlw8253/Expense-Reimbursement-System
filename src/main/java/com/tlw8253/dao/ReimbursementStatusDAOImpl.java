@@ -1,11 +1,6 @@
 package com.tlw8253.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -20,34 +15,12 @@ import com.tlw8253.dto.AddOrEditDTO;
 import com.tlw8253.model.ReimbursementStatus;
 import com.tlw8253.util.SessionFactorySingleton;
 
-public class ERSDAOAdmin implements GenericDAO<ReimbursementStatus>, Constants {
-	private Logger objLogger = LoggerFactory.getLogger(ERSDAOAdmin.class);
 
-	public ERSDAOAdmin() {
-		super();
-	}
+public class ReimbursementStatusDAOImpl implements GenericDAO<ReimbursementStatus>, Constants{
+	private Logger objLogger = LoggerFactory.getLogger(ReimbursementStatusDAOImpl.class);
 
-	@Override
-	public ReimbursementStatus addRecord(AddOrEditDTO objGenericAddDTO) throws SQLException {
-		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
-		Session session = sf.openSession();
-		Transaction tx = session.beginTransaction();
-/*
-		String username = objGenericAddDTO.getDataElement(csUserTblUsername);
-		String password = objGenericAddDTO.getDataElement(csUserTblPassword);
-		String firstName = objGenericAddDTO.getDataElement(csUserTblFirstName);
-		String lastName = objGenericAddDTO.getDataElement(csUsrTblLastName);
-		String email = objGenericAddDTO.getDataElement(csUserTblEmail);
-
-		User objEmployee = new User(username, password, firstName, lastName, email);
-
-		session.persist(objEmployee);
-*/
-		tx.commit();
-
-		session.close();
-
-		return null;
+	public ReimbursementStatusDAOImpl() {
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -69,7 +42,30 @@ public class ERSDAOAdmin implements GenericDAO<ReimbursementStatus>, Constants {
 	}
 
 	@Override
-	public ReimbursementStatus editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO) throws SQLException {
+	public ReimbursementStatus addRecord(AddOrEditDTO objAddOrEditDTO) throws SQLException {
+		String sMethod = "addRecord(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+
+		String sStatus = objAddOrEditDTO.getDataElement(csReimbStatusTblReimbStatus);
+		String sStatusDesc = objAddOrEditDTO.getDataElement(csReimbStatusTblReimbStatusDesc);
+		
+		ReimbursementStatus objReimbStatus = new ReimbursementStatus(sStatus, sStatusDesc);
+		
+		session.persist(objReimbStatus);
+		
+		tx.commit();
+		session.close();
+
+		return objReimbStatus;
+	}
+
+	@Override
+	public ReimbursementStatus editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO)
+			throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -91,6 +87,5 @@ public class ERSDAOAdmin implements GenericDAO<ReimbursementStatus>, Constants {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

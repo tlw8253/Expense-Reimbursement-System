@@ -26,11 +26,9 @@ import org.mockito.Mockito;
 import com.tlw8253.app.Constants;
 import com.tlw8253.dao.ERSDAOImpl;
 import com.tlw8253.dao.GenericDAO;
-import com.tlw8253.model.EmployeeJDBC;
 
 public class ERSServiceTest implements Constants {
 	private static Logger objLogger = LoggerFactory.getLogger(ERSServiceTest.class);
-	private GenericDAO<EmployeeJDBC> objMockDAO;
 	private ERSService objMockService;
 
 	public ERSServiceTest() {
@@ -51,7 +49,6 @@ public class ERSServiceTest implements Constants {
 	public void setUp() throws Exception {
 		objLogger.trace("setUp()");
 		//fake DAO using the GenericDAO<T> interface class		
-		this.objMockDAO = mock(GenericDAO.class);
 		this.objMockService = new ERSService();
 	}
 
@@ -64,13 +61,6 @@ public class ERSServiceTest implements Constants {
 	public void testGetAllRecords_EmptyDataBase() throws SQLException{
 		objLogger.trace("test_getAllClients_success()");
 		
-		List<EmployeeJDBC> mockRetValues = new ArrayList<>();		
-		when(objMockDAO.getAllRecords()).thenReturn(mockRetValues);
-		
-		List<EmployeeJDBC> lstActualValues = objMockDAO.getAllRecords();
-		List<EmployeeJDBC> lstExpectedValues = new ArrayList<>();		
-		
-		assertEquals(lstExpectedValues, lstActualValues);
 	}
 	
 

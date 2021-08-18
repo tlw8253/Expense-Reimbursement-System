@@ -32,17 +32,16 @@ public interface Constants {
 	int ciListingPort = 3015;
 	
 	//End Points
-	String csRootEndpointGeneral = "/general";
 	String csRootEndpointERS = "/ers";
 	String csRootEndpointERS_Login = "/ers_login"; 
-	String csRootEndpointERS_LoginJDBC = "/ers_login_jdbc"; 
+	
+	String csRootEndpointERSAdminStatus = "/ers_admin_status";
 
 	//HTTP request parameter constants
-	String csParamPathGeneralId = "general_path_id";
-	String csParamQueryGeneralId = "general_query_id";
 	String csParamPathName = "name";
 	String csParamUserName = "username";
 	String csParamPassword = "password";
+	String csParamReimStatus = "reim_status";
 
 	
 	//General Model Attribute Constants
@@ -59,16 +58,19 @@ public interface Constants {
 	String csReimbStatusTable				= "ers_reimbursement_status";	//table name
 	String csReimbStatusTblReimbStatusId 	= "reimb_status_id";		//PK primary key
 	String csReimbStatusTblReimbStatus	 	= "reimb_status";			//String
+	String csReimbStatusTblReimbStatusDesc 	= "reimb_status_desc";		//String
 
 	//  table: Reimbursement Status
 	String csReimbTypeTable					= "ers_reimbursement_type";	//table name
 	String csReimbTypeTblReimbTypeId 		= "reimb_type_id";		//PK primary key
 	String csReimbTypeTblReimbType	 		= "reimb_type";			//String
+	String csReimbTypeTblReimbTypeDesc	 	= "reimb_type_desc";	//String
 	
 	//  table: User Roles
 	String csUserRolesTable 				= "ers_user_roles";		//table name
 	String csUserRolesTblUserRoleId 		= "ers_user_role_id";	//PK primary key
 	String csUserRolesTblUserRole	 		= "user_role";			//String
+	String csUserRolesTblUserRoleDesc 		= "user_role_desc";			//String
 
 	
 	//  table: Reimbursement
@@ -97,24 +99,22 @@ public interface Constants {
 	String csUserTblRoleId = "ers_role_id";
 	
 	
-	/*
-	 * shell_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-shell_name VARCHAR(255) NOT NULL CHECK(LENGTH(shell_name)> 0),
-shell_int INTEGER NOT NULL,
-shell_doulble DOUBLE NOT NULL,
-shell_boolean BOOLEAN NOT NULL
-
-	 * */
-	
 	//HTTP request parameter constants
 
 	//Define program messages to use in the program and for testing
 	String csMsgDB_ErrorGettingWithLogin = "Error with database during employee login.";	
+	String csMsgDB_ErrorAddingReimbursementStatus = "Error with database when adding Reimbursement Status.";
+	
+	
 	String csMsgEmployeeRecordNotFound = "Employee was not found in the database.";
 	
 	String csMsgBadParamNoPathParm = "Parmeter(s) expected. No Path Parameter(s) Received.";
 	String csMsgBadParamNoQueryParm = "Parmeter(s) expected. No Query Parameter(s) Received.";
 	String csMsgBadParamNoBodyParm = "Parmeter(s) expected. No Body Parameter(s) Received.";
+	
+	String csMsgBadParamQueryParm = "Parmeter(s) expected. Not right number of Query Parameter(s) received.";
+	
+	String csMsgBadParamReimbStatus = "Invalid Reimbursement Status parameters received.";
 	
 	String csMsgAutenticationFailed = "Autentication failed for username and password provided.";
 	

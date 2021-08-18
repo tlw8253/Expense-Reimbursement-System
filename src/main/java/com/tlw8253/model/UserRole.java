@@ -24,6 +24,10 @@ public class UserRole implements Constants {
 	@Column(name = csUserRolesTblUserRole, length = 10, nullable = false, unique = true)
 	private String userRole = "";
 	
+	@Column(name = csUserRolesTblUserRoleDesc, length = 150, nullable = false)
+	private String userRoleDesc = "";
+
+	
 	public UserRole() {
 		// TODO Auto-generated constructor stub
 	}
@@ -44,9 +48,17 @@ public class UserRole implements Constants {
 		this.userRole = userRole;
 	}
 
+	public String getUserRoleDesc() {
+		return userRoleDesc;
+	}
+
+	public void setUserRoleDesc(String userRoleDesc) {
+		this.userRoleDesc = userRoleDesc;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(userRole, userRoleId);
+		return Objects.hash(userRole, userRoleDesc, userRoleId);
 	}
 
 	@Override
@@ -58,13 +70,15 @@ public class UserRole implements Constants {
 		if (getClass() != obj.getClass())
 			return false;
 		UserRole other = (UserRole) obj;
-		return Objects.equals(userRole, other.userRole) && userRoleId == other.userRoleId;
+		return Objects.equals(userRole, other.userRole) && Objects.equals(userRoleDesc, other.userRoleDesc)
+				&& userRoleId == other.userRoleId;
 	}
 
 	@Override
 	public String toString() {
-		return "UserRole [userRoleId=" + userRoleId + ", userRole=" + userRole + "]";
+		return "UserRole [userRoleId=" + userRoleId + ", userRole=" + userRole + ", userRoleDesc=" + userRoleDesc + "]";
 	}
+
 
 	
 	

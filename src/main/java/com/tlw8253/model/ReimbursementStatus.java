@@ -24,9 +24,15 @@ public class ReimbursementStatus implements Constants {
 	@Column(name = csReimbStatusTblReimbStatus, length = 10, nullable = false, unique = true)
 	private String reimbStatus = "";
 
+	@Column(name = csReimbStatusTblReimbStatusDesc, length = 150, nullable = false)
+	private String reimbStatusDesc = "";
 	
 	public ReimbursementStatus() {
-		// TODO Auto-generated constructor stub
+		super();
+	}
+	public ReimbursementStatus(String sReimbStatus, String sReimbStatusDesc) {
+		this.reimbStatus = sReimbStatus;
+		this.reimbStatusDesc = sReimbStatusDesc;
 	}
 
 
@@ -49,10 +55,20 @@ public class ReimbursementStatus implements Constants {
 		this.reimbStatus = reimbStatus;
 	}
 
+	public String getReimbStatusDesc() {
+		return reimbStatusDesc;
+	}
+
+
+	public void setReimbStatusDesc(String reimbStatusDesc) {
+		this.reimbStatusDesc = reimbStatusDesc;
+	}
+
+
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(reimbStatus, reimbStatusId);
+		return Objects.hash(reimbStatus, reimbStatusDesc, reimbStatusId);
 	}
 
 
@@ -65,14 +81,18 @@ public class ReimbursementStatus implements Constants {
 		if (getClass() != obj.getClass())
 			return false;
 		ReimbursementStatus other = (ReimbursementStatus) obj;
-		return Objects.equals(reimbStatus, other.reimbStatus) && reimbStatusId == other.reimbStatusId;
+		return Objects.equals(reimbStatus, other.reimbStatus) && Objects.equals(reimbStatusDesc, other.reimbStatusDesc)
+				&& reimbStatusId == other.reimbStatusId;
 	}
 
 
 	@Override
 	public String toString() {
-		return "ReimbursementStatus [reimbStatusId=" + reimbStatusId + ", reimbStatus=" + reimbStatus + "]";
+		return "ReimbursementStatus [reimbStatusId=" + reimbStatusId + ", reimbStatus=" + reimbStatus
+				+ ", reimbStatusDesc=" + reimbStatusDesc + "]";
 	}
+
+
 
 	
 	

@@ -13,8 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tlw8253.dto.ERSDTO;
+import com.tlw8253.dto.ReimbursementStatusDTO;
+import com.tlw8253.exception.BadParameterException;
 import com.tlw8253.exception.DatabaseException;
+import com.tlw8253.model.ReimbursementStatus;
 import com.tlw8253.model.User;
+import com.tlw8253.service.ERSAdminService;
 import com.tlw8253.service.ERSService;
 import com.tlw8253.util.SessionFactorySingleton;
 
@@ -37,12 +41,37 @@ public class Driver implements Constants {
 		objLogger.trace(sMethod + "Entered");
 		
 		
-		createHibernateTables();
+		//createTablesViaHibernate();
 //		testAddNewEmployee();
+		ersAdminAddValues();
 
 	}
 	
-	private static void createHibernateTables() {
+	private static void ersAdminAddValues() {
+		addReimbursementStatus();
+	}
+	
+	private static void addReimbursementStatus() {
+		String sMethod = "addReimbursementStatus(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		ERSAdminService objAdminService = new ERSAdminService();
+		ReimbursementStatusDTO objReimbStatusDTO = new ReimbursementStatusDTO();
+		
+		String sStatus = "INITIAL";
+		String sStatusDesc = "The status when a reimbursement request is first created and submitted by an user.";
+		objReimbStatusDTO.setReimbStatus(sStatus);
+		objReimbStatusDTO.setReimbStatusDescription(sStatusDesc);
+		
+		try {
+			ReimbursementStatus objReimbStatus = objAdminService.addReimbursementStatus(objReimbStatusDTO);
+			objLogger.trace(sMethod + "objReimbStatus: [" + objReimbStatus.toString() + "]");
+		} catch (DatabaseException | BadParameterException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private static void createTablesViaHibernate() {
 		String sMethod = "testAddNewEmployee(): ";
 		objLogger.trace(sMethod + "Entered");
 

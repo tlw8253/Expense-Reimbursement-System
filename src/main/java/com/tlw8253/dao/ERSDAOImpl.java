@@ -17,9 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
 import com.tlw8253.dto.AddOrEditDTO;
-import com.tlw8253.model.EmployeeJDBC;
 import com.tlw8253.model.User;
-import com.tlw8253.util.ConnectionUtility;
 import com.tlw8253.util.SessionFactorySingleton;
 
 public class ERSDAOImpl implements GenericDAO<User>, Constants {
@@ -31,10 +29,13 @@ public class ERSDAOImpl implements GenericDAO<User>, Constants {
 
 	@Override
 	public User addRecord(AddOrEditDTO objGenericAddDTO) throws SQLException {
+		String sMethod = "addRecord(): ";
+		objLogger.trace(sMethod + "Entered");
+
 		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
 		Session session = sf.openSession();
 		Transaction tx = session.beginTransaction();
-
+/*
 		String username = objGenericAddDTO.getDataElement(csUserTblUsername);
 		String password = objGenericAddDTO.getDataElement(csUserTblPassword);
 		String firstName = objGenericAddDTO.getDataElement(csUserTblFirstName);
@@ -44,12 +45,12 @@ public class ERSDAOImpl implements GenericDAO<User>, Constants {
 		User objEmployee = new User(username, password, firstName, lastName, email);
 
 		session.persist(objEmployee);
-
+*/
 		tx.commit();
 
 		session.close();
 
-		return objEmployee;
+		return null;
 	}
 
 	@Override
