@@ -36,7 +36,7 @@ public class User implements Constants {
 	@Column(name = csUsrTblLastName, length = 100, nullable = false)
 	private String lastName = "";
 
-	@Column(name = csUserTblEmail, length = 150, nullable = false)
+	@Column(name = csUserTblEmail, length = 150, nullable = false, unique = true)
 	private String email = "";
 
 	@ManyToOne
@@ -59,7 +59,7 @@ public class User implements Constants {
 		return userRole;
 	}
 
-	public void setUserRoleId(UserRole userRole) {
+	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
 	}
 

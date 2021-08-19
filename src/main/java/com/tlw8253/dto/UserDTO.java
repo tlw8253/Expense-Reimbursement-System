@@ -16,7 +16,12 @@ public class UserDTO extends AddOrEditDTO implements Constants{
 	}
 
 	public UserDTO(String username, String password, String firstName, String lastName, String email, String userRole) {
-		super();
+		setUsername(username);
+		setPassword(password);
+		setFirstName(firstName);
+		setLastName(lastName);
+		setEmail(email);
+		setUserRoleName(userRole);
 	}
 	
 	public String getUserId() {

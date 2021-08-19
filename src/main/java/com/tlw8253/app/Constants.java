@@ -69,6 +69,8 @@ public interface Constants {
 
 	//  table: Reimbursement Status
 	String csReimbTypeTable					= "ers_reimbursement_type";	//table name
+	String csDBReimbTypeTable = csDatabaseName + "." +csReimbTypeTable; //qualified table name
+	
 	String csReimbTypeTblReimbTypeId 		= "reimb_type_id";		//PK primary key
 	String csReimbTypeTblReimbType	 		= "reimb_type";			//String
 	String csReimbTypeTblReimbTypeDesc	 	= "reimb_type_desc";	//String
@@ -80,6 +82,8 @@ public interface Constants {
 	
 	//  table: User Roles
 	String csUserRolesTable 				= "ers_user_roles";		//table name
+	String csDBReimbRolesTable = csDatabaseName + "." + csUserRolesTable; //qualified table name
+	
 	String csUserRolesTblUserRoleId 		= "ers_user_role_id";	//PK primary key
 	String csUserRolesTblUserRole	 		= "user_role";			//String
 	String csUserRolesTblUserRoleDesc 		= "user_role_desc";			//String
@@ -90,6 +94,8 @@ public interface Constants {
 	
 	//  table: Reimbursement
 	String csReimburstementTable 		= "ers_reimbursement";	//table name		
+	String csDBReimburstementTable = csDatabaseName + "." + csReimburstementTable; //qualified table name
+	
 	String csReimbTblReimbId 			= "reimb_id";			//PK primary key
 	String csReimbTblReimbAmount 		= "reimb_amount";		//number / double
 	String csReimbTblReimbSubmitted 	= "reimb_submitted";	//time stamp
@@ -97,14 +103,19 @@ public interface Constants {
 	String csReimbTblReimbDescription 	= "reimb_description";	//string
 	String csReimbTblReimbReceipt 		= "reimb_receipt";		//blob - image or word doc
 	String csReimbTblReimbAuthor 		= "reimb_author";		//FK foreign key
+	String csReimbTblReimbAuthorId 		= "reimb_author_id";	//For the DTO
 	String csReimbTblReimbResolver 		= "reimb_resolver";		//FK foreign key
+	String csReimbTblReimbResolverId 	= "reimb_resolver_id";	//For the DTO
 	String csReimbTblReimbStatusId 		= "reimb_status_id";	//FK foreign key
+	String csReimbTblReimbStatus 		= "reimb_status";		//For the DTO
 	String csReimbTblReimbTypeId 		= "reimb_type_id";		//FK foreign key
+	String csReimbTblReimbType	 		= "reimb_type";			//For the DTO
 	
 	
 	//  table: user
 	String csUserTable = "ers_users";							//table name
 	String csDBUserTable = csDatabaseName + "." + csUserTable;		//if using JDBC
+	
 	String csUserTblId = "ers_users_id";
 	String csUserTblUsername = "ers_username";
 	String csUserTblPassword = "ers_password";
@@ -119,7 +130,9 @@ public interface Constants {
 	String csHQL_ModelPackage = "com.tlw8253.model";
 	String csHQL_ModelClassReimbStatus = csHQL_ModelPackage + ".ReimbursementStatus";
 	String csHQL_ModelClassReimbType = csHQL_ModelPackage + ".ReimbursementType";
-	String csHQL_ModelClassUsrRole = csHQL_ModelPackage + ".UserRole";
+	String csHQL_ModelClassUserRole = csHQL_ModelPackage + ".UserRole";
+	String csHQL_ModelClassReimbursement = csHQL_ModelPackage + ".Reimbursement";
+	String csHQL_ModelClassUser = csHQL_ModelPackage + ".User";
 
 	//Define program messages to use in the program and for testing
 	String csMsgDB_ErrorGettingWithLogin = "Error with database during employee login.";	

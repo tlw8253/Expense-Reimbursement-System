@@ -173,7 +173,7 @@ public final class Validate {
 	//
 	//### A very basic email validation
 	public static boolean isValidEmailAddress(String sValue) {
-		String sMethod = "hasSpecialChar(): ";
+		String sMethod = "isValidEmailAddress(): ";
 		boolean bIsValid = true;
 
 		bIsValid = sValue.matches("^(.+)@(.+)$");

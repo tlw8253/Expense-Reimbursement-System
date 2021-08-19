@@ -4,11 +4,16 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
+
+import javax.sql.rowset.serial.SerialBlob;
+
 import java.lang.Integer;
+import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tlw8253.model.User;
 import com.tlw8253.util.Utility;
 
 
@@ -21,7 +26,9 @@ public class AddOrEditDTO {
 	HashMap<String, String> hmStringDataElements; //expected format: <databaseTable.column>,<string value> 
 	HashMap<String, Integer> hmIntegerDataElements; //expected format: <databaseTable.column>,<integer value>
 	HashMap<String, Double> hmDoubleDataElements; //expected format: <databaseTable.column>,<double value>
-	HashMap<String, Boolean> hmBooleanDataElements; //expected format: <databaseTable.column>,<double value>
+	HashMap<String, Boolean> hmBooleanDataElements; //expected format: <databaseTable.column>,<boolean value>
+	HashMap<String, Timestamp> hmTimestampDataElements; //expected format: <databaseTable.column>,<Timestamp value>
+	HashMap<String, SerialBlob> hmSerialBlobDataElements; //expected format: <databaseTable.column>,<SerialBlob value>
 	
 	
 	public AddOrEditDTO() {
@@ -30,12 +37,18 @@ public class AddOrEditDTO {
 		hmIntegerDataElements = new HashMap<String, Integer>();
 		hmDoubleDataElements = new HashMap<String, Double>();
 		hmBooleanDataElements = new HashMap<String, Boolean>();
-	}
+		hmTimestampDataElements = new HashMap<String, Timestamp>();
+		hmSerialBlobDataElements = new HashMap<String, SerialBlob>();
+	}	
 	
-	
+
 	public AddOrEditDTO(HashMap<String, String> hmDataElements) {
-		super();
 		this.hmStringDataElements = hmDataElements;
+		hmIntegerDataElements = new HashMap<String, Integer>();
+		hmDoubleDataElements = new HashMap<String, Double>();
+		hmBooleanDataElements = new HashMap<String, Boolean>();
+		hmTimestampDataElements = new HashMap<String, Timestamp>();
+		hmSerialBlobDataElements = new HashMap<String, SerialBlob>();
 	}
 
 	
@@ -53,6 +66,12 @@ public class AddOrEditDTO {
 	public boolean isBooleanDataElement(String sElementName) {
 		return (hmBooleanDataElements.get(sElementName).booleanValue());
 	}
+	public Timestamp getTimestampDataElement(String sElementName) {
+		return (hmTimestampDataElements.get(sElementName));
+	}
+	public SerialBlob getSerialBlobDataElement(String sElementName) {
+		return (hmSerialBlobDataElements.get(sElementName));
+	}
 
 	
 	
@@ -69,29 +88,15 @@ public class AddOrEditDTO {
 	public void setDataElement(String sElementName, boolean bElementValue) {
 		hmBooleanDataElements.put(sElementName, bElementValue);
 	}
+	public void setDataElement(String sElementName, Timestamp objTimestamp) {
+		hmTimestampDataElements.put(sElementName, objTimestamp);
+	}
+	public void setDataElement(String sElementName, SerialBlob objSerialBlob) {
+		hmSerialBlobDataElements.put(sElementName, objSerialBlob);
+	}
 
 	
 	
-	@Override
-	public int hashCode() {
-		return Objects.hash(hmBooleanDataElements, hmDoubleDataElements, hmIntegerDataElements, hmStringDataElements);
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AddOrEditDTO other = (AddOrEditDTO) obj;
-		return Objects.equals(hmBooleanDataElements, other.hmBooleanDataElements)
-				&& Objects.equals(hmDoubleDataElements, other.hmDoubleDataElements)
-				&& Objects.equals(hmIntegerDataElements, other.hmIntegerDataElements)
-				&& Objects.equals(hmStringDataElements, other.hmStringDataElements);
-	}
 
 
 	//

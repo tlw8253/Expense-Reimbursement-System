@@ -58,6 +58,9 @@ public class Reimbursement implements Constants {
 
 	
 	public Reimbursement() {
+		//use when setting the timestamp values:
+		//Timestamp objTimestamp = Timestamp.valueOf(LocalDateTime.now());
+		
 		reimbSubmitted = new Timestamp(0);
 		reimbResolved = new Timestamp(0);
 	}

@@ -10,6 +10,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Employee Requests</title>
 
+        <!-- Bootstrap for CSS and JavaScript-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
         <!-- include JavaScript file -->
         <script src="js/reimbursement.js"></script>
 
@@ -38,7 +41,9 @@
             </div>
  
         <br><br>           
-            <form name="select_item" id="select_item" style="display:none" method="GET">
+            <div name="select_div" id="select_div" style="align-self: center;">
+                <div class="select_item_div" style="align-self: center;">
+            <form name="select_item" id="select_item" style="display:none" method="GET" style="align-self: center;">
                 <div>
                     <h3>Search for Reinbursement Requests</h3>
                     <!-- name field must match to prevent both radio buttons from being marked-->
@@ -55,11 +60,12 @@
                     <input type="submit" value="Search">
                 </div>
             </form>
+        </div>
  
             <form name="create_request" id="create_request" style="display:none" onsubmit="new_reinbursement_request(this)" method="POST">
                 <div name="selec_request_type" id="selec_request_type" style="display:none">
                     <br>
-                    <h3>Select a Request Type</h3>
+                    <h3><p class="asterisk">*</p>Select a Request Type</h3>
                     <select id="reimb_type">
                         <option value="default">Select Request Type</option>
                         <option value="lodging">LODGING</option>
@@ -73,7 +79,7 @@
                 <div>
                     <div>
                         <h3>Create New Reinbursement Requests</h3>
-                        <label for="reimbursement_amount">Enter Reinbursement Amount: </label>
+                        <label for="reimbursement_amount">Enter Reinbursement Amount: </label><p class="asterisk">*</p>
                         <input type="text" name="reimbursement_amount" id="reimbursement_amount" required> <br>
                         <label for="Description">Enter Reimbursment Description:</label> <br>
                         <textarea rows="5" cols="75" name="reimbursement_description"
@@ -86,7 +92,7 @@
                     </div>
                 </div>
             </form>
-        
+        </div>
 
 
     </body>

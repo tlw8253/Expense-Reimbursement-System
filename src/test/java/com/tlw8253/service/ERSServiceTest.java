@@ -24,7 +24,6 @@ import org.mockito.Mockito;
 
 
 import com.tlw8253.app.Constants;
-import com.tlw8253.dao.ERSDAOImpl;
 import com.tlw8253.dao.GenericDAO;
 
 public class ERSServiceTest implements Constants {

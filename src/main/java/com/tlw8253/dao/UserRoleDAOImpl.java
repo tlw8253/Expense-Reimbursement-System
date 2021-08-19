@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.QueryException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -30,7 +31,7 @@ public class UserRoleDAOImpl implements GenericDAO<UserRole>, Constants{
 		objLogger.trace(sMethod + "Entered");
 
 		// load a complete persistent objects into memory
-		String sHQL = "FROM " + csHQL_ModelClassUsrRole; //fully qualify class name in HQL
+		String sHQL = "FROM " + csHQL_ModelClassUserRole; //fully qualify class name in HQL
 		
 		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
 		Session session = sf.openSession();
@@ -52,9 +53,39 @@ public class UserRoleDAOImpl implements GenericDAO<UserRole>, Constants{
 	}
 
 	@Override
-	public UserRole getByRecordIdentifer(String sRecordIdentifier) throws SQLException, HibernateException {
-		// TODO Auto-generated method stub
-		return null;
+	public UserRole getByRecordIdentifer(String sRecordIdentifier) throws SQLException {
+		String sMethod = "getByRecordIdentifer(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		// load a complete persistent objects into memory
+		
+		//sHQL: [FROM com.tlw8253.model.UserRole ur WHERE ur.user_role= :rolename] param: sRecordIdentifier: [SUPERMAN]
+		String sHQL = "";
+		
+		sHQL = "FROM UserRole ur WHERE ur.userRole = '" + sRecordIdentifier + "'";	//this works without using setParameter
+		sHQL = "FROM UserRole ur WHERE ur.userRole = :userRole"; //this works with using setParameter
+		objLogger.debug(sMethod + "sHQL: [" + sHQL + "]" + " param: sRecordIdentifier: [" + sRecordIdentifier +"]");
+		
+		try {
+			UserRole objUserRole = (UserRole) session.createQuery(sHQL)
+					.setParameter("userRole", sRecordIdentifier)
+					.getSingleResult();
+			objLogger.debug(sMethod + "objUserRole: [" + objUserRole + "]");
+			
+			tx.commit();
+			return objUserRole;
+			
+		}catch(Exception e) {
+			objLogger.error(sMethod + "Exception: cause: [" + e.getCause() + "] class name [" + e.getClass().getName() + "] [" + e.toString() + "]");
+			objLogger.error(sMethod + "Exception: message: [" + e.getMessage() + "]");	
+			return null;
+		}finally {
+			session.close();
+		}
 	}
 
 	@Override

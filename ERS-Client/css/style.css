@@ -26,6 +26,14 @@ div {
     color: black;        
 }
 
+div.select_item_div {
+    background-color: orange;
+    align-self: center;
+    text-align: center;
+    align-content: center;
+
+}
+
 label{
     display: inline-block;
     
@@ -52,6 +60,25 @@ form{
 }
 
 #select_item{
+    left: 550px;
     background-color: white;
 
 }
+
+#select_div{
+    left: 550px;
+    align-self: center;
+    text-align: center;
+    align-content: center;
+
+}
+
+div:hover {
+    background-color: lightblue;
+  }
+
+  p.asterisk {
+    color: red;
+   
+  }
+  
