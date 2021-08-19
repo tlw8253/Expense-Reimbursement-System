@@ -27,9 +27,11 @@ import com.tlw8253.app.Constants;
 import com.tlw8253.dao.GenericDAO;
 import com.tlw8253.dto.ReimbursementStatusDTO;
 import com.tlw8253.dto.ReimbursementTypeDTO;
+import com.tlw8253.dto.UserRoleDTO;
 import com.tlw8253.exception.*;
 import com.tlw8253.model.ReimbursementStatus;
 import com.tlw8253.model.ReimbursementType;
+import com.tlw8253.model.UserRole;
 
 
 
@@ -38,8 +40,11 @@ public class ERSAdminServiceTest implements Constants {
 	
 	private ERSAdminService objMockReimbStatus;
 	private ERSAdminService objMockReimbType;
+	private ERSAdminService objMockUserRole;
+	
 	private GenericDAO<ReimbursementStatus> objMockReimbStatusDAO;
 	private GenericDAO<ReimbursementType> objMockReimbTypeDAO;
+	private GenericDAO<UserRole> objMockUserRoleDAO;
 
 	public ERSAdminServiceTest() {
 		// TODO Auto-generated constructor stub
@@ -63,6 +68,8 @@ public class ERSAdminServiceTest implements Constants {
 		this.objMockReimbStatus = new ERSAdminService().getMockReimbStatusDAO(objMockReimbStatusDAO);
 		this.objMockReimbTypeDAO = mock(GenericDAO.class);
 		this.objMockReimbType = new ERSAdminService().getMockReimbTypeDAO(objMockReimbTypeDAO);
+		this.objMockUserRoleDAO = mock(GenericDAO.class);
+		this.objMockUserRole = new ERSAdminService().getMockUserRoleDAO(objMockUserRoleDAO);
 	}
 
 	@After
@@ -72,7 +79,7 @@ public class ERSAdminServiceTest implements Constants {
 
 	@Test	//# 01.000
 	public void testAddReimbursementStatusSuccess() throws SQLException, BadParameterException, DatabaseException {
-		objLogger.trace("testAddReimbStatus()");
+		objLogger.trace("testAddReimbursementStatusSuccess()");
 		
 		ReimbursementStatus mockRetValues = new ReimbursementStatus("REJECTED","The request was rejected.");
 		ReimbursementStatusDTO objReimStatusDTO = new ReimbursementStatusDTO("REJECTED","The request was rejected.");
@@ -87,7 +94,7 @@ public class ERSAdminServiceTest implements Constants {
 	
 	@Test	//# 01.001
 	public void testAddReimbursementStatusDuplicate() throws SQLException, BadParameterException, DatabaseException {
-		objLogger.trace("testaddReimbursementStatusDuplicate()");		
+		objLogger.trace("testAddReimbursementStatusDuplicate()");		
 		
 		ReimbursementStatusDTO objReimStatusDTO = new ReimbursementStatusDTO("REJECTED","The request was rejected.");
 		when(objMockReimbStatusDAO.addRecord(objReimStatusDTO)).thenThrow(SQLException.class);
@@ -118,7 +125,7 @@ public class ERSAdminServiceTest implements Constants {
 
 	@Test	//# 01.003
 	public void testAddReimbursementStatusBadParamStatusDesc() throws SQLException, BadParameterException, DatabaseException {
-		objLogger.trace("testAddReimbursementStatusBadParamStatus()");		
+		objLogger.trace("testAddReimbursementStatusBadParamStatusDesc()");		
 		
 		//invalid status description length
 		ReimbursementStatusDTO objReimStatusDTO = new ReimbursementStatusDTO("REJECT","");
@@ -134,7 +141,7 @@ public class ERSAdminServiceTest implements Constants {
 	
 	@Test	//# 02.000
 	public void testGetAllReimbursementStatusSuccess() throws SQLException{
-		objLogger.trace("getAllReimbursementStatusSuccess()");
+		objLogger.trace("testGetAllReimbursementStatusSuccess()");
 
 		List<ReimbursementStatus> mockRetValues = new ArrayList<>();		
 		mockRetValues.add(new ReimbursementStatus("PENDING", "The status when a reimbursement request is first created and submitted by an user."));
@@ -155,7 +162,7 @@ public class ERSAdminServiceTest implements Constants {
 	
 	@Test	//# 02.001
 	public void testGetAllReimbursementStatusException() throws SQLException, BadParameterException, DatabaseException {
-		objLogger.trace("getAllReimbursementStatusException()");		
+		objLogger.trace("testGetAllReimbursementStatusException()");		
 		
 		ReimbursementStatusDTO objReimStatusDTO = new ReimbursementStatusDTO("REJECTED","The request was rejected.");
 		when(objMockReimbStatusDAO.getAllRecords()).thenThrow(SQLException.class);
@@ -172,7 +179,7 @@ public class ERSAdminServiceTest implements Constants {
 	
 	@Test	//# 03.000
 	public void testAddReimbursementTypeSuccess() throws SQLException, BadParameterException, DatabaseException {
-		objLogger.trace("testAddReimbStatus()");
+		objLogger.trace("testAddReimbursementTypeSuccess()");
 		
 		ReimbursementType mockRetValues = new ReimbursementType("MOVIE","Expenses related to watching movies.");
 		ReimbursementTypeDTO objReimbTypeDTO = new ReimbursementTypeDTO("MOVIE","Expenses related to watching movies.");
@@ -210,5 +217,41 @@ public class ERSAdminServiceTest implements Constants {
 	}
 
 	
+	@Test	//# 05.000
+	public void testAddUserRoleSuccess() throws SQLException, BadParameterException, DatabaseException {
+		objLogger.trace("testAddUserRoleSuccess()");
+		
+		UserRole mockRetValues = new UserRole("PEON","Lowest level employee assigned all the undesirable tasks.");
+		UserRoleDTO objUserRoleDTO = new UserRoleDTO("PEON","Lowest level employee assigned all the undesirable tasks.");
+		when(objMockUserRoleDAO.addRecord(objUserRoleDTO)).thenReturn(mockRetValues);
+	
+		UserRole objActualValues = objMockUserRole.addUserRole(objUserRoleDTO);
+		
+		UserRole objExpectedValues = new UserRole("PEON","Lowest level employee assigned all the undesirable tasks.");
+		
+		assertEquals(objExpectedValues, objActualValues);
+	}
+
+	@Test	//# 06.000
+	public void testGetAllUserRoleSuccess() throws SQLException{
+		objLogger.trace("testGetAllReimbursementTypeSuccess()");
+
+		List<UserRole> mockRetValues = new ArrayList<>();		
+		mockRetValues.add(new UserRole("EMPLOYEE", "Any person actively employeed by the company with a valid username."));
+		mockRetValues.add(new UserRole("FINANCEMGR", "Finance managers are authorized to approve and deny requests for expense reimbursement."));
+		mockRetValues.add(new UserRole("SUPERMAN", "A super user of the system.  A system admin."));
+		when(objMockUserRoleDAO.getAllRecords()).thenReturn(mockRetValues);
+		
+		List<UserRole> lstActualValues = objMockUserRoleDAO.getAllRecords();		
+		
+		List<UserRole> lstExpectedValues = new ArrayList<>();
+		lstExpectedValues.add(new UserRole("EMPLOYEE", "Any person actively employeed by the company with a valid username."));
+		lstExpectedValues.add(new UserRole("FINANCEMGR", "Finance managers are authorized to approve and deny requests for expense reimbursement."));
+		lstExpectedValues.add(new UserRole("SUPERMAN", "A super user of the system.  A system admin."));
+		
+		assertEquals(lstExpectedValues, lstActualValues);
+
+	}
+
 	
 }

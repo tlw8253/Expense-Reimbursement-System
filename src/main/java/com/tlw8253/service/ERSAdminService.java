@@ -44,6 +44,11 @@ public class ERSAdminService implements Constants {
 		return this;
 	}
 
+	public ERSAdminService getMockUserRoleDAO(GenericDAO<UserRole> objMockUserRoleDAO) {
+		this.objUserRoleDAO = objMockUserRoleDAO;
+		return this;
+	}
+
 	//
 	// ###
 	public List<ReimbursementStatus> getAllReimbursementStatus() throws DatabaseException {

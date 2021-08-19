@@ -62,19 +62,31 @@ public interface Constants {
 	String csReimbStatusTblReimbStatusId 	= "reimb_status_id";		//PK primary key
 	String csReimbStatusTblReimbStatus	 	= "reimb_status";			//String
 	String csReimbStatusTblReimbStatusDesc 	= "reimb_status_desc";		//String
+	String[] csReimbStatus = {"PENDING", "APPROVED", "DENIED"};
+	int ciReimbStatusPending = 0;
+	int ciReimbStatusApproved = 1;
+	int ciReimbStatusDenied = 2;
 
 	//  table: Reimbursement Status
 	String csReimbTypeTable					= "ers_reimbursement_type";	//table name
 	String csReimbTypeTblReimbTypeId 		= "reimb_type_id";		//PK primary key
 	String csReimbTypeTblReimbType	 		= "reimb_type";			//String
 	String csReimbTypeTblReimbTypeDesc	 	= "reimb_type_desc";	//String
+	String[] csReimbType = {"LODGING", "TRAVEL", "FOOD" ,"OTHER"};
+	int ciReimbTypeLodging = 0;
+	int ciReimbTypeTravel = 1;
+	int ciReimbTypeFood = 2;
+	int ciReimbTypeOther = 3;
 	
 	//  table: User Roles
 	String csUserRolesTable 				= "ers_user_roles";		//table name
 	String csUserRolesTblUserRoleId 		= "ers_user_role_id";	//PK primary key
 	String csUserRolesTblUserRole	 		= "user_role";			//String
 	String csUserRolesTblUserRoleDesc 		= "user_role_desc";			//String
-
+	String[] csUserRoles = {"EMPLOYEE", "FINANCEMGR", "SUPERMAN"};
+	int ciUserRoleEmployee = 0;
+	int ciUserRoleFinanceMgr = 1;
+	int ciUserRoleAdmin = 2;
 	
 	//  table: Reimbursement
 	String csReimburstementTable 		= "ers_reimbursement";	//table name		
@@ -100,6 +112,7 @@ public interface Constants {
 	String csUsrTblLastName = "ers_last_name";
 	String csUserTblEmail = "ers_email";
 	String csUserTblRoleId = "ers_role_id";
+	String csUserTblRoleName = csUserRolesTblUserRole;
 	
 	
 	//HQL fully qualified class names
@@ -129,6 +142,8 @@ public interface Constants {
 	String csMsgBadParamReimbStatus = "Invalid Reimbursement Status parameters received.";
 	String csMsgBadParamReimbType = "Invalid Reimbursement Type parameters received.";
 	String csMsgBadParamUserRole = "Invalid User Role parameters received.";
+	
+	String csMsgBadParamAddUser = "One or more add user parameters are invalid.";
 	
 	String csMsgAutenticationFailed = "Autentication failed for username and password provided.";
 	
