@@ -27,7 +27,7 @@ public class UserRoleDAOImpl implements GenericDAO<UserRole>, Constants{
 
 	@Override
 	public List<UserRole> getAllRecords() throws SQLException {
-		String sMethod = "getAllRecords(): ";
+		String sMethod = "\n\t getAllRecords(): ";
 		objLogger.trace(sMethod + "Entered");
 
 		// load a complete persistent objects into memory
@@ -54,7 +54,7 @@ public class UserRoleDAOImpl implements GenericDAO<UserRole>, Constants{
 
 	@Override
 	public UserRole getByRecordIdentifer(String sRecordIdentifier) throws SQLException {
-		String sMethod = "getByRecordIdentifer(): ";
+		String sMethod = "\n\t getByRecordIdentifer(): ";
 		objLogger.trace(sMethod + "Entered");
 
 		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
@@ -74,7 +74,7 @@ public class UserRoleDAOImpl implements GenericDAO<UserRole>, Constants{
 			UserRole objUserRole = (UserRole) session.createQuery(sHQL)
 					.setParameter("userRole", sRecordIdentifier)
 					.getSingleResult();
-			objLogger.debug(sMethod + "objUserRole: [" + objUserRole + "]");
+			objLogger.debug(sMethod + "objUserRole: [" + objUserRole.toString() + "]");
 			
 			tx.commit();
 			return objUserRole;
@@ -90,7 +90,7 @@ public class UserRoleDAOImpl implements GenericDAO<UserRole>, Constants{
 
 	@Override
 	public UserRole addRecord(AddOrEditDTO objAddOrEditDTO) throws SQLException, HibernateException {
-		String sMethod = "addRecord(): ";
+		String sMethod = "\n\t addRecord(): ";
 		objLogger.trace(sMethod + "Entered");
 
 		objLogger.debug(sMethod + "objAddOrEditDTO: [" + objAddOrEditDTO.toString() + "]");
@@ -115,26 +115,19 @@ public class UserRoleDAOImpl implements GenericDAO<UserRole>, Constants{
 	}
 
 	@Override
-	public UserRole editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO)
-			throws SQLException {
+	public UserRole editRecord(AddOrEditDTO objGenericEditDTO) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteRecord(String sRecordIdentifier) throws SQLException {
+	public boolean deleteRecord(String sRecordIdentifier) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
 	public UserRole getLogin(String sUsername) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public UserRole getLoginJDBC(String sUsername) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

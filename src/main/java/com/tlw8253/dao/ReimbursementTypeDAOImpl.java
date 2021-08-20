@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
 import com.tlw8253.dto.AddOrEditDTO;
+import com.tlw8253.model.ReimbursementStatus;
 import com.tlw8253.model.ReimbursementType;
 import com.tlw8253.util.SessionFactorySingleton;
 
@@ -26,7 +27,7 @@ public class ReimbursementTypeDAOImpl implements GenericDAO<ReimbursementType>, 
 
 	@Override
 	public List<ReimbursementType> getAllRecords() throws SQLException {
-		String sMethod = "getAllRecords(): ";
+		String sMethod = "\n\t getAllRecords(): ";
 		objLogger.trace(sMethod + "Entered");
 
 		// load a complete persistent objects into memory
@@ -53,13 +54,41 @@ public class ReimbursementTypeDAOImpl implements GenericDAO<ReimbursementType>, 
 
 	@Override
 	public ReimbursementType getByRecordIdentifer(String sRecordIdentifier) throws SQLException, HibernateException {
-		// TODO Auto-generated method stub
-		return null;
+		String sMethod = "\n\t getByRecordIdentifer(): ";
+		objLogger.trace(sMethod + "Entered");
+			
+		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		String sHQL = "";
+
+		sHQL = "FROM ReimbursementType rt WHERE rt.reimbType = :reimbType";
+		objLogger.debug(sMethod + "sHQL: [" + sHQL + "]" + " param: sRecordIdentifier: [" + sRecordIdentifier +"]");
+		
+		try {
+			ReimbursementType objReimbursementType = 
+					(ReimbursementType) session.createQuery(sHQL)
+					.setParameter("reimbType", sRecordIdentifier)
+					.getSingleResult();
+			objLogger.debug(sMethod + "objReimbursementType: [" + objReimbursementType.toString() + "]");			
+			
+			tx.commit();
+			return objReimbursementType;
+			
+		}catch(Exception e) {
+			objLogger.error(sMethod + "Error getting Reimbursement Type by sRecordIdentifier: [" + sRecordIdentifier + "]");	
+			objLogger.error(sMethod + "Exception: cause: [" + e.getCause() + "] class name [" + e.getClass().getName() + "] [" + e.toString() + "]");
+			objLogger.error(sMethod + "Exception: message: [" + e.getMessage() + "]");	
+			return null;
+		}finally {
+			session.close();
+		}	
 	}
 
 	@Override
 	public ReimbursementType addRecord(AddOrEditDTO objAddOrEditDTO) throws SQLException, HibernateException {
-		String sMethod = "addRecord(): ";
+		String sMethod = "\n\t addRecord(): ";
 		objLogger.trace(sMethod + "Entered");
 
 		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
@@ -80,26 +109,20 @@ public class ReimbursementTypeDAOImpl implements GenericDAO<ReimbursementType>, 
 	}
 
 	@Override
-	public ReimbursementType editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO)
+	public ReimbursementType editRecord(AddOrEditDTO objGenericEditDTO)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteRecord(String sRecordIdentifier) throws SQLException {
+	public boolean deleteRecord(String sRecordIdentifier) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
 	public ReimbursementType getLogin(String sUsername) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ReimbursementType getLoginJDBC(String sUsername) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -43,11 +43,9 @@ public interface Constants {
 	String csParamPassword = "password";
 	String csParamReimStatus = "reim_status";
 
+	//other constants
+	int ciUsernameLength = 7;
 	
-	//General Model Attribute Constants
-	String csGenAtribNameValue = "non_specific_path_id";
-	
-
 	//database constants 
 	String csDatabaseName = "exp_reimb_sys";							//database name
 	
@@ -142,14 +140,23 @@ public interface Constants {
 	String csMsgDB_ErrorGettingReimbursementType = "Error with database when getting all Reimbursement Types.";
 	String csMsgDB_ErrorAddingUserRole = "Error with database when adding User Role.";
 	String csMsgDB_ErrorGettingUserRole = "Error with database when getting all User Roles.";
+	String csMsgDB_ErrorAddingReimbursement = "Database error when adding reimbursement record.";
+	
+	String csMsgDB_ErrorAddingEmployee = "Database error when adding an employee.";
+	String csMsgDB_ErrorUpdatingEmployee = "Database error when updating employee information.";
+	String csMsgDB_ErrorGettingEmployees = "Database error when getting all employees.";
+	String csMsgDB_ErrorGettingEmployeeById = "Database error when getting an employee by id.";
+	String csMsgDB_ErrorGettingEmployeeByUsername = "Database error when getting an employee by username.";
+	String csMsgDB_ErrorDeletingAnEmployee = "Database error while deleting an employee.";
+
 
 	
 	String csMsgEmployeeRecordNotFound = "Employee was not found in the database.";
 	
 	String csMsgBadParamNoPathParm = "Parmeter(s) expected. No Path Parameter(s) Received.";
-	String csMsgBadParamNoQueryParm = "Parmeter(s) expected. No Query Parameter(s) Received.";
 	String csMsgBadParamNoBodyParm = "Parmeter(s) expected. No Body Parameter(s) Received.";
 	
+	String csMsgBadParamNoQueryParm = "Parmeter(s) expected. No Query Parameter(s) Received.";
 	String csMsgBadParamQueryParm = "Parmeter(s) expected. Not right number of Query Parameter(s) received.";
 	
 	String csMsgBadParamReimbStatus = "Invalid Reimbursement Status parameters received.";
@@ -157,34 +164,18 @@ public interface Constants {
 	String csMsgBadParamUserRole = "Invalid User Role parameters received.";
 	
 	String csMsgBadParamAddUser = "One or more add User parameters are invalid.";
+	String csMsgBadParamEditUser = "One or more edit User parameters are invalid.";
+	String csMsgBadParamGetUserById = "The user id provided was not a number or was zero.";
+	String csMsgBadParamGetUserByUsername = "The user name provided was not alpha numeric or length was invalid.";
+
+	
 	String csMsgBadParamAddReimb = "One or more add Reimbursement parameters are invalid.";
 	
 	String csMsgAutenticationFailed = "Autentication failed for username and password provided.";
 	
-	String csMsgDB_ErrorAddingEmployee = "Database error when adding an employee.";
 	
-	/*
-	String csMsgDB_ErrorGettingByClientId = "Database error getting the client by id.";
-	String csMsgDB_ErrorAddingClient = "Database error when adding a client.";
-	String csMsgDB_ErrorUpdatingClient = "Database error when updating client information.";
-	String csMsgDB_ErrorDeletingClient = "Database error when deleting client information.";
-	String csMsgDB_ErrorAddingAccountForClient = "Database error while adding a new account for a client.";
-	String csMsgDB_ErrorDeletingAccountForClient = "Database error while deleteing client's account.";
-	String csMsgDB_ErrorUpdatingAccountForClient = "Database error while updating an existing account for a client.";
-	String csMsgDB_ErrorGettingAccount = "Database error while getting an account.";
 	
-	String csMsgBadParamClientId = "Client Id must be a number.";
-	String csMsgBadParamClientName = "Client first and last name must contain values.";
-	String csMsgBadParamNotInts = "One or more parameters are not numbers.";
-	String csMsgBadParamAcctNumNotNumber = "Account number must be a number.";
-	String csMsgBadParmAccountBalance = "Account balance did not tranlate to numeric value.";
 
-	String csMsgClientNotFound = "Client was not found in the database.";
-	String csMsgAccountNotFound = "Account not found in the database for the account number.";
-	String csMsgAccountNotFoundForClient = "Account not found in the database for the client.";
-	String csMsgAccountsNotFoundForClient = "Accounts were not found in the database for the client.";
-	String csMsgAcctDoesNotBelongToClient = "Account number not assigned to this client.";
-*/
 }
 
 

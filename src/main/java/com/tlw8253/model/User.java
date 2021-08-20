@@ -40,7 +40,7 @@ public class User implements Constants {
 	private String email = "";
 
 	@ManyToOne
-	@JoinColumn(name = csUserRolesTblUserRoleId, nullable = false) // optional, I just want to give my own name for the foreign key column
+	@JoinColumn(name = csUserRolesTblUserRoleId, nullable = false)
 	private UserRole userRole;
 
 	public User() {
@@ -133,7 +133,7 @@ public class User implements Constants {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
+		return "\n\t User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", email=" + email + ", userRole=" + userRole + "]";
 	}
 

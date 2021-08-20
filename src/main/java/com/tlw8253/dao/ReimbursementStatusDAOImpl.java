@@ -26,7 +26,7 @@ public class ReimbursementStatusDAOImpl implements GenericDAO<ReimbursementStatu
 
 	@Override
 	public List<ReimbursementStatus> getAllRecords() throws SQLException {
-		String sMethod = "getAllRecords(): ";
+		String sMethod = "\n\t getAllRecords(): ";
 		objLogger.trace(sMethod + "Entered");
 
 		//String sSQL = "SELECT * FROM " + csDBReimbStatusTable + ";";
@@ -47,20 +47,77 @@ public class ReimbursementStatusDAOImpl implements GenericDAO<ReimbursementStatu
 	}
 
 	@Override
-	public ReimbursementStatus getByRecordId(int sRecordId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public ReimbursementStatus getByRecordId(int iRecordId) throws SQLException {
+		String sMethod = "\n\t getByRecordId(): ";
+		objLogger.trace(sMethod + "Entered");
+			
+		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		String sHQL = "";
+
+		sHQL = "FROM ReimbursementStatus rs WHERE rs.reimbStatusId = :reimbStatusId"; //this works with using setParameter
+		objLogger.debug(sMethod + "sHQL: [" + sHQL + "]" + " param: iRecordId: [" + iRecordId +"]");
+		
+		try {
+			ReimbursementStatus objReimbursementStatus = 
+					(ReimbursementStatus) session.createQuery(sHQL)
+					.setParameter("reimbStatusId", iRecordId)
+					.getSingleResult();
+			objLogger.debug(sMethod + "objReimbursementStatus: [" + objReimbursementStatus.toString() + "]");
+			
+			
+			tx.commit();
+			return objReimbursementStatus;
+			
+		}catch(Exception e) {
+			objLogger.error(sMethod + "Exception: cause: [" + e.getCause() + "] class name [" + e.getClass().getName() + "] [" + e.toString() + "]");
+			objLogger.error(sMethod + "Exception: message: [" + e.getMessage() + "]");	
+			return null;
+		}finally {
+			session.close();
+		}	
+
 	}
 
 	@Override
 	public ReimbursementStatus getByRecordIdentifer(String sRecordIdentifier) throws SQLException, HibernateException {
-		// TODO Auto-generated method stub
-		return null;
+		String sMethod = "\n\t getByRecordIdentifer(): ";
+		objLogger.trace(sMethod + "Entered");
+			
+		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		String sHQL = "";
+
+		sHQL = "FROM ReimbursementStatus rs WHERE rs.reimbStatus = :reimbStatus";
+		objLogger.debug(sMethod + "sHQL: [" + sHQL + "]" + " param: sRecordIdentifier: [" + sRecordIdentifier +"]");
+		
+		try {
+			ReimbursementStatus objReimbursementStatus = 
+					(ReimbursementStatus) session.createQuery(sHQL)
+					.setParameter("reimbStatus", sRecordIdentifier)
+					.getSingleResult();
+			objLogger.debug(sMethod + "objReimbursementStatus: [" + objReimbursementStatus.toString() + "]");			
+			
+			tx.commit();
+			return objReimbursementStatus;
+			
+		}catch(Exception e) {
+			objLogger.error(sMethod + "Error getting Reimbursement Status by sRecordIdentifier: [" + sRecordIdentifier + "]");
+			objLogger.error(sMethod + "Exception: cause: [" + e.getCause() + "] class name [" + e.getClass().getName() + "] [" + e.toString() + "]");
+			objLogger.error(sMethod + "Exception: message: [" + e.getMessage() + "]");	
+			return null;
+		}finally {
+			session.close();
+		}	
 	}
 
 	@Override
 	public ReimbursementStatus addRecord(AddOrEditDTO objAddOrEditDTO) throws SQLException, HibernateException {
-		String sMethod = "addRecord(): ";
+		String sMethod = "\n\t addRecord(): ";
 		objLogger.trace(sMethod + "Entered");
 
 		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
@@ -81,26 +138,20 @@ public class ReimbursementStatusDAOImpl implements GenericDAO<ReimbursementStatu
 	}
 
 	@Override
-	public ReimbursementStatus editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO)
+	public ReimbursementStatus editRecord(AddOrEditDTO objGenericEditDTO)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void deleteRecord(String sRecordIdentifier) throws SQLException {
+	public boolean deleteRecord(String sRecordIdentifier) throws SQLException {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
 	public ReimbursementStatus getLogin(String sUsername) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ReimbursementStatus getLoginJDBC(String sUsername) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

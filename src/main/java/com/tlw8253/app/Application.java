@@ -6,11 +6,6 @@ import org.slf4j.LoggerFactory;
 import com.tlw8253.controller.Controller;
 import com.tlw8253.controller.ERSAdminController;
 import com.tlw8253.controller.ExceptionController;
-/*
-import com.tlw8253.controller.AccountController;
-import com.tlw8253.controller.ClientController;
-*/
-//import com.tlw8253.controller.TestController; TODO:
 import com.tlw8253.controller.ERSController;
 
 import io.javalin.Javalin;
@@ -31,10 +26,15 @@ public class Application implements Constants {
 	private static Javalin objJavalinApp;
 	
 	public static void main(String[] args) {
-		String sMethod = "main(): ";		
+		String sMethod = "\n\t main(): ";		
 		objLogger.trace(sMethod + "Entered");
+
+		objJavalinApp = Javalin.create((config) -> {
+			config.enableCorsForAllOrigins();
+		});
+
+//		objJavalinApp = Javalin.create();		
 		
-		objJavalinApp = Javalin.create();
 		objLogger.debug(sMethod + "mapControllers(new ExceptionController(), new ERSController(), new ERSAdminController());");
 		mapControllers(/*new TestController(),*/ new ExceptionController(), new ERSController(), new ERSAdminController());
 		
@@ -47,7 +47,7 @@ public class Application implements Constants {
 	//
 	//###
 	public static void mapControllers(Controller... controllers) {
-		String sMethod = "mapControllers(): ";		
+		String sMethod = "\n\t mapControllers(): ";		
 		objLogger.trace(sMethod + "Entered");
 
 		for (Controller c : controllers) {

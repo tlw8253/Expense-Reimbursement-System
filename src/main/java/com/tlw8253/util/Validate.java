@@ -57,7 +57,17 @@ public final class Validate {
 		boolean bIsValid = false;
 
 		bIsValid = sValue.matches("[A-Za-z]+");
-		objLogger.debug(sMethod + "String value of: [" + sValue + "] is AlphaNumeric: [" + bIsValid + "]");
+		objLogger.debug(sMethod + "String value of: [" + sValue + "] is isAlpha: [" + bIsValid + "]");
+
+		return bIsValid;
+	}
+
+	public static boolean isAlphaPlusLastname(String sValue) {
+		String sMethod = "isAlpha(): ";
+		boolean bIsValid = false;
+
+		bIsValid = sValue.matches("[A-Za-z -]+");
+		objLogger.debug(sMethod + "String value of: [" + sValue + "] is Alpha Plus: [" + bIsValid + "]");
 
 		return bIsValid;
 	}

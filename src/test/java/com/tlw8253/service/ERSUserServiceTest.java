@@ -30,16 +30,16 @@ import com.tlw8253.exception.DatabaseException;
 import com.tlw8253.model.Reimbursement;
 import com.tlw8253.model.User;
 
-public class ERSServiceTest implements Constants {
-	private static Logger objLogger = LoggerFactory.getLogger(ERSServiceTest.class);
+public class ERSUserServiceTest implements Constants {
+	private static Logger objLogger = LoggerFactory.getLogger(ERSUserServiceTest.class);
 
-	private ERSService objMockERSServiceUser;
-	private ERSService objMockERSServiceReimbursement;
+	private ERSUserService objMockERSServiceUser;
+	private ERSUserService objMockERSServiceReimbursement;
 
 	private GenericDAO<User> objMockUserDAO;
 	private GenericDAO<Reimbursement> objMockReimbursementDAO;
 
-	public ERSServiceTest() {
+	public ERSUserServiceTest() {
 		super();
 	}
 
@@ -58,9 +58,9 @@ public class ERSServiceTest implements Constants {
 		objLogger.trace("setUp()");
 		// fake DAO using the GenericDAO<T> interface class
 		this.objMockUserDAO = mock(GenericDAO.class);
-		this.objMockERSServiceUser = new ERSService().getMockUserDAO(objMockUserDAO);
+		this.objMockERSServiceUser = new ERSUserService().getMockUserDAO(objMockUserDAO);
 		this.objMockReimbursementDAO = mock(GenericDAO.class);
-		this.objMockERSServiceReimbursement = new ERSService().getMockReimbursementDAO(objMockReimbursementDAO);
+		this.objMockERSServiceReimbursement = new ERSUserService().getMockReimbursementDAO(objMockReimbursementDAO);
 	}
 
 	@After
@@ -102,4 +102,7 @@ public class ERSServiceTest implements Constants {
 
 	}
 
+	
+	
+	
 }

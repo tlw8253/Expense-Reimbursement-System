@@ -120,9 +120,15 @@ public class ReimbursementDTO extends AddOrEditDTO implements Constants{
 	public void setReimbStatus(String reimbStatus) {
 		super.setDataElement(csReimbTblReimbStatus, reimbStatus);
 	}
+	public void setReimbStatusId(int reimbStatusId) {
+		super.setDataElement(csReimbTblReimbStatusId, reimbStatusId);
+	}
 
 	public void setReimbType(String reimbType) {
 		super.setDataElement(csReimbTblReimbType, reimbType);
+	}
+	public void setReimbTypeId(int reimbTypeId) {
+		super.setDataElement(csReimbTblReimbTypeId, reimbTypeId);
 	}
 
 

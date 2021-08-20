@@ -40,12 +40,11 @@ public interface GenericDAO<T> {
 
 	public abstract T addRecord(AddOrEditDTO objGenericAddDTO) throws SQLException;
 	
-	public abstract T editRecord(String sRecordIdentifier, AddOrEditDTO objGenericEditDTO) throws SQLException;
+	//all info will be passed through the DTO
+	public abstract T editRecord(AddOrEditDTO objGenericEditDTO) throws SQLException;
 	
-	public abstract void deleteRecord(String sRecordIdentifier) throws SQLException;
+	public abstract boolean deleteRecord(String sRecordIdentifier) throws SQLException;
 	
 	public abstract T getLogin(String sUsername) throws SQLException;
 	
-	public abstract T getLoginJDBC(String sUsername) throws SQLException;
-
 }

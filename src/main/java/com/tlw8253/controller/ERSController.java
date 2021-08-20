@@ -12,11 +12,11 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
 import com.tlw8253.model.User;
-import com.tlw8253.service.ERSService;
+import com.tlw8253.service.ERSUserService;
 
 public class ERSController implements Controller, Constants {
 	private Logger objLogger = LoggerFactory.getLogger(ERSController.class);
-	private ERSService objErsService;
+	private ERSUserService objErsService;
 
 	Map<String, String> mPathParmaMap;
 	Map<String, List<String>> mQueryParmaMap;
@@ -25,7 +25,7 @@ public class ERSController implements Controller, Constants {
 	boolean bmQueryParmaMapIsEmpty = true;
 
 	public ERSController() {		
-		this.objErsService = new ERSService();
+		this.objErsService = new ERSUserService();
 	}
 
 	//

@@ -2,7 +2,7 @@
 
 let button = document.getElementById('btn_login');
 button.addEventListener('click', retrieveDataWithFetchAsyncAwait);
-const url='http://localhost:3015/ers_login_jdbc';
+const url='http://localhost:3015/ers_login';
 
 /**
  * Fetch API (modern way)
@@ -18,7 +18,6 @@ function retrieveDataWithFetch() {
 
     // The fetch function returns what is known as a 'Promise'
     fetch(sLoginURL, {
-      'mode' : 'no-cors',
         'method': 'GET'
      }).then((data) => {
         return data.json(); // data.json() will return yet another promise
@@ -39,7 +38,6 @@ async function retrieveDataWithFetchAsyncAwait() {
   
     try {
         let data = await fetch(sLoginURL, {                     
-          'method': 'GET',
           'mode' : 'no-cors',          
         });
 

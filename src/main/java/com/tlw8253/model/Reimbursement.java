@@ -41,11 +41,11 @@ public class Reimbursement implements Constants {
 	private SerialBlob reimbReceipt = null;
 
 	@ManyToOne
-	@JoinColumn(name = csReimbTblReimbAuthor, nullable = false) // optional, I just want to give my own name for the foreign key column
+	@JoinColumn(name = csReimbTblReimbAuthorId, nullable = false) // optional, I just want to give my own name for the foreign key column
 	private User reimbAuthor;
 
 	@ManyToOne
-	@JoinColumn(name = csReimbTblReimbResolver, nullable = false) // optional, I just want to give my own name for the foreign key column
+	@JoinColumn(name = csReimbTblReimbResolverId) // optional, I just want to give my own name for the foreign key column
 	private User reimbResolver;
 
 	@ManyToOne
@@ -65,6 +65,13 @@ public class Reimbursement implements Constants {
 		reimbResolved = new Timestamp(0);
 	}
 
+	public Reimbursement(double dReimAmount, Timestamp tsReimbSubmitted, Timestamp tsReimbResolved, String sReimbDescription, SerialBlob sbReimbReceipt) {
+		this.reimbAmount = dReimAmount;
+		this.reimbSubmitted = tsReimbSubmitted;
+		this.reimbResolved = tsReimbResolved;
+		this.reimbDescription = sReimbDescription;
+		this.reimbReceipt = sbReimbReceipt;	
+	}
 
 	public int getReimbId() {
 		return reimbId;
@@ -194,7 +201,7 @@ public class Reimbursement implements Constants {
 
 	@Override
 	public String toString() {
-		return "Reimbursement [reimbId=" + reimbId + ", reimbAmount=" + reimbAmount + ", reimbSubmitted="
+		return "\n\t Reimbursement [reimbId=" + reimbId + ", reimbAmount=" + reimbAmount + ", reimbSubmitted="
 				+ reimbSubmitted + ", reimbResolved=" + reimbResolved + ", reimbDescription=" + reimbDescription
 				+ ", reimbReceipt=" + reimbReceipt + ", reimbAuthor=" + reimbAuthor + ", reimbResolver=" + reimbResolver
 				+ ", reimbStatus=" + reimbStatus + ", reimbType=" + reimbType + "]";
