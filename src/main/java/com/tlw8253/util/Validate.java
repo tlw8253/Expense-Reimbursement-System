@@ -181,5 +181,20 @@ public final class Validate {
 
 		return bIsValid;
 	}
+	
+	public static boolean isValidValueInArray(String sValue, String[] arrValues) {
+		boolean bValid = false;
+		
+		for (int iCtr=0; iCtr<arrValues.length; iCtr++) {
+			if(sValue.equalsIgnoreCase(arrValues[iCtr])) {
+				bValid = true;
+				break;
+			}
+		}
+
+		return bValid;
+	}
+	
+	
 
 }

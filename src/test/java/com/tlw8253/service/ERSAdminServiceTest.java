@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*; // You may need to type this import manually to make use of 
-// the argument matchers for Mockito, such as eq() or any()
+//the argument matchers for Mockito, such as eq() or any()
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -38,16 +38,16 @@ import com.tlw8253.model.UserRole;
 public class ERSAdminServiceTest implements Constants {
 	private static Logger objLogger = LoggerFactory.getLogger(ERSAdminServiceTest.class);
 	
-	private ERSAdminService objMockReimbStatus;
-	private ERSAdminService objMockReimbType;
-	private ERSAdminService objMockUserRole;
+	private ERSAdminService objMockAdminServiceReimbStatus;
+	private ERSAdminService objMockAdminServiceReimbType;
+	private ERSAdminService objMockAdminServiceUserRole;
 	
 	private GenericDAO<ReimbursementStatus> objMockReimbStatusDAO;
 	private GenericDAO<ReimbursementType> objMockReimbTypeDAO;
 	private GenericDAO<UserRole> objMockUserRoleDAO;
 
 	public ERSAdminServiceTest() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	@BeforeClass
@@ -65,11 +65,11 @@ public class ERSAdminServiceTest implements Constants {
 		objLogger.trace("setUp()");
 		//fake DAO using the GenericDAO<T> interface class		
 		this.objMockReimbStatusDAO = mock(GenericDAO.class);
-		this.objMockReimbStatus = new ERSAdminService().getMockReimbStatusDAO(objMockReimbStatusDAO);
+		this.objMockAdminServiceReimbStatus = new ERSAdminService().getMockReimbStatusDAO(objMockReimbStatusDAO);
 		this.objMockReimbTypeDAO = mock(GenericDAO.class);
-		this.objMockReimbType = new ERSAdminService().getMockReimbTypeDAO(objMockReimbTypeDAO);
+		this.objMockAdminServiceReimbType = new ERSAdminService().getMockReimbTypeDAO(objMockReimbTypeDAO);
 		this.objMockUserRoleDAO = mock(GenericDAO.class);
-		this.objMockUserRole = new ERSAdminService().getMockUserRoleDAO(objMockUserRoleDAO);
+		this.objMockAdminServiceUserRole = new ERSAdminService().getMockUserRoleDAO(objMockUserRoleDAO);
 	}
 
 	@After
@@ -85,7 +85,7 @@ public class ERSAdminServiceTest implements Constants {
 		ReimbursementStatusDTO objReimStatusDTO = new ReimbursementStatusDTO("REJECTED","The request was rejected.");
 		when(objMockReimbStatusDAO.addRecord(objReimStatusDTO)).thenReturn(mockRetValues);
 	
-		ReimbursementStatus objActualValues = objMockReimbStatus.addReimbursementStatus(objReimStatusDTO);
+		ReimbursementStatus objActualValues = objMockAdminServiceReimbStatus.addReimbursementStatus(objReimStatusDTO);
 		
 		ReimbursementStatus objExpectedValues = new ReimbursementStatus("REJECTED","The request was rejected.");
 		
@@ -100,7 +100,7 @@ public class ERSAdminServiceTest implements Constants {
 		when(objMockReimbStatusDAO.addRecord(objReimStatusDTO)).thenThrow(SQLException.class);
 
 		try {
-			objMockReimbStatus.addReimbursementStatus(objReimStatusDTO);
+			objMockAdminServiceReimbStatus.addReimbursementStatus(objReimStatusDTO);
 			fail();
 			
 		}catch(DatabaseException e) {		
@@ -115,7 +115,7 @@ public class ERSAdminServiceTest implements Constants {
 		// invalid status length
 		ReimbursementStatusDTO objReimStatusDTO = new ReimbursementStatusDTO("","The request was rejected.");
 		try {
-			objMockReimbStatus.addReimbursementStatus(objReimStatusDTO);
+			objMockAdminServiceReimbStatus.addReimbursementStatus(objReimStatusDTO);
 			fail();
 			
 		}catch(BadParameterException e) {		
@@ -130,7 +130,7 @@ public class ERSAdminServiceTest implements Constants {
 		//invalid status description length
 		ReimbursementStatusDTO objReimStatusDTO = new ReimbursementStatusDTO("REJECT","");
 		try {
-			objMockReimbStatus.addReimbursementStatus(objReimStatusDTO);
+			objMockAdminServiceReimbStatus.addReimbursementStatus(objReimStatusDTO);
 			fail();
 			
 		}catch(BadParameterException e) {		
@@ -168,7 +168,7 @@ public class ERSAdminServiceTest implements Constants {
 		when(objMockReimbStatusDAO.getAllRecords()).thenThrow(SQLException.class);
 
 		try {
-			objMockReimbStatus.getAllReimbursementStatus();
+			objMockAdminServiceReimbStatus.getAllReimbursementStatus();
 			fail();
 			
 		}catch(DatabaseException e) {		
@@ -185,7 +185,7 @@ public class ERSAdminServiceTest implements Constants {
 		ReimbursementTypeDTO objReimbTypeDTO = new ReimbursementTypeDTO("MOVIE","Expenses related to watching movies.");
 		when(objMockReimbTypeDAO.addRecord(objReimbTypeDTO)).thenReturn(mockRetValues);
 	
-		ReimbursementType objActualValues = objMockReimbType.addReimbursementType(objReimbTypeDTO);
+		ReimbursementType objActualValues = objMockAdminServiceReimbType.addReimbursementType(objReimbTypeDTO);
 		
 		ReimbursementType objExpectedValues = new ReimbursementType("MOVIE","Expenses related to watching movies.");
 		
@@ -225,7 +225,7 @@ public class ERSAdminServiceTest implements Constants {
 		UserRoleDTO objUserRoleDTO = new UserRoleDTO("PEON","Lowest level employee assigned all the undesirable tasks.");
 		when(objMockUserRoleDAO.addRecord(objUserRoleDTO)).thenReturn(mockRetValues);
 	
-		UserRole objActualValues = objMockUserRole.addUserRole(objUserRoleDTO);
+		UserRole objActualValues = objMockAdminServiceUserRole.addUserRole(objUserRoleDTO);
 		
 		UserRole objExpectedValues = new UserRole("PEON","Lowest level employee assigned all the undesirable tasks.");
 		

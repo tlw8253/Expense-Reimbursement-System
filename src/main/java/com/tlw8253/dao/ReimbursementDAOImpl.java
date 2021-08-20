@@ -17,10 +17,10 @@ import com.tlw8253.model.Reimbursement;
 import com.tlw8253.util.SessionFactorySingleton;
 
 
-public class ReimbursementDAO implements GenericDAO<Reimbursement>, Constants{
-	private Logger objLogger = LoggerFactory.getLogger(ReimbursementDAO.class);
+public class ReimbursementDAOImpl implements GenericDAO<Reimbursement>, Constants{
+	private Logger objLogger = LoggerFactory.getLogger(ReimbursementDAOImpl.class);
 
-	public ReimbursementDAO() {
+	public ReimbursementDAOImpl() {
 		super();
 	}
 

@@ -1,16 +1,19 @@
 package com.tlw8253.service;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
 import com.tlw8253.dao.GenericDAO;
+import com.tlw8253.dao.ReimbursementDAOImpl;
 import com.tlw8253.dao.UserDAOImpl;
 import com.tlw8253.dto.ReimbursementDTO;
 import com.tlw8253.dto.UserDTO;
@@ -26,8 +29,20 @@ public class ERSService implements Constants {
 
 	public ERSService() {
 		this.objUserDAO = new UserDAOImpl();
+		this.objReimbursementDAO = new ReimbursementDAOImpl();
 	}
 
+	public ERSService getMockUserDAO(GenericDAO<User> objMockUserDAO) {
+		this.objUserDAO = objMockUserDAO;
+		return this;
+	}
+
+	public ERSService getMockReimbursementDAO(GenericDAO<Reimbursement> objMockReimbursementDAO) {
+		this.objReimbursementDAO = objMockReimbursementDAO;
+		return this;
+	}
+	
+	/*
 	private boolean isValidUserRole(String sUserRole) {
 		boolean bValid = false;
 		
@@ -40,7 +55,9 @@ public class ERSService implements Constants {
 		
 		return bValid;
 	}
+	*/
 	
+
 	
 	//
 	//### move the validation logic to public method so it 
@@ -63,7 +80,8 @@ public class ERSService implements Constants {
 		boolean bLastNameIsAlpha = Validate.isAlpha(sLastName);
 		boolean bPasswordIsInFormat = Validate.isPasswordFormat(sPassword);
 		boolean bEmailIsInFormat = Validate.isValidEmailAddress(sEmail);
-		boolean bUserRoleNameIsValid = isValidUserRole(sUserRoleName);
+		//boolean bUserRoleNameIsValid = isValidUserRole(sUserRoleName);
+		boolean bUserRoleNameIsValid = Validate.isValidValueInArray(sUserRoleName, csUserRoles);
 
 		if (bUsernameIsAlphaNumeric && bFirstNameIsAlpha && bLastNameIsAlpha && bPasswordIsInFormat
 				&& bEmailIsInFormat && bUserRoleNameIsValid) {
@@ -102,33 +120,85 @@ public class ERSService implements Constants {
 			}
 
 		} else {
+			objLogger.warn(sMethod + "objUserDTO is not valid: [" + objUserDTO.toString() + "]");
 			throw new BadParameterException(csMsgBadParamAddUser);
 		}
 	}
 
 	
+	//
+	//###
 	public boolean isValidReimbursementDTO(ReimbursementDTO objReimbDTO) {
+		String sMethod = "isValidReimbursementDTO(): ";
+		objLogger.trace(sMethod + "Entered");
 		boolean bValid = false;
 		
 		String sReimbAmount = objReimbDTO.getReimbAmount();				//validate as double and > 0
-		Timestamp tsReimbSubmitted = objReimbDTO.getReimbSubmitted();	//validate as time value
-		Timestamp tsReimbApprover = objReimbDTO.getReimbResolved();		//validate is 0, can't have a resolver's ts
 		String sReimbDescription = objReimbDTO.getReimbDescription();	//validate contains value > 10 characters
 		SerialBlob sbReimbReceipt = objReimbDTO.getReimbReceipt();		//validate it has something
-		int iReimbAuthorId = objReimbDTO.getReimbAuthorIdAsInt();		//validate as integer and > 0
-		int iReimbResolverId = objReimbDTO.getReimbResolverIdAsInt();	//validate is 0, can't have a resolver on new request
+		String sReimbAuthorId = objReimbDTO.getReimbAuthorId();			//validate as integer and > 0
+		String sReimbResolverId = objReimbDTO.getReimbResolverId();		//validate as integer and > 0
 		String sReimbStatus = objReimbDTO.getReimbStatus();				//validate value is in constant array
 		String sReimbType = objReimbDTO.getReimbType();					//validate value is in constant array
 		
 		
+		boolean bReimbAmount = (Validate.isDouble(sReimbAmount) && Double.parseDouble(sReimbAmount) > 0);
+		boolean bReimbDescription = (sReimbDescription.length() >= 10);
+		boolean bReimbReceipt = false;
+		try {
+			bReimbReceipt = (sbReimbReceipt.length() > 0);
+			bReimbReceipt = true;
+		}catch(SerialException e) {
+			objLogger.warn(sMethod + "SerialException: [" + e.getMessage() + "]");			
+		}
+		boolean bReimbAuthorId = (Validate.isInt(sReimbAuthorId));
+		boolean bReimbResolverId = (Validate.isInt(sReimbResolverId));
+		boolean bReimbStatus = Validate.isValidValueInArray(sReimbStatus, csReimbStatus);
+		boolean bReimbType = Validate.isValidValueInArray(sReimbType, csReimbType);
+		
+		if (bReimbAmount && bReimbDescription && bReimbReceipt && bReimbAuthorId && bReimbResolverId && bReimbStatus && bReimbType) {
+			objLogger.debug(sMethod + "Validated ReimbursementDTO: [" + objReimbDTO.toString() + "]");
+			bValid = true;
+		}else {
+			objLogger.warn(sMethod + "One or more add Reimbursement Parameters did not pass validation.:");
+			objLogger.warn(sMethod + "\t Reimbursement Amount: [" + sReimbAmount + "] is valid: [" + bReimbAmount + "]");			
+			objLogger.warn(sMethod + "\t Reimbursement Description: [" + sReimbDescription + "] is valid: [" + bReimbDescription + "]");
+			objLogger.warn(sMethod + "\t Reimbursement Receipt is valid: [" + bReimbReceipt + "]");
+			objLogger.warn(sMethod + "\t Reimbursement AuthorId: [" + sReimbAuthorId + "] is valid: [" + bReimbAuthorId + "]");
+			objLogger.warn(sMethod + "\t Reimbursement ResolverId: [" + sReimbResolverId + "] is valid: [" + bReimbResolverId + "]");
+			objLogger.warn(sMethod + "\t Reimbursement Status: [" + sReimbStatus + "] is valid: [" + bReimbStatus + "]");
+			objLogger.warn(sMethod + "\t Reimbursement Type: [" + sReimbType + "] is valid: [" + bReimbType + "]");
+		}
+		
 		return bValid;
 	}
 	
-	
+	//
+	//###
 	public Reimbursement addNewReimbursement(ReimbursementDTO objReimbursementDTO) throws DatabaseException, BadParameterException {
 		String sMethod = "addNewReimbursement(): ";
 		objLogger.trace(sMethod + "Entered");
 		
+		Timestamp objSubmitTimestamp = Timestamp.valueOf(LocalDateTime.now());
+		objReimbursementDTO.setReimbSubmitted(objSubmitTimestamp);	//set timestamp for new request for the submitter to now
+		Timestamp objResolveTimestamp = new Timestamp(0);			
+		objReimbursementDTO.setReimbResolved(objResolveTimestamp);	//set timestamp for new request for the resolver to 0
+		objReimbursementDTO.setReimbStatus(csReimbStatus[ciReimbStatusPending]);
+		objReimbursementDTO.setReimbResolverId("0");  		//Cannot have a resolver when creating a new request.
+		
+		if (isValidReimbursementDTO(objReimbursementDTO)) {
+			int iReimbAuthorId = Integer.parseInt(objReimbursementDTO.getReimbAuthorId());//was validated to be an int
+			if (iReimbAuthorId > 0) {//must have a id greater than 0
+				//call DAO next
+			}else {
+				objLogger.warn(sMethod + "Author Id cannot be zero iReimbAuthorId: [" + iReimbAuthorId + "]");
+				throw new BadParameterException(csMsgBadParamAddReimb);				
+			}
+			
+		}else {
+			objLogger.warn(sMethod + "objReimbursementDTO is not valid: [" + objReimbursementDTO.toString() + "]");
+			throw new BadParameterException(csMsgBadParamAddReimb);
+		}
 		
 		
 		return null;

@@ -1,15 +1,23 @@
 package com.tlw8253.app;
 
+import java.sql.SQLException;
+
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tlw8253.dto.ReimbursementDTO;
 import com.tlw8253.dto.ReimbursementStatusDTO;
 import com.tlw8253.dto.ReimbursementTypeDTO;
 import com.tlw8253.dto.UserDTO;
 import com.tlw8253.dto.UserRoleDTO;
+import com.tlw8253.exception.BadParameterException;
+import com.tlw8253.exception.DatabaseException;
 import com.tlw8253.model.ReimbursementStatus;
 import com.tlw8253.model.ReimbursementType;
 import com.tlw8253.model.User;
@@ -30,7 +38,8 @@ import com.tlw8253.util.*;
 public class Admin implements Constants {
 	private static Logger objLogger = LoggerFactory.getLogger(Admin.class);
 	private static ERSService objERSService = new ERSService();
-	private static UserDTO objUserDTO;
+	private static UserDTO objUserDTO = new UserDTO();
+	private static ReimbursementDTO objReimbDTO = new ReimbursementDTO();
 
 	public Admin() {
 		// TODO Auto-generated constructor stub
@@ -42,10 +51,58 @@ public class Admin implements Constants {
 
 		// createTablesViaHibernate(); //NOTE: change configuration file to create
 		// ersAdminAddStaticTableValues();
-		addNewUser("tlw8253", "A_Pass12345", "Tomas", "Ykel", "tlw8253@wws.com", csUserRoles[ciUserRoleEmployee]);
-
+		// addNewUser("tlw8253", "A_Pass12345", "Tomas", "Ykel", "tlw8253@wws.com", csUserRoles[ciUserRoleEmployee]);
+		addNewReimbursement();
+		
+		
+		
 	}
 
+	//
+	//###
+	public static void addNewReimbursement() {		
+		byte[] b = {15,16,17,18};
+		SerialBlob sbBlob = null;
+		
+		boolean bContinue=false;
+		try {
+			sbBlob = new SerialBlob(b);
+			bContinue = true;
+		} catch (SerialException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if (bContinue) {
+			objReimbDTO.setReimbAmount("100.23");
+			objReimbDTO.setReimbDescription("Food bought while traveling for business.");
+			objReimbDTO.setReimbReceipt(sbBlob);
+			objReimbDTO.setReimbAuthorId("1");
+			objReimbDTO.setReimbType(csReimbType[ciReimbTypeFood]);
+			//other DTO values set in add routine as defaults for processing type
+			try {
+				objERSService.addNewReimbursement(objReimbDTO);
+			} catch (DatabaseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (BadParameterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		
+		
+		
+	}
+		
+	
+	
 	//
 	// ###
 	public static void addNewUser(String sUsername, String sPassword, String sFirstName, String sLastName,

@@ -50,10 +50,16 @@ public class ReimbursementDTO extends AddOrEditDTO implements Constants{
 		return super.getSerialBlobDataElement(csReimbTblReimbReceipt);
 	}
 
+	public String getReimbAuthorId() {
+		return super.getDataElement(csReimbTblReimbAuthorId);
+	}
 	public int getReimbAuthorIdAsInt() {
 		return super.getIntDataElement(csReimbTblReimbAuthorId);
 	}
 
+	public String getReimbResolverId() {
+		return super.getDataElement(csReimbTblReimbResolverId);
+	}
 	public int getReimbResolverIdAsInt() {
 		return super.getIntDataElement(csReimbTblReimbResolverId);
 	}
@@ -74,6 +80,9 @@ public class ReimbursementDTO extends AddOrEditDTO implements Constants{
 		super.setDataElement(csReimbTblReimbId, reimbId);
 	}
 
+	public void setReimbAmount(String reimbAmount) {
+		super.setDataElement(csReimbTblReimbAmount, reimbAmount);
+	}
 	public void setReimbAmount(double reimbAmount) {
 		super.setDataElement(csReimbTblReimbAmount, reimbAmount);
 	}
@@ -94,10 +103,16 @@ public class ReimbursementDTO extends AddOrEditDTO implements Constants{
 		super.setDataElement(csReimbTblReimbReceipt, reimbReceipt);
 	}
 
+	public void setReimbAuthorId(String reimbAuthorId) {
+		super.setDataElement(csReimbTblReimbAuthorId, reimbAuthorId);
+	}
 	public void setReimbAuthorId(int reimbAuthorId) {
 		super.setDataElement(csReimbTblReimbAuthorId, reimbAuthorId);
 	}
 
+	public void setReimbResolverId(String reimbResolverId) {
+		super.setDataElement(csReimbTblReimbResolverId, reimbResolverId);
+	}
 	public void setReimbResolverId(int reimbResolverId) {
 		super.setDataElement(csReimbTblReimbResolverId, reimbResolverId);
 	}

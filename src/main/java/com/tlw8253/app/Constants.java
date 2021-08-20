@@ -156,7 +156,8 @@ public interface Constants {
 	String csMsgBadParamReimbType = "Invalid Reimbursement Type parameters received.";
 	String csMsgBadParamUserRole = "Invalid User Role parameters received.";
 	
-	String csMsgBadParamAddUser = "One or more add user parameters are invalid.";
+	String csMsgBadParamAddUser = "One or more add User parameters are invalid.";
+	String csMsgBadParamAddReimb = "One or more add Reimbursement parameters are invalid.";
 	
 	String csMsgAutenticationFailed = "Autentication failed for username and password provided.";
 	

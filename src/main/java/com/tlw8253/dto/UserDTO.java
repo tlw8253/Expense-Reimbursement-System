@@ -23,7 +23,7 @@ public class UserDTO extends AddOrEditDTO implements Constants{
 		setEmail(email);
 		setUserRoleName(userRole);
 	}
-	
+
 	public String getUserId() {
 		return super.getDataElement(csUserTblId);
 	}
