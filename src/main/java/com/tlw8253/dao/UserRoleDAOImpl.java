@@ -132,4 +132,10 @@ public class UserRoleDAOImpl implements GenericDAO<UserRole>, Constants{
 		return null;
 	}
 
+	@Override
+	public List<UserRole> getListByRecordIdentifer(int iListId, String sRecordIdentifier) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -293,4 +293,10 @@ public class UserDAOImpl implements GenericDAO<User>, Constants {
 		return null;
 	}
 
+	@Override
+	public List<User> getListByRecordIdentifer(int iListId, String sRecordIdentifier) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -60,7 +60,7 @@ public class ERSUserServiceTest implements Constants {
 		this.objMockUserDAO = mock(GenericDAO.class);
 		this.objMockERSServiceUser = new ERSUserService().getMockUserDAO(objMockUserDAO);
 		this.objMockReimbursementDAO = mock(GenericDAO.class);
-		this.objMockERSServiceReimbursement = new ERSUserService().getMockReimbursementDAO(objMockReimbursementDAO);
+//		this.objMockERSServiceReimbursement = new ERSUserService().getMockReimbursementDAO(objMockReimbursementDAO);
 	}
 
 	@After

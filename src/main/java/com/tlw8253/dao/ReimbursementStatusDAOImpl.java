@@ -156,4 +156,10 @@ public class ReimbursementStatusDAOImpl implements GenericDAO<ReimbursementStatu
 		return null;
 	}
 
+	@Override
+	public List<ReimbursementStatus> getListByRecordIdentifer(int iListId, String sRecordIdentifier) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

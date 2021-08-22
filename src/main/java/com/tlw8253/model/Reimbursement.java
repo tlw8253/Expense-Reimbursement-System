@@ -41,19 +41,19 @@ public class Reimbursement implements Constants {
 	private SerialBlob reimbReceipt = null;
 
 	@ManyToOne
-	@JoinColumn(name = csReimbTblReimbAuthorId, nullable = false) // optional, I just want to give my own name for the foreign key column
+	@JoinColumn(name = csReimbTblReimbAuthorId, nullable = false) // 
 	private User reimbAuthor;
 
 	@ManyToOne
-	@JoinColumn(name = csReimbTblReimbResolverId) // optional, I just want to give my own name for the foreign key column
+	@JoinColumn(name = csReimbTblReimbResolverId) // 
 	private User reimbResolver;
 
 	@ManyToOne
-	@JoinColumn(name = csReimbStatusTblReimbStatusId, nullable = false) // optional, I just want to give my own name for the foreign key column
+	@JoinColumn(name = csReimbStatusTblReimbStatusId, nullable = false) // 
 	private ReimbursementStatus reimbStatus;
 
 	@ManyToOne
-	@JoinColumn(name = csReimbTypeTblReimbTypeId, nullable = false) // optional, I just want to give my own name for the foreign key column
+	@JoinColumn(name = csReimbTypeTblReimbTypeId, nullable = false) // 
 	private ReimbursementType reimbType;
 
 	

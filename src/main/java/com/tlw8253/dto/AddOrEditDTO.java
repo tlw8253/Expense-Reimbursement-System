@@ -107,16 +107,6 @@ public class AddOrEditDTO {
 		String sMethod = "\n\t toStringByKeys(): ";
 		String sToString = "";
 
-		/*
-		for (int iCtr=0; iCtr<sKey.length; iCtr++) {
-			String sThisKey = sKey[iCtr];
-			objLogger.debug(sMethod + "sKey[" + sKey + "]: [" + sKey[iCtr] + "]" );
-			
-			sToString += "[" + sThisKey + "]: [" + hmStringDataElements.get(sThisKey) + "] ";			
-		}
-		objLogger.debug(sMethod + "[" + sToString + "]");		
-		*/
-		
 		sToString = Utility.hashMapToStringByByKeyOrder(hmStringDataElements, sKey);
 		objLogger.debug(sMethod + "[" + sToString + "]");
 		
@@ -131,8 +121,6 @@ public class AddOrEditDTO {
 		String sMethod = "\n\t toString(): ";	
 		String sToString = "";
 		
-//		TreeSet<String> tsSortedNames = Utility.getHashMapSortedKeys(hmStringDataElements);
-//		sToString = Utility.hashMapToStringBySortedKeys(tsSortedNames, hmStringDataElements);
 		sToString = Utility.hashMapToStringBySortedKeys(hmStringDataElements);
 		
 		objLogger.debug(sMethod + "[" + sToString + "]");

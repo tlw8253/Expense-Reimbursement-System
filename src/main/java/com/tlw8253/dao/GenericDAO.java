@@ -34,6 +34,7 @@ public interface GenericDAO<T> {
 	
 	public abstract T getByRecordIdentifer(String sRecordIdentifier) throws SQLException; 
 	
+	public abstract List<T> getListByRecordIdentifer(int iListId, String sRecordIdentifier) throws SQLException; 
 	
 	// Here we are making use of a parameter known as ClientDTO, which is a Data Transfer Object
 	// This being a DTO is used to pass the Client model data around in the program.

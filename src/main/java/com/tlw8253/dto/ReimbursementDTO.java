@@ -103,6 +103,9 @@ public class ReimbursementDTO extends AddOrEditDTO implements Constants{
 		super.setDataElement(csReimbTblReimbReceipt, reimbReceipt);
 	}
 
+	public void setReimbAuthorUsername(String reimbAuthorUsername) {
+		super.setDataElement(csReimbTblReimbAuthorUName, reimbAuthorUsername);
+	}
 	public void setReimbAuthorId(String reimbAuthorId) {
 		super.setDataElement(csReimbTblReimbAuthorId, reimbAuthorId);
 	}
@@ -110,6 +113,9 @@ public class ReimbursementDTO extends AddOrEditDTO implements Constants{
 		super.setDataElement(csReimbTblReimbAuthorId, reimbAuthorId);
 	}
 
+	public void setReimbResolverUsername(String reimbResolverUsername) {
+		super.setDataElement(csReimbTblReimbResolverUName, reimbResolverUsername);
+	}	
 	public void setReimbResolverId(String reimbResolverId) {
 		super.setDataElement(csReimbTblReimbResolverId, reimbResolverId);
 	}

@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
 import com.tlw8253.dao.GenericDAO;
-import com.tlw8253.dao.ReimbursementDAOImpl;
 import com.tlw8253.dao.UserDAOImpl;
 import com.tlw8253.dto.ReimbursementDTO;
 import com.tlw8253.dto.UserDTO;
@@ -25,20 +24,13 @@ import com.tlw8253.util.Validate;
 public class ERSUserService implements Constants {
 	private Logger objLogger = LoggerFactory.getLogger(ERSUserService.class);
 	private GenericDAO<User> objUserDAO;
-	private GenericDAO<Reimbursement> objReimbursementDAO;
 
 	public ERSUserService() {
 		this.objUserDAO = new UserDAOImpl();
-		this.objReimbursementDAO = new ReimbursementDAOImpl();
 	}
 
 	public ERSUserService getMockUserDAO(GenericDAO<User> objMockUserDAO) {
 		this.objUserDAO = objMockUserDAO;
-		return this;
-	}
-
-	public ERSUserService getMockReimbursementDAO(GenericDAO<Reimbursement> objMockReimbursementDAO) {
-		this.objReimbursementDAO = objMockReimbursementDAO;
 		return this;
 	}
 

@@ -43,8 +43,8 @@ import com.tlw8253.util.*;
  * @author tlw8748253
  *
  */
-public class Driver implements Constants {
-	private final static Logger objLogger = LoggerFactory.getLogger(Driver.class);
+public class UserDriver implements Constants {
+	private final static Logger objLogger = LoggerFactory.getLogger(UserDriver.class);
 	private static ERSUserService objERSService = new ERSUserService();
 	private static UserDTO objUserDTO = new UserDTO();
 

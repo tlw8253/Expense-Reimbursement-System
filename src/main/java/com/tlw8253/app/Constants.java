@@ -45,6 +45,8 @@ public interface Constants {
 
 	//other constants
 	int ciUsernameLength = 7;
+	int ciReimbRecByIdentifierAuthor = 10;
+	int ciReimbRecByIdentifierResolver = 20;
 	
 	//database constants 
 	String csDatabaseName = "exp_reimb_sys";							//database name
@@ -100,9 +102,9 @@ public interface Constants {
 	String csReimbTblReimbResolved 		= "reimb_resolved";		//time stamp
 	String csReimbTblReimbDescription 	= "reimb_description";	//string
 	String csReimbTblReimbReceipt 		= "reimb_receipt";		//blob - image or word doc
-	String csReimbTblReimbAuthor 		= "reimb_author";		//FK foreign key
+	String csReimbTblReimbAuthorUName	= "reimb_author_username";	//author's username
 	String csReimbTblReimbAuthorId 		= "reimb_author_id";	//For the DTO
-	String csReimbTblReimbResolver 		= "reimb_resolver";		//FK foreign key
+	String csReimbTblReimbResolverUName	= "reimb_resolver_username";		//resolver username
 	String csReimbTblReimbResolverId 	= "reimb_resolver_id";	//For the DTO
 	String csReimbTblReimbStatusId 		= "reimb_status_id";	//FK foreign key
 	String csReimbTblReimbStatus 		= "reimb_status";		//For the DTO
@@ -140,7 +142,12 @@ public interface Constants {
 	String csMsgDB_ErrorGettingReimbursementType = "Error with database when getting all Reimbursement Types.";
 	String csMsgDB_ErrorAddingUserRole = "Error with database when adding User Role.";
 	String csMsgDB_ErrorGettingUserRole = "Error with database when getting all User Roles.";
+
 	String csMsgDB_ErrorAddingReimbursement = "Database error when adding reimbursement record.";
+	String csMsgDB_ErrorUpdatingReimbursement = "Database error when updating reimbursement record.";
+	String csMsgDB_ErrorGettingReimbursements = "Database error when getting all reimbursement.";
+	String csMsgDB_ErrorGettingReimbursementById = "Database error when getting a reimbursement by id.";
+	String csMsgDB_ErrorGettingReimbursementAuthor = "Database error when getting a reimbursement by Athour's username.";
 	
 	String csMsgDB_ErrorAddingEmployee = "Database error when adding an employee.";
 	String csMsgDB_ErrorUpdatingEmployee = "Database error when updating employee information.";
@@ -168,8 +175,11 @@ public interface Constants {
 	String csMsgBadParamGetUserById = "The user id provided was not a number or was zero.";
 	String csMsgBadParamGetUserByUsername = "The user name provided was not alpha numeric or length was invalid.";
 
+	String csMsgBadParamGetReimbursementById = "The reimbursement id provided was not a number or was zero.";
+	
 	
 	String csMsgBadParamAddReimb = "One or more add Reimbursement parameters are invalid.";
+	String csMsgBadParamUpdateReimb = "One or more update Reimbursement parameters are invalid.";
 	
 	String csMsgAutenticationFailed = "Autentication failed for username and password provided.";
 	
