@@ -26,14 +26,6 @@ div {
     color: black;        
 }
 
-div.select_item_div {
-    background-color: orange;
-    align-self: center;
-    text-align: center;
-    align-content: center;
-
-}
-
 label{
     display: inline-block;
     
@@ -48,21 +40,32 @@ table, th, td {
     border: 1px solid black;
   }
 
-form{
-    width: 500px;
-    align-self: center;
-    text-align: center;
+body{
+    max-width: 700px;
+    margin: auto;  
     color: black;        
     border-width: medium 5px thick 5px;
     border-style: solid; 
-    padding: 35px 70px 40px 80px;
+    padding: 50px 50px 50px 50px;
     display: block;
 }
 
 #select_item{
-    left: 550px;
-    background-color: white;
+    background-color: lightblue;
+    color: black;        
+    border-width: medium 5px thick 5px;
+    border-style: solid; 
+    padding: 50px 50px 50px 7050pxpx;
+    display: block;
+}
 
+#create_request{
+    background-color: lightblue;
+    color: black;        
+    border-width: medium 5px thick 5px;
+    border-style: solid; 
+    padding: 50px 50px 50px 50px;
+    display: block;
 }
 
 #select_div{
@@ -73,11 +76,7 @@ form{
 
 }
 
-div:hover {
-    background-color: lightblue;
-  }
-
-  p.asterisk {
+  font.asterisk {
     color: red;
    
   }

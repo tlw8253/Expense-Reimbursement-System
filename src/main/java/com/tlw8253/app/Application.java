@@ -6,7 +6,8 @@ import org.slf4j.LoggerFactory;
 import com.tlw8253.controller.Controller;
 import com.tlw8253.controller.ERSAdminController;
 import com.tlw8253.controller.ExceptionController;
-import com.tlw8253.controller.ERSController;
+import com.tlw8253.controller.ERSUserController;
+import com.tlw8253.controller.ERSLoginController;
 
 import io.javalin.Javalin;
 
@@ -29,14 +30,15 @@ public class Application implements Constants {
 		String sMethod = "\n\t main(): ";		
 		objLogger.trace(sMethod + "Entered");
 
+		//Chrome will not allow sending request without the following config
 		objJavalinApp = Javalin.create((config) -> {
 			config.enableCorsForAllOrigins();
 		});
 
 //		objJavalinApp = Javalin.create();		
 		
-		objLogger.debug(sMethod + "mapControllers(new ExceptionController(), new ERSController(), new ERSAdminController());");
-		mapControllers(/*new TestController(),*/ new ExceptionController(), new ERSController(), new ERSAdminController());
+		objLogger.debug(sMethod + "mapControllers(new ExceptionController(), new ERSController(), new ERSAdminController(), new ERSLoginController() );");
+		mapControllers(/*new TestController(),*/ new ExceptionController(), new ERSUserController(), new ERSAdminController(), new ERSLoginController() );
 		
 		objLogger.info(sMethod + "Starting listening on port: [" + ciListingPort + "]");
 		objJavalinApp.start(ciListingPort); // start up our Javalin server on port defined for this program	

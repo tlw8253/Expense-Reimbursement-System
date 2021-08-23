@@ -14,9 +14,9 @@ import com.tlw8253.app.Constants;
 import com.tlw8253.model.User;
 import com.tlw8253.service.ERSUserService;
 
-public class ERSController implements Controller, Constants {
-	private Logger objLogger = LoggerFactory.getLogger(ERSController.class);
-	private ERSUserService objErsService;
+public class ERSUserController implements Controller, Constants {
+	private Logger objLogger = LoggerFactory.getLogger(ERSUserController.class);
+	private ERSUserService objERSUserService;
 
 	Map<String, String> mPathParmaMap;
 	Map<String, List<String>> mQueryParmaMap;
@@ -24,8 +24,8 @@ public class ERSController implements Controller, Constants {
 	int imQueryParmaMap = 0;
 	boolean bmQueryParmaMapIsEmpty = true;
 
-	public ERSController() {		
-		this.objErsService = new ERSUserService();
+	public ERSUserController() {		
+		this.objERSUserService = new ERSUserService();
 	}
 
 	//
@@ -63,35 +63,30 @@ public class ERSController implements Controller, Constants {
 
 	//
 	// ### 
-	private Handler getErsLogin = (objCtx) -> {
-		String sMethod = "getErsLogin(): ";
+	private Handler getERSUserRole = (objCtx) -> {
+		String sMethod = "getERSUserRole(): ";
 		boolean bContinue = true;
 		objLogger.trace(sMethod + "Entered");
 		User objUser = null;
 		
-		String sParamUserName = "";
-		String sParamPassword = "";
+		String sParamUserId = "";
 
 		setContextMaps(objCtx);
 		
-		//expect 2 query parameters with login request
-		if (imQueryParmaMap != 2) {			
+		//expect 1 path parameters with user id
+		if (imPathParmaMapSize != 1) {			
 			//Check for body params before erroring here		
 			
-			objLogger.debug(sMethod + csMsgBadParamQueryParm);
+			objLogger.debug(sMethod + csMsgBadParamPathParm);
 			objCtx.status(ciStatusCodeErrorBadRequest);
-			objCtx.json(csMsgBadParamQueryParm);
+			objCtx.json(csMsgBadParamPathParm);
 			bContinue = false;
 		} else {
-			sParamUserName = objCtx.queryParam(csParamUserName);
-			objLogger.debug(sMethod + "Context query parameter username: [" + sParamUserName + "]");
-			sParamPassword = objCtx.queryParam(csParamPassword);
-			objLogger.debug(sMethod + "Context query parameter password: [" + sParamPassword + "]");
+			sParamUserId = objCtx.queryParam(csParamPathUserId);
+			objLogger.debug(sMethod + "Context query parameter user id: [" + sParamUserId + "]");
 		}
 
 		if(bContinue) {
-			objUser = objErsService.getErsLogin(sParamUserName, sParamPassword);
-		  objLogger.debug(sMethod + "objEmployee: [" + objUser.toString() + "]");
 		}
 		
 		objCtx.status(ciStatusCodeSuccess);
@@ -100,44 +95,51 @@ public class ERSController implements Controller, Constants {
 
 	//
 	// ### 
-	private Handler getErs = (objCtx) -> {
-		String sMethod = "getErs(): ";
+	//
+	// ### 
+	private Handler getERSUserById = (objCtx) -> {
+		String sMethod = "getERSUserById(): ";
 		boolean bContinue = true;
 		objLogger.trace(sMethod + "Entered");
+		User objUser = null;
+		
+		String sParamUserId = "";
 
 		setContextMaps(objCtx);
 		
-		//expect 2 query parameters with login request
-		if (imQueryParmaMap != 2) {			
+		//expect 1 path parameters with user id
+		if (imPathParmaMapSize != 1) {			
 			//Check for body params before erroring here		
 			
-			objLogger.debug(sMethod + csMsgBadParamNoPathParm);
+			objLogger.debug(sMethod + csMsgBadParamPathParm);
 			objCtx.status(ciStatusCodeErrorBadRequest);
-			objCtx.json(csMsgBadParamNoPathParm);
+			objCtx.json(csMsgBadParamPathParm);
 			bContinue = false;
 		} else {
-//			sParamUserName = objCtx.queryParam(csParamUserName);
-//			objLogger.debug(sMethod + "Context query parameter username: [" + sParamUserName + "]");
-//			sParamPassword = objCtx.queryParam(csParamPassword);
-//			objLogger.debug(sMethod + "Context query parameter password: [" + sParamPassword + "]");
+			
+			sParamUserId = objCtx.pathParam(csParamPathUserId);
+			objLogger.debug(sMethod + "Context path parameter user id: [" + sParamUserId + "]");
+			
 		}
 
 		if(bContinue) {
-//			objUser = objErsService.getErsLogin(sParamUserName, sParamPassword);
-//		  objLogger.debug(sMethod + "objEmployee: [" + objUser.toString() + "]");
+			objUser = objERSUserService.getUsersById(sParamUserId);
+			objLogger.debug(sMethod + "objEmployee: [" + objUser.toString() + "]");
 		}
 		
 		objCtx.status(ciStatusCodeSuccess);
-		objCtx.json(null);
+		objCtx.json(objUser);
 	};
 
+	
 	
 	@Override
 	public void mapEndpoints(Javalin app) {
 
 		//
-		app.get(csRootEndpointERS_Login, getErsLogin);
-		
+		//app.get(csRootEndpointERS_UserRole + "/:" + csParamPathUserId, getERSUserRole);
+		app.get("/ers_user_role/:user_id/role", getERSUserRole);
+		app.get("/ers/:user_id", getERSUserById);
 	}
 
 }

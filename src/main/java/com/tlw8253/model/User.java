@@ -133,7 +133,7 @@ public class User implements Constants {
 
 	@Override
 	public String toString() {
-		return "\n\t User [userId=" + userId + ", username=" + username + ", password=" + password + ", firstName="
+		return "\n\t User [userId=" + userId + ", username=" + username + ", password=********" + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", email=" + email + ", userRole=" + userRole + "]";
 	}
 

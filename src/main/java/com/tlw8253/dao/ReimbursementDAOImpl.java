@@ -316,7 +316,7 @@ public class ReimbursementDAOImpl implements GenericDAO<Reimbursement>, Constant
 	}
 
 	@Override
-	public Reimbursement getLogin(String sUsername) throws SQLException {
+	public Reimbursement getLogin(String sUsername, String sPassword) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -122,7 +122,7 @@ public class ReimbursementTypeDAOImpl implements GenericDAO<ReimbursementType>, 
 	}
 
 	@Override
-	public ReimbursementType getLogin(String sUsername) throws SQLException {
+	public ReimbursementType getLogin(String sUsername, String sPassword) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

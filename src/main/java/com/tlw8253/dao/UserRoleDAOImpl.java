@@ -127,7 +127,7 @@ public class UserRoleDAOImpl implements GenericDAO<UserRole>, Constants{
 	}
 
 	@Override
-	public UserRole getLogin(String sUsername) throws SQLException {
+	public UserRole getLogin(String sUsername, String sPassword) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

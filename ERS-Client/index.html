@@ -1,42 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Expense Reimbursement System</title>
-
-        <!-- include JavaScript file 
-        <script src="js/index.js"></script>-->
-        <link rel="stylesheet" href="css/index.css" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-
-    </head>
-
-    <body>
-        
-        <h1>Wally World Movie Studios</h1>
-        <h2>Expense Reimbursement System</h2>
-        <h3>Login to Contine</h3>
-
-        <form action="php/login.php" name="login" onsubmit="sendData()">
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" name="username" id="username" placeholder="Your Company Username" minlength="7" maxlength="7" required>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wally World Movie Studios</title>
+    <!-- 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    -->
+    <link rel="stylesheet" href="css/index.css" />
+</head>
+<body>
+    <div class="container">
+        <form id="loginform">
+            <h1>Wally World Movie Studios</h1>
+            <h2>Expense Reimbursement System</h2>
+            <h3>Login to Contine</h3>
+                <div class="form-group">
+                <label for="username"><strong>Username:</strong></label>
+                <input class="form-control" type="text" name="username" id="username" size="7">
             </div>
-            <div>
-                <label for="password">Password: </label>
-                <input type="password" name="password" id="password" placeholder="Your Password" minlength="6" maxlength="15" required>
+            <div class="form-group">
+                <label for="password"<strong>Password:</strong></label>
+                <input class="form-control" type="text" name="password" id="password" size="15">
             </div>
-            <div><br>
-                <button type="button" id="btn_login">Login</button>
-               <!-- <input type="submit" value="Login"> -->
-            </div>
+            <br><button class="btn btn-primary mt-3" id="login">Login</button>
+
         </form>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-        <script src="js/index.js"></script>
-            
-    </body>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script> -->
+    <script src="js/index.js"></script>
+</body>
 </html>

@@ -1,91 +1,97 @@
 "use strict";
+// need to make sure the URL is: http://localhost:5500/index.html
+// live server does not do this.
+let loginButton = document.getElementById('login');
+let usernameInput = document.getElementById('username');
+let passwordInput = document.getElementById('password');
 
-let button = document.getElementById('btn_login');
-button.addEventListener('click', retrieveDataWithFetchAsyncAwait);
-const url='http://localhost:3015/ers_login';
+var sUserRole = "";
+var iPageCnt = 0;
 
-/**
- * Fetch API (modern way)
- */
-function retrieveDataWithFetch() {
-  let inputElement = document.querySelector('#username');
-  let sUsername = inputElement.value;
-  inputElement = document.querySelector('#password');
-  let sPassword = inputElement.value;
-  let sLoginURL = url + "?username=" + sUsername + "&password=" + sPassword;
+function login(event) {
+   // this will prevent the default behavior of what happens when a button inside a form element is clicked
+    event.preventDefault();
+   
+    const loginInfo = {
+        'username': usernameInput.value,
+        'password': passwordInput.value
+    };
 
+      fetch('http://localhost:3015/ers_login', {
+        method: 'POST',
+        credentials: 'include', // this specifies that when you receive cookies,
+        // you should include them in future requests.
+        headers: {
+            'Content-Type': 'application/json' // application/json is a MIME type
+        },
+        body: JSON.stringify(loginInfo)}).then((response) => {
+        if (response.status === 200) {
+          //alert("ers_login: status is 200");
+          getUsercredentials();
+          alert("1 sUserRole: " + sUserRole);
+          if (sUserRole == "EMPLOYEE"){
+            window.location.href = '/test.html';
+          }
+        } else if (response.status === 400) {
+            displayInvalidLogin();
+        }
+    })
+};
 
+//let text = localStorage.getItem("testJSON");
+//let obj = JSON.parse(text);
 
-    // The fetch function returns what is known as a 'Promise'
-    fetch(sLoginURL, {
-        'method': 'GET'
-     }).then((data) => {
-        return data.json(); // data.json() will return yet another promise
-    }).then((loginObject) => {
-        populateData(loginObject);
-    }).catch((err) => {
-        console.log(err);
-    });
-}
-
-async function retrieveDataWithFetchAsyncAwait() {
-    let inputElement = document.querySelector('#username');
-    let sUsername = inputElement.value;
-    inputElement = document.querySelector('#password');
-    let sPassword = inputElement.value;
-    let sLoginURL = url + "?username=" + sUsername + "&password=" + sPassword;
-    alert(sLoginURL);
-  
-    try {
-        let data = await fetch(sLoginURL, {                     
-          'mode' : 'no-cors',          
-        });
-
-        let loginObject = await data.json();
-
-        populateData(loginObject);
-    } catch (err) {
-        console.log(err);
+function getUsercredentials(){
+  alert("getUsercredentials()");
+  fetch('http://localhost:3015/ers_current_user', {
+    'credentials': 'include',
+    'method': 'GET'
+}).then((response) => {
+    if (response.status === 401) {
+      //alert("ers_current_user: status 401");
+        window.location.href = '/index.html'
+    } else if (response.status === 200) {
+      alert("getUsercredentials(): status 200");
+        return response.json();
     }
-
 }
-
-function populateData(data) {
-alert("populateData(data)");
-  /*
-    let tbody = document.querySelector('#pokemonTable tbody');
-
-    let pokemonRow = document.createElement('tr');
-    let id = data.id;
-    let pokemonName = data.name;
-    let pokemonType = data.types[0].type.name;
-    let imageUrl = data.sprites.other['official-artwork'].front_default;
-
-    let idTd = document.createElement('td');
-    idTd.innerHTML = id;
-
-    let nameTd = document.createElement('td');
-    nameTd.innerHTML = pokemonName;
-
-    let typeTd = document.createElement('td');
-    typeTd.innerHTML = pokemonType;
-
-    let imageTd = document.createElement('td');
-    imageTd.innerHTML = `<img src="${imageUrl}" width="100" height="100">`;
-
-    pokemonRow.append(idTd);
-    pokemonRow.append(nameTd);
-    pokemonRow.append(typeTd);
-    pokemonRow.append(imageTd);
-
-    tbody.append(pokemonRow);
-    */
-
-
-    function test(){
-      if(null == null){alert("null == null")}
-      
-    }
-
-
+).then((user) => {
+    sUserRole = user.userRole.userRole;
+    alert("2 sUserRole: " + sUserRole);
+  iPageCnt++;
+  if (sUserRole == "EMPLOYEE"){
+    window.location.href = '/reimbursement.html';
   }
+
+}
+)};
+
+function displayInvalidLogin() {
+    let loginForm = document.getElementById('loginform');
+
+    let p = document.createElement('p');
+    p.style.color = 'red';
+    p.innerHTML = 'INVALID LOGIN!';
+
+    loginForm.appendChild(p);
+};
+
+function checkIfUserCurrentlyLoggedIn(event) {
+
+  /*
+  alert("checkIfUserCurrentlyLoggedIn()");
+  if(sUserRole == "" && iPageCnt > 0){
+    getUsercredentials();
+  }else{
+    if(sUserRole == "EMPLOYEE"){
+    window.location.href = '/test.html';
+    }
+    else{
+      alert("user role page not defined.")
+    }
+  }
+  */
+};
+
+loginButton.addEventListener('click', login);
+window.addEventListener('load', checkIfUserCurrentlyLoggedIn)

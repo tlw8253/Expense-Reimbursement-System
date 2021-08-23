@@ -229,7 +229,7 @@ public class ERSUserService implements Constants {
 		isValid = isValidUserDTOEditAttributes(objUserDTO);
 		
 		boolean bUsernameIsAlphaNumeric = Validate.isAlphaNumeric(sUsername) && sUsername.length() == ciUsernameLength;
-		boolean bPasswordIsInFormat = Validate.isPasswordFormat(sPassword);
+		boolean bPasswordIsInFormat = Validate.isPasswordFormat(sPassword, ciUserMinPassword, ciUserMaxPassword);
 		boolean bEmailIsInFormat = Validate.isValidEmailAddress(sEmail);
 
 		if (bUsernameIsAlphaNumeric &&  bPasswordIsInFormat && bEmailIsInFormat && isValid) {

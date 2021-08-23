@@ -75,14 +75,14 @@ public final class Validate {
 	//
 	// ### inspiration for validation from:
 	// https://www.geeksforgeeks.org/java-program-to-check-the-validity-of-a-password-using-user-defined-exception/
-	public static boolean isPasswordFormat(String sValue) {
+	public static boolean isPasswordFormat(String sValue, int iMinPwdLen, int iMaxPwdLen) {
 		String sMethod = "isPasswordFormat(): ";
 		boolean bIsValid = false;
 
 		// for checking if password length
 		// is between 8 and 15
-		if (!((sValue.length() >= 8) && (sValue.length() <= 15))) {
-			objLogger.debug(sMethod + "password length error: [" + sValue.length() + "]");
+		if (!((sValue.length() >= iMinPwdLen) && (sValue.length() <= iMaxPwdLen))) {
+			objLogger.debug(sMethod + "password length error: [" + sValue.length() + "] min len: [" + iMinPwdLen + "] max len: [" + iMaxPwdLen + "]");
 			return bIsValid;
 		}
 

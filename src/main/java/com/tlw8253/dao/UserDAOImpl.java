@@ -3,6 +3,8 @@ package com.tlw8253.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -242,12 +244,12 @@ public class UserDAOImpl implements GenericDAO<User>, Constants {
 
 	//
 	// ### most companies do not delete records especially user, instead they
-	// archive them for legal reasons.  The program will delete the record.
+	// archive them for legal reasons. The program will delete the record.
 	//
 	//
-	@Override	//20210820 working, deletes fk records in Reimbursement first than user.
+	@Override // 20210820 working, deletes fk records in Reimbursement first than user.
 	public boolean deleteRecord(String sRecordIdentifier) throws SQLException {
-		String sMethod = "\n\t editRecord(): ";
+		String sMethod = "\n\t deleteRecord(): ";
 		objLogger.trace(sMethod + "Entered");
 
 		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
@@ -258,21 +260,25 @@ public class UserDAOImpl implements GenericDAO<User>, Constants {
 			String sHQL = "";
 			sHQL = "FROM User u WHERE u.username = :username";
 			objLogger.debug(sMethod + "sHQL: [" + sHQL + "]" + " param: sUsername: [" + sRecordIdentifier + "]");
-			
-			//get the user object by username since it is uniquely tied to an auto generated key
-			User objUserToDelete = (User) session.createQuery(sHQL).setParameter("username", sRecordIdentifier).getSingleResult();
-			objLogger.debug(sMethod + "Retrive objUserToDelete by sRecordIdentifier: [" + objUserToDelete.toString() + "]");
-			
-			//delete fk records in Reimbursement table
-			//	encountered issues when trying to set user object as a parameter, sure it is syntax related
-			sHQL = "DELETE FROM Reimbursement WHERE reimbAuthor.userId = " + objUserToDelete.getId();		
-			int iResult  = session.createQuery(sHQL).executeUpdate();
+
+			// get the user object by username since it is uniquely tied to an auto
+			// generated key
+			User objUserToDelete = (User) session.createQuery(sHQL).setParameter("username", sRecordIdentifier)
+					.getSingleResult();
+			objLogger.debug(
+					sMethod + "Retrive objUserToDelete by sRecordIdentifier: [" + objUserToDelete.toString() + "]");
+
+			// delete fk records in Reimbursement table
+			// encountered issues when trying to set user object as a parameter, sure it is
+			// syntax related
+			sHQL = "DELETE FROM Reimbursement WHERE reimbAuthor.userId = " + objUserToDelete.getId();
+			int iResult = session.createQuery(sHQL).executeUpdate();
 			objLogger.debug(sMethod + "Number of dependent Reimbursement records deleted: [" + iResult + "]");
-					
-			//now delete the object retrieved.
-			session.delete(objUserToDelete); 
+
+			// now delete the object retrieved.
+			session.delete(objUserToDelete);
 			objLogger.debug(sMethod + "User object with sRecordIdentifier: [" + sRecordIdentifier + "] was deleted.");
-		
+
 			tx.commit();
 			return true;
 
@@ -286,11 +292,31 @@ public class UserDAOImpl implements GenericDAO<User>, Constants {
 		}
 	}
 
-
 	@Override
-	public User getLogin(String sUsername) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public User getLogin(String sUsername, String sPassword) throws SQLException {
+		String sMethod = "\n\t getLogin(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
+		Session session = sf.openSession();
+
+		try {
+			objLogger.debug(sMethod + "Authenticating username: [" + sUsername + "] with password provided.");
+			String sHQL = "FROM User u WHERE u.username = :username AND u.password = :password";
+			objLogger.debug(sMethod + "sHQL: [" + sHQL + "] with parameter username: [" + sUsername + "] and password provided.");
+			
+			User user = (User) session
+					.createQuery(sHQL).setParameter("username", sUsername).setParameter("password", sPassword).getSingleResult();
+
+			return user;
+
+		} catch (NoResultException e) {
+			objLogger.debug(sMethod + "NoResultException: [" + e.getMessage() + "]");
+			return null;
+
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override

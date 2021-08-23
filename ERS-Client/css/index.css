@@ -32,3 +32,11 @@ label{
     margin-top:  1rem;
 }
 
+div.container {
+    border-width: medium 5px thick 5px;
+    border-style: solid;
+    padding: 35px 70px 40px 80px;
+    display: block;
+
+}
+

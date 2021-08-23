@@ -30,15 +30,22 @@ public interface Constants {
 	
 	//context parameters
 	int ciListingPort = 3015;
+	String csSessionCurrentUser = "current_user";
 	
 	//End Points
 	String csRootEndpointERS = "/ers";
-	String csRootEndpointERS_Login = "/ers_login"; 
+	
+	String csRootEndpointERS_Login = "/ers_login";
+	String csRootEndpointERS_Logout = "/ers_logout";
+	String csRootEndpointERS_CurrentUser = "/ers_current_user";
+	String csRootEndpointERS_SessionValidate = "/ers_session_user";
+	
+	String csRootEndpointERS_UserRole = "/ers_user_role";
 	
 	String csRootEndpointERSAdminStatus = "/ers_admin_status";
 
 	//HTTP request parameter constants
-	String csParamPathName = "name";
+	String csParamPathUserId = "user_id";
 	String csParamUserName = "username";
 	String csParamPassword = "password";
 	String csParamReimStatus = "reim_status";
@@ -47,6 +54,8 @@ public interface Constants {
 	int ciUsernameLength = 7;
 	int ciReimbRecByIdentifierAuthor = 10;
 	int ciReimbRecByIdentifierResolver = 20;
+	int ciUserMinPassword = 8;
+	int ciUserMaxPassword = 15;
 	
 	//database constants 
 	String csDatabaseName = "exp_reimb_sys";							//database name
@@ -155,6 +164,8 @@ public interface Constants {
 	String csMsgDB_ErrorGettingEmployeeById = "Database error when getting an employee by id.";
 	String csMsgDB_ErrorGettingEmployeeByUsername = "Database error when getting an employee by username.";
 	String csMsgDB_ErrorDeletingAnEmployee = "Database error while deleting an employee.";
+	
+	String csMsgDB_ErrorAuthenticatingUsername = "Database error authenticating a username.";
 
 
 	
@@ -162,6 +173,7 @@ public interface Constants {
 	
 	String csMsgBadParamNoPathParm = "Parmeter(s) expected. No Path Parameter(s) Received.";
 	String csMsgBadParamNoBodyParm = "Parmeter(s) expected. No Body Parameter(s) Received.";
+	String csMsgBadParamPathParm = "Parmeter(s) expected. Not right number of Path Parameter(s) received.";
 	
 	String csMsgBadParamNoQueryParm = "Parmeter(s) expected. No Query Parameter(s) Received.";
 	String csMsgBadParamQueryParm = "Parmeter(s) expected. Not right number of Query Parameter(s) received.";
@@ -181,7 +193,12 @@ public interface Constants {
 	String csMsgBadParamAddReimb = "One or more add Reimbursement parameters are invalid.";
 	String csMsgBadParamUpdateReimb = "One or more update Reimbursement parameters are invalid.";
 	
+	String csMsgBadParamLoginUsernamePwdBlank = "Username and password must contain values.";
+	String csMsgBadParamLoginUsernamePwdLength = "Username and/or password length is invalid.";
+	
 	String csMsgAutenticationFailed = "Autentication failed for username and password provided.";
+	String csMsgSessionUserNotActive = "The user does not have an active login session.";
+	String csMsgSessionUserLoggedOut = "The user is logged out.";
 	
 	
 	

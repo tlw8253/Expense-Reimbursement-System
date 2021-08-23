@@ -46,6 +46,6 @@ public interface GenericDAO<T> {
 	
 	public abstract boolean deleteRecord(String sRecordIdentifier) throws SQLException;
 	
-	public abstract T getLogin(String sUsername) throws SQLException;
+	public abstract T getLogin(String sUsername, String password) throws SQLException;
 	
 }
