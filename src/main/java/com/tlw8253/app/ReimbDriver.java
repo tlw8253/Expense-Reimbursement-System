@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.dto.ReimbursementDTO;
 import com.tlw8253.model.Reimbursement;
-import com.tlw8253.service.ERSReimbursementService;
+import com.tlw8253.service.ERSReimbService;
 
 /**
  * This is a driver used during development to test functionality as it is
@@ -23,7 +23,7 @@ import com.tlw8253.service.ERSReimbursementService;
  */
 public class ReimbDriver implements Constants {
 	private final static Logger objLogger = LoggerFactory.getLogger(ReimbDriver.class);
-	private static ERSReimbursementService objERSReimbursementService = new ERSReimbursementService();
+	private static ERSReimbService objERSReimbursementService = new ERSReimbService();
 
 	public static void main(String[] args) {
 		String sMethod = "\n\t main(): ";

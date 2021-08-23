@@ -21,16 +21,16 @@ import com.tlw8253.model.Reimbursement;
 import com.tlw8253.model.User;
 import com.tlw8253.util.Validate;
 
-public class ERSReimbursementService implements Constants {
-	private Logger objLogger = LoggerFactory.getLogger(ERSReimbursementService.class);
+public class ERSReimbService implements Constants {
+	private Logger objLogger = LoggerFactory.getLogger(ERSReimbService.class);
 //	private GenericDAO<User> objUserDAO;
 	private GenericDAO<Reimbursement> objReimbursementDAO;
 
-	public ERSReimbursementService() {
+	public ERSReimbService() {
 		this.objReimbursementDAO = new ReimbursementDAOImpl();
 	}
 
-	public ERSReimbursementService getMockReimbursementDAO(GenericDAO<Reimbursement> objMockReimbursementDAO) {
+	public ERSReimbService getMockReimbursementDAO(GenericDAO<Reimbursement> objMockReimbursementDAO) {
 		this.objReimbursementDAO = objMockReimbursementDAO;
 		return this;
 	}

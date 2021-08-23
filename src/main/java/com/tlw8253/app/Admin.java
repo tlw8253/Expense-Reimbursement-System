@@ -23,7 +23,7 @@ import com.tlw8253.model.ReimbursementType;
 import com.tlw8253.model.User;
 import com.tlw8253.model.UserRole;
 import com.tlw8253.service.ERSAdminService;
-import com.tlw8253.service.ERSReimbursementService;
+import com.tlw8253.service.ERSReimbService;
 import com.tlw8253.service.ERSUserService;
 import com.tlw8253.util.*;
 
@@ -39,7 +39,7 @@ import com.tlw8253.util.*;
 public class Admin implements Constants {
 	private static Logger objLogger = LoggerFactory.getLogger(Admin.class);
 	private static ERSUserService objERSService = new ERSUserService();
-	private static ERSReimbursementService objERSReimbursementService = new ERSReimbursementService();
+	private static ERSReimbService objERSReimbursementService = new ERSReimbService();
 	private static UserDTO objUserDTO = new UserDTO();
 	private static ReimbursementDTO objReimbDTO = new ReimbursementDTO();
 
@@ -51,12 +51,12 @@ public class Admin implements Constants {
 		String sMethod = "\n\t main(): ";
 		objLogger.trace(sMethod + "Entered");
 
-		// createTablesViaHibernate(); //NOTE: change configuration file to create
-		// ersAdminAddStaticTableValues();
-		// addNewUser("tlw8253", "A_Pass12345", "Tomas", "Ykel", "tlw8253@wws.com", csUserRoles[ciUserRoleEmployee]);
-		// addNewReimbursement("1");	//add Reimbursement for above user
-		// addNewUser("smp8253", "A_Pass12345", "Sam", "Smith", "smp8253@wws.com", csUserRoles[ciUserRoleFinanceMgr]);
-		// addNewReimbursement("2");	//add Reimbursement for above user
+		 // createTablesViaHibernate(); //NOTE: change configuration file to create
+		 // ersAdminAddStaticTableValues();
+		 // addNewUser("tlw8253", "A_Pass12345", "Tomas", "Ykel", "tlw8253@wws.com", csUserRoles[ciUserRoleEmployee]);
+		 // addNewReimbursement("1");	//add Reimbursement for above user
+		 // addNewUser("smp8253", "A_Pass12345", "Sam", "Smith", "smp8253@wws.com", csUserRoles[ciUserRoleFinanceMgr]);
+		 // addNewReimbursement("2");	//add Reimbursement for above user
 		
 
 	}

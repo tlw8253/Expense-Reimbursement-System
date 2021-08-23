@@ -5,8 +5,8 @@ let loginButton = document.getElementById('login');
 let usernameInput = document.getElementById('username');
 let passwordInput = document.getElementById('password');
 
+var sUsername = "";
 var sUserRole = "";
-var iPageCnt = 0;
 
 function login(event) {
    // this will prevent the default behavior of what happens when a button inside a form element is clicked
@@ -26,11 +26,9 @@ function login(event) {
         },
         body: JSON.stringify(loginInfo)}).then((response) => {
         if (response.status === 200) {
-          //alert("ers_login: status is 200");
           getUsercredentials();
-          alert("1 sUserRole: " + sUserRole);
           if (sUserRole == "EMPLOYEE"){
-            window.location.href = '/test.html';
+            window.location.href = '/reimbursement.html';
           }
         } else if (response.status === 400) {
             displayInvalidLogin();
@@ -42,25 +40,26 @@ function login(event) {
 //let obj = JSON.parse(text);
 
 function getUsercredentials(){
-  alert("getUsercredentials()");
   fetch('http://localhost:3015/ers_current_user', {
     'credentials': 'include',
     'method': 'GET'
 }).then((response) => {
     if (response.status === 401) {
-      //alert("ers_current_user: status 401");
-        window.location.href = '/index.html'
+         window.location.href = '/index.html'
     } else if (response.status === 200) {
-      alert("getUsercredentials(): status 200");
         return response.json();
     }
 }
 ).then((user) => {
-    sUserRole = user.userRole.userRole;
-    alert("2 sUserRole: " + sUserRole);
-  iPageCnt++;
+   sUserRole = user.userRole.userRole;
   if (sUserRole == "EMPLOYEE"){
     window.location.href = '/reimbursement.html';
+  }else{
+    if (sUserRole == "FINANCEMGR"){
+      window.location.href = '/finance.html';
+    }else{
+      alert("Role not defined for WWMS client: " + sUserRole)
+    }
   }
 
 }
@@ -79,7 +78,6 @@ function displayInvalidLogin() {
 function checkIfUserCurrentlyLoggedIn(event) {
 
   /*
-  alert("checkIfUserCurrentlyLoggedIn()");
   if(sUserRole == "" && iPageCnt > 0){
     getUsercredentials();
   }else{
@@ -87,7 +85,6 @@ function checkIfUserCurrentlyLoggedIn(event) {
     window.location.href = '/test.html';
     }
     else{
-      alert("user role page not defined.")
     }
   }
   */

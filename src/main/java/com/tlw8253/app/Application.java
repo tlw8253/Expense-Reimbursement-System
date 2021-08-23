@@ -8,6 +8,7 @@ import com.tlw8253.controller.ERSAdminController;
 import com.tlw8253.controller.ExceptionController;
 import com.tlw8253.controller.ERSUserController;
 import com.tlw8253.controller.ERSLoginController;
+import com.tlw8253.controller.ERSReimbController;
 
 import io.javalin.Javalin;
 
@@ -33,12 +34,14 @@ public class Application implements Constants {
 		//Chrome will not allow sending request without the following config
 		objJavalinApp = Javalin.create((config) -> {
 			config.enableCorsForAllOrigins();
+			config.addStaticFiles("ERS-Client");
 		});
 
 //		objJavalinApp = Javalin.create();		
 		
-		objLogger.debug(sMethod + "mapControllers(new ExceptionController(), new ERSController(), new ERSAdminController(), new ERSLoginController() );");
-		mapControllers(/*new TestController(),*/ new ExceptionController(), new ERSUserController(), new ERSAdminController(), new ERSLoginController() );
+		objLogger.debug(sMethod + "mapControllers(new ExceptionController(), new ERSController(), new ERSAdminController(), new ERSLoginController(), new ERSReimbController() );");
+		mapControllers(/*new TestController(),*/ new ExceptionController(), new ERSUserController(), 
+				new ERSAdminController(), new ERSLoginController(), new ERSReimbController() );
 		
 		objLogger.info(sMethod + "Starting listening on port: [" + ciListingPort + "]");
 		objJavalinApp.start(ciListingPort); // start up our Javalin server on port defined for this program	

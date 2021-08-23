@@ -102,6 +102,9 @@ public class ReimbursementDTO extends AddOrEditDTO implements Constants{
 	public void setReimbReceipt(SerialBlob reimbReceipt) {
 		super.setDataElement(csReimbTblReimbReceipt, reimbReceipt);
 	}
+	public void setReimbReceipt(String reimbReceipt) {
+		super.setDataElement(csReimbTblReimbReceipt, reimbReceipt);
+	}
 
 	public void setReimbAuthorUsername(String reimbAuthorUsername) {
 		super.setDataElement(csReimbTblReimbAuthorUName, reimbAuthorUsername);

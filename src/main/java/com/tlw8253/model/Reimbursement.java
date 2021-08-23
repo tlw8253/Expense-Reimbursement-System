@@ -25,10 +25,12 @@ public class Reimbursement implements Constants {
 	@Column(name = csReimbTblReimbId)
 	private int reimbId = 0;
 
-	@Column(name = csReimbTblReimbAmount, nullable = false)
+	//this is required when adding a reimburstment record
+	@Column(name = csReimbTblReimbAmount, nullable = false)	
 	private double reimbAmount = 0.0;
 
-	@Column(name = csReimbTblReimbSubmitted, nullable = false)
+	//this is set internally so should not make not null due to body as class errors
+	@Column(name = csReimbTblReimbSubmitted)	//, nullable = false)
 	private Timestamp reimbSubmitted;
 
 	@Column(name = csReimbTblReimbResolved)
@@ -37,9 +39,11 @@ public class Reimbursement implements Constants {
 	@Column(name = csReimbTblReimbDescription, length = 250, nullable = false)
 	private String reimbDescription = "";
 	
+	
 	@Column(name = csReimbTblReimbReceipt)
 	private SerialBlob reimbReceipt = null;
 
+	//this is required when adding a reimburstment record
 	@ManyToOne
 	@JoinColumn(name = csReimbTblReimbAuthorId, nullable = false) // 
 	private User reimbAuthor;
@@ -48,12 +52,14 @@ public class Reimbursement implements Constants {
 	@JoinColumn(name = csReimbTblReimbResolverId) // 
 	private User reimbResolver;
 
+	//this is set internally so should not make not null due to body as class errors
 	@ManyToOne
-	@JoinColumn(name = csReimbStatusTblReimbStatusId, nullable = false) // 
+	@JoinColumn(name = csReimbStatusTblReimbStatusId)	//, nullable = false) // 
 	private ReimbursementStatus reimbStatus;
 
+	//this is set internally so should not make not null due to body as class errors
 	@ManyToOne
-	@JoinColumn(name = csReimbTypeTblReimbTypeId, nullable = false) // 
+	@JoinColumn(name = csReimbTypeTblReimbTypeId)	//, nullable = false) // 
 	private ReimbursementType reimbType;
 
 	
