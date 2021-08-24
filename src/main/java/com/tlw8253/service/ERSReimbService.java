@@ -227,8 +227,13 @@ public class ERSReimbService implements Constants {
 		objLogger.trace(sMethod + "Entered");
 
 
-		objLogger.debug(sMethod + "objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");
+		objLogger.debug(sMethod + "received from caller: objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");
 
+		String sReimbId = objReimbursementDTO.getReimbId();
+		if(Validate.isInt(sReimbId)) {
+			int iParseReimbId = Integer.parseInt(sReimbId);
+			objReimbursementDTO.setReimbId(iParseReimbId);
+		}		
 		int iReimbId = objReimbursementDTO.getReimbIdAsInt();	//get existing record id
 		
 		try {
@@ -286,6 +291,7 @@ public class ERSReimbService implements Constants {
 				objReimbursementDTO.setReimbResolverId(iResolverId);				
 				
 				objLogger.debug(sMethod + "updating the Reimbursement through the DAO.editRecord.");
+				objLogger.debug(sMethod + "sending for update: objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");
 				Reimbursement objUpdatedReimbursement =  objReimbursementDAO.editRecord(objReimbursementDTO);
 				objLogger.debug(sMethod + "objUpdatedReimbursement: [" + objUpdatedReimbursement.toString() + "]");
 				return objUpdatedReimbursement;

@@ -7,12 +7,7 @@ h1 {
     text-align: center;
     color: black;
 }
-h2 {
-    text-align: center;
-    color:  blue;
-}
-
-h3 {
+h2,h3 {
     text-align: center;
     color:  blue;
 }
@@ -28,8 +23,7 @@ div {
 }
 
 label{
-    display: inline-block;
-    
+    display: inline-block;    
 }
 
 input[type='submit'],
@@ -83,6 +77,24 @@ body{
   }
   
   #select_for_search_req{
+    background-color: lightblue;
+    color: black;        
+    border-width: medium 5px thick 5px;
+    border-style: solid; 
+    padding: 25px 25px 25px 25px;
+    display: block;
+}
+
+#review_reimb_record{
+    background-color: lightblue;
+    color: black;        
+    border-width: medium 5px thick 5px;
+    border-style: solid; 
+    padding: 25px 25px 25px 25px;
+    display: block;
+}
+
+#finance_reimb_record_action{
     background-color: lightblue;
     color: black;        
     border-width: medium 5px thick 5px;

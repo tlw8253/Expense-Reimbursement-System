@@ -43,6 +43,9 @@ public class Reimbursement implements Constants {
 	@Column(name = csReimbTblReimbReceipt)
 	private SerialBlob reimbReceipt = null;
 
+	@Column(name = csReimbTblReimbResolverMsg)
+	private String reimbResolverMsg;
+
 	//this is required when adding a reimburstment record
 	@ManyToOne
 	@JoinColumn(name = csReimbTblReimbAuthorId, nullable = false) // 

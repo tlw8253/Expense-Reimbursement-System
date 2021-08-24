@@ -152,12 +152,12 @@ function showSelectItem() {
   }
 
   function showCreateRequest() {
-    document.getElementById("selec_request_type").style.display="block";
+    document.getElementById("select_request_type").style.display="block";
     document.getElementById("create_request").style.display="block";    
     enableCreateRequest();
   }
   function hideCreateRequest() {
-    document.getElementById("selec_request_type").style.display="none";
+    document.getElementById("select_request_type").style.display="none";
     document.getElementById("create_request").style.display="none";    
   }
   function disableCreateRequest() {

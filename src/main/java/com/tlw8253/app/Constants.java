@@ -72,6 +72,7 @@ public interface Constants {
 	String csReimbStatusTblReimbStatusId 	= "reimb_status_id";		//PK primary key
 	String csReimbStatusTblReimbStatus	 	= "reimb_status";			//String
 	String csReimbStatusTblReimbStatusDesc 	= "reimb_status_desc";		//String
+	String csReimbStatusTblReimbStatusDenyReason 	= "reimb_status_deny";		//String
 	String[] csReimbStatus = {"PENDING", "APPROVED", "DENIED"};
 	int ciReimbStatusPending = 0;
 	int ciReimbStatusApproved = 1;
@@ -112,6 +113,7 @@ public interface Constants {
 	String csReimbTblReimbResolved 		= "reimb_resolved";		//time stamp
 	String csReimbTblReimbDescription 	= "reimb_description";	//string
 	String csReimbTblReimbReceipt 		= "reimb_receipt";		//blob - image or word doc
+	String csReimbTblReimbResolverMsg 	= "reimb_resolver_message";	//string
 	String csReimbTblReimbAuthorUName	= "reimb_author_username";	//author's username
 	String csReimbTblReimbAuthorId 		= "reimb_author_id";	//For the DTO
 	String csReimbTblReimbResolverUName	= "reimb_resolver_username";		//resolver username

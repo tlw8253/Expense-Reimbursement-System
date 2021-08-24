@@ -28,5 +28,5 @@
 ##     MariaDB (locally or ideally Amazon Web Services (AWS)) using Hibernate
 
 # Extend concepts created in Project 0
-##     Fully implements a GenericDAO<T> DAO model
+##     Fully implements a GenericDAO diamond T DAO model
 ##     Fully extends a base Data Transfer Object (DTO) model
