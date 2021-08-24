@@ -97,11 +97,11 @@ function searchByReimbNumber(searchByReimbNumber){
         document.getElementById('review_reimb_status').value = Reimbursement.reimbStatus.reimbStatus;
         document.getElementById('review_reimb_type').value = Reimbursement.reimbType.reimbType;
         document.getElementById('review_reimb_amount').value = Reimbursement.reimbAmount;
+        document.getElementById('review_reimb_author_un').value = Reimbursement.reimbAuthor.username;
+        document.getElementById('review_reimb_author_role').value = Reimbursement.reimbAuthor.userRole.userRole;
         document.getElementById('review_reimb_description').value = Reimbursement.reimbDescription;
         document.getElementById('review_reimb_receipt').value = Reimbursement.reimbReceipt;
-
-
-
+        
         document.getElementById('review_reimb_submitted').value = new Date(Reimbursement.reimbSubmitted);
         showFormReviewReimbRec();
 

@@ -17,11 +17,13 @@ function onPageLoad(){
   getUsercredentials();
 }
 function getUsercredentials(){
-  fetch('http://localhost:3015/ers_current_user', {
+  //alert("getUsercredentials()");
+  fetch(  'http://localhost:3015/ers_current_user', { //'http://localhost:3015/ers_session_user', {
     'credentials': 'include',
     'method': 'GET'
 }).then((response) => {
     if (response.status === 401) {
+      alert("Login session expired.");
          window.location.href = '/index.html'
     } else if (response.status === 200) {
         return response.json();

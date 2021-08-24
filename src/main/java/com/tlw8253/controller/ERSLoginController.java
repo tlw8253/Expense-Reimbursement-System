@@ -79,7 +79,7 @@ public class ERSLoginController implements Controller, Constants {
 
 	//
 	// ###
-	private Handler postERSValidateSessionUserHandler = (objCtx) -> {
+	private Handler getERSValidateSessionUserHandler = (objCtx) -> {
 		String sMethod = "\n\t postERSValidateSessionUserHandler(): ";
 		objLogger.trace(sMethod + "Entered");
 
@@ -150,7 +150,7 @@ public class ERSLoginController implements Controller, Constants {
 		app.post(csRootEndpointERS_Login, postErsLoginHandler);
 		app.post(csRootEndpointERS_Logout, postErsLogoutHandler);
 		app.get(csRootEndpointERS_CurrentUser, getERSCurrentUserHandler);
-		app.post(csRootEndpointERS_SessionValidate, postERSValidateSessionUserHandler);
+		app.get(csRootEndpointERS_SessionValidate, getERSValidateSessionUserHandler);
 
 	}
 
