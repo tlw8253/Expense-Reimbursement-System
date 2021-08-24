@@ -49,6 +49,7 @@ public interface Constants {
 	String csParamUserName = "username";
 	String csParamPassword = "password";
 	String csParamReimStatus = "reim_status";
+	String csParamPathReimbId = "reim_id";
 
 	//other constants
 	int ciUsernameLength = 7;

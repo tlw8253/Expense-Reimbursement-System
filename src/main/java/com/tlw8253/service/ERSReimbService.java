@@ -126,7 +126,7 @@ public class ERSReimbService implements Constants {
 					objReimbursementDTO.setReimbAuthorId(iReimbAuthorId); // set as int for the DAO
 					double dReimbAmount = Double.parseDouble(objReimbursementDTO.getReimbAmount());
 					objReimbursementDTO.setReimbAmount(dReimbAmount);
-
+					
 					Reimbursement objReimbursement = objReimbursementDAO.addRecord(objReimbursementDTO);
 					return objReimbursement;
 				} catch (Exception e) {// not sure what exception hibernate throws but not SQLException

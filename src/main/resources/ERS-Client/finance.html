@@ -11,20 +11,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Finance Reimbursement Review</title>
 
-        <!-- include JavaScript file -->
-        <script src="index.js"></script>
-
-        <link rel="stylesheet" href="css/style.css" />
+         <link rel="stylesheet" href="css/style.css" />
     </head>
 
-    <body>
+    <body onload="onPageLoad()">
         <h1>Wally World Movie Studios</h1>
         <h2>Expense Reimbursement System</h2>
         <h3>Finance Reimbursement Review</h3>
 
-        <br><br><br><br>
         <div>
-            <form name="select_for_requestsr">
+            <label for="this_username"><strong>Username: </strong></label>
+            <input type="input" name="username" id="username" readonly>
+            <label for="this_userrole"><strong>Role: </strong></label>
+            <input type="input" name="userrole" id="userrole" readonly>
+        </div>
+
+        <div><br>
+            <form name="select_for_search_req" id="select_for_search_req">
                 <div>
                     <h3>Search for Reinbursement Requests</h3>
                     <h4>Enter one value OR select for all records</h4>
@@ -33,22 +36,49 @@
                     <label for="employee_username">Enter Employee Username: </label>
                     <input type="text" name="employee_username" id="employee_username"><br>
                     <input type="radio" id="all_records" name="all_records" value="ALL">
-                    <label for="all_records">Select to retrieve all reimbursement requests.</label><br>
+                    <label for="all_records" name="all_records" id="all_records" >Select to retrieve all reimbursement requests.</label><br>
                 </div>
                 <div>
-                    <input type="submit" value="Search">
+                    <button class="btn btn-primary mt-3" id="btn_search">Search</button>
+                    <button class="btn btn-primary mt-3" id="btn_clear">Clear</button>
                 </div>
             </form>
         </div>
 
 
-        <br><br><br><br>
+        <br>
+
+        <form name="review_reimb_record" id="review_reimb_record">
+            <h3>Reimbursement Record for Review</h3>
+            <div>
+                <label for="review_rec_id">Id: </label>
+                <input type="text" name="review_rec_id" id="review_rec_id" size="3" readonly>
+                <label for="review_rec_id">Status: </label>
+                <input type="text" name="review_reimb_status" id="review_reimb_status" size="8" readonly>
+                <label for="review_reimb_amount">Type: </label>
+                <input type="text" name="review_reimb_type" id="review_reimb_type" size="8" readonly>
+                <label for="review_reimb_amount">Amount: </label>
+                <input type="text" name="review_reimb_amount" id="review_reimb_amount" size="5" readonly><br>
+                <label for="review_reimb_receipt">Receipt: </label>
+                <input type="text" name="review_reimb_receipt" id="review_reimb_receipt" size="15" readonly><br><br>
+ 
+                <label for="reveiw_reimb_description">Description:</label>
+                <textarea rows="5" cols="75" name="review_reimb_description"
+                id="review_reimb_description" minlength="10" maxlength="255" readonly></textarea><br>       
+
+
+                <br><label for="review_reimb_submitted">Submitted: </label>
+                <input type="text" name="review_reimb_submitted" id="review_reimb_submitted" size="55" readonly><br>
+            
+
+            </div>
+        </form>
         
 
 
 
 
-            <form name="search_results">
+            <form name="search_all_results" id="search_all_results">
                 <div>
                     <table style="width:100%" border: 1px solid black;>
                         <tr>
@@ -78,6 +108,7 @@
             </form>
         </div>
 
-
+       <!-- include JavaScript file -->
+       <script src="js/finance.js"></script>
     </body>
 </html>

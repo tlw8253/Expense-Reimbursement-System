@@ -1,5 +1,6 @@
 "use strict";
 // need to make sure the URL is: http://localhost:5500/index.html
+//http://localhost:3015/index.html
 // live server does not do this.
 let loginButton = document.getElementById('login');
 let usernameInput = document.getElementById('username');

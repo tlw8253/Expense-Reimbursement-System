@@ -82,3 +82,11 @@ body{
    
   }
   
+  #select_for_search_req{
+    background-color: lightblue;
+    color: black;        
+    border-width: medium 5px thick 5px;
+    border-style: solid; 
+    padding: 25px 25px 25px 25px;
+    display: block;
+}
