@@ -189,7 +189,7 @@ public class ERSReimbController implements Controller, Constants {
 	
 	//
 	// ###
-	private Handler postFinUpdateReimbursement = (objCtx) -> {
+	private Handler postFinMgrUpdateReimbursement = (objCtx) -> {
 		String sMethod = "\n\t postFinUpdateReimbursement(): ";
 		objLogger.trace(sMethod + "Entered");
 		Reimbursement objReimbursement = null;
@@ -200,6 +200,8 @@ public class ERSReimbController implements Controller, Constants {
 
 		// expect 1 path parameters with user id
 		if (imPathParmaMapSize == 1) {
+			
+			objReimbursementDTO = new ReimbursementDTO();
 
 			sParamUsername = objCtx.pathParam(csParamUserName);
 			objLogger.debug(sMethod + "Context path parameter user id: [" + sParamUsername + "]");
@@ -213,11 +215,12 @@ public class ERSReimbController implements Controller, Constants {
 				objReimbursementDTO.setReimbStatus(objReimbFinMgrDTO.getReimbStatus());
 				objReimbursementDTO.setReimbResolverMessage(objReimbFinMgrDTO.getReimbDenyReason());
 				objReimbursementDTO.setReimbResolverUsername(sParamUsername);
+	
+//let the service do this based on username
+//				User objResolver = objERSUserService.getUsersByUsername(sParamUsername);
+//				objReimbursementDTO.setReimbResolverId(Integer.toString(objResolver.getId()));				
 				
-				User objResolver = objERSUserService.getUsersByUsername(sParamUsername);
-				objReimbursementDTO.setReimbResolverId(Integer.toString(objResolver.getId()));				
-				
-				objLogger.debug(sMethod + "objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");				
+				objLogger.debug(sMethod + "sending to service for update by resolver: objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");				
 				objReimbursement = objERSReimbService.updateReimbursementByResolver(objReimbursementDTO);
 
 				objCtx.status(ciStatusCodeSuccess);
@@ -247,7 +250,7 @@ public class ERSReimbController implements Controller, Constants {
 
 		//
 		app.post("/ers_reimb_add/:" + csParamUserName, postAddNewReimbursement);
-		app.post("/ers_reimb_fm_update/:" + csParamUserName, postFinUpdateReimbursement);
+		app.post("/ers_reimb_fm_update/:" + csParamUserName, postFinMgrUpdateReimbursement);
 		app.get("/ers_reimb_id/:" + csParamPathReimbId, getReimbursementById);
 	}
 

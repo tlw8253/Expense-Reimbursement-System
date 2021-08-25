@@ -181,13 +181,19 @@ public class Reimbursement implements Constants {
 		this.reimbType = reimbType;
 	}
 
+	public String getReimbResolverMsg() {
+		return reimbResolverMsg;
+	}
+
+	public void setReimbResolverMsg(String reimbResolverMsg) {
+		this.reimbResolverMsg = reimbResolverMsg;
+	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(reimbAmount, reimbAuthor, reimbDescription, reimbId, reimbReceipt, reimbResolved,
-				reimbResolver, reimbStatus, reimbSubmitted, reimbType);
+				reimbResolver, reimbResolverMsg, reimbStatus, reimbSubmitted, reimbType);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -203,18 +209,22 @@ public class Reimbursement implements Constants {
 				&& Objects.equals(reimbDescription, other.reimbDescription) && reimbId == other.reimbId
 				&& Objects.equals(reimbReceipt, other.reimbReceipt)
 				&& Objects.equals(reimbResolved, other.reimbResolved)
-				&& Objects.equals(reimbResolver, other.reimbResolver) && Objects.equals(reimbStatus, other.reimbStatus)
+				&& Objects.equals(reimbResolver, other.reimbResolver)
+				&& Objects.equals(reimbResolverMsg, other.reimbResolverMsg)
+				&& Objects.equals(reimbStatus, other.reimbStatus)
 				&& Objects.equals(reimbSubmitted, other.reimbSubmitted) && Objects.equals(reimbType, other.reimbType);
 	}
 
-
 	@Override
 	public String toString() {
-		return "\n\t Reimbursement [reimbId=" + reimbId + ", reimbAmount=" + reimbAmount + ", reimbSubmitted="
+		return "Reimbursement [reimbId=" + reimbId + ", reimbAmount=" + reimbAmount + ", reimbSubmitted="
 				+ reimbSubmitted + ", reimbResolved=" + reimbResolved + ", reimbDescription=" + reimbDescription
-				+ ", reimbReceipt=" + reimbReceipt + ", reimbAuthor=" + reimbAuthor + ", reimbResolver=" + reimbResolver
-				+ ", reimbStatus=" + reimbStatus + ", reimbType=" + reimbType + "]";
+				+ ", reimbReceipt=" + reimbReceipt + ", reimbResolverMsg=" + reimbResolverMsg + ", reimbAuthor="
+				+ reimbAuthor + ", reimbResolver=" + reimbResolver + ", reimbStatus=" + reimbStatus + ", reimbType="
+				+ reimbType + "]";
 	}
+
+
 
 	
 	

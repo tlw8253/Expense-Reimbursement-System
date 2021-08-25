@@ -17,6 +17,7 @@ import com.tlw8253.dto.ReimbursementTypeDTO;
 import com.tlw8253.dto.UserRoleDTO;
 import com.tlw8253.exception.*;
 import com.tlw8253.model.UserRole;
+import com.tlw8253.util.Validate;
 import com.tlw8253.model.ReimbursementStatus;
 import com.tlw8253.model.ReimbursementType;
 
@@ -63,14 +64,14 @@ public class ERSAdminService implements Constants {
 
 		} catch (SQLException e) {
 			objLogger.warn(sMethod + "SQLException while getting all Reimbursement Status: [" + e.getMessage() + "]");
-			throw new DatabaseException(csMsgDB_ErrorGettingReimbursementStatus);
+			throw new DatabaseException(csMsgDB_ErrorGettingAllReimbursementStatus);
 		} catch (HibernateException e) {
 			objLogger.warn(
 					sMethod + "HibernateException while getting all Reimbursement Status: [" + e.getMessage() + "]");
-			throw new DatabaseException(csMsgDB_ErrorGettingReimbursementStatus);
+			throw new DatabaseException(csMsgDB_ErrorGettingAllReimbursementStatus);
 		} catch (Exception e) {
 			objLogger.warn(sMethod + "Exception while getting all Reimbursement Status: [" + e.getMessage() + "]");
-			throw new DatabaseException(csMsgDB_ErrorGettingReimbursementStatus);
+			throw new DatabaseException(csMsgDB_ErrorGettingAllReimbursementStatus);
 		}
 	}
 
@@ -157,6 +158,44 @@ public class ERSAdminService implements Constants {
 
 	}
 
+
+	//
+	// ###
+	public ReimbursementStatus getReimbursementStatusByName(String sStatusName)
+			throws DatabaseException, BadParameterException {
+		String sMethod = "getReimbursementStatusByName(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		if (sStatusName.length() == 0) {
+			objLogger.debug(sMethod + "Invalid parameters received sStatus: [" + sStatusName + "]");
+			throw new BadParameterException(csMsgBadParamReimbStatus);
+		}
+		
+		if(!Validate.isValidValueInArray(sStatusName, csReimbStatus)) {
+			objLogger.debug(sMethod + "Invalid parameters received sStatus: [" + sStatusName + "] not a status define: [" + csReimbStatus.toString() + "]");
+			throw new BadParameterException(csMsgBadParamReimbStatus);			
+		}
+
+		try {
+			objLogger.debug(sMethod + "Getting status by name sStatus: [" + sStatusName + "]");
+			ReimbursementStatus objReimbStatus = objReimbStatusDAO.getByRecordIdentifer(sStatusName);
+			return objReimbStatus;
+
+		} catch (SQLException e) {
+			objLogger.warn(sMethod + "SQLException while getting Reimbursement Status: [" + e.getMessage() + "]");
+			throw new DatabaseException(csMsgDB_ErrorGettingReimbursementStatus);
+		} catch (HibernateException e) {
+			objLogger.warn(sMethod + "HibernateException while getting Reimbursement Status: [" + e.getMessage() + "]");
+			throw new DatabaseException(csMsgDB_ErrorGettingReimbursementStatus);
+		} catch (Exception e) {
+			objLogger.warn(sMethod + "Exception while getting Reimbursement Status: [" + e.getMessage() + "]");
+			throw new DatabaseException(csMsgDB_ErrorGettingReimbursementStatus);
+		}
+
+	}
+
+
+	
 	//
 	// ###
 	public ReimbursementType addReimbursementType(ReimbursementTypeDTO objReimbTypeDTO)

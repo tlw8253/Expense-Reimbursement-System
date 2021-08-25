@@ -18,6 +18,7 @@ import com.tlw8253.dto.ReimbursementDTO;
 import com.tlw8253.dto.UserDTO;
 import com.tlw8253.exception.*;
 import com.tlw8253.model.Reimbursement;
+import com.tlw8253.model.ReimbursementStatus;
 import com.tlw8253.model.User;
 import com.tlw8253.util.Validate;
 
@@ -25,9 +26,13 @@ public class ERSReimbService implements Constants {
 	private Logger objLogger = LoggerFactory.getLogger(ERSReimbService.class);
 //	private GenericDAO<User> objUserDAO;
 	private GenericDAO<Reimbursement> objReimbursementDAO;
+	private ERSUserService objERSUserService;
+	private ERSAdminService objERSAdminService;
 
 	public ERSReimbService() {
 		this.objReimbursementDAO = new ReimbursementDAOImpl();
+		this.objERSUserService = new ERSUserService();
+		this.objERSAdminService = new ERSAdminService();
 	}
 
 	public ERSReimbService getMockReimbursementDAO(GenericDAO<Reimbursement> objMockReimbursementDAO) {
@@ -202,6 +207,8 @@ public class ERSReimbService implements Constants {
 				objLogger.debug(sMethod + "Set reimbAmount as double in objReimbursementDTO: [" + dReimbAmount + "]");
 				objReimbursementDTO.setReimbAmount(dReimbAmount);			
 				
+				objLogger.debug(sMethod + "sending to DAO to update: objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");
+				
 				Reimbursement objUpdatedReimbursement =  objReimbursementDAO.editRecord(objReimbursementDTO);
 				objLogger.debug(sMethod + "objUpdatedReimbursement: [" + objUpdatedReimbursement.toString() + "]");
 				return objUpdatedReimbursement;
@@ -228,70 +235,86 @@ public class ERSReimbService implements Constants {
 
 
 		objLogger.debug(sMethod + "received from caller: objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");
-
+		//get the five items that should be in the resolver DTO
 		String sReimbId = objReimbursementDTO.getReimbId();
-		if(Validate.isInt(sReimbId)) {
+		String sReimbResolverUserName = objReimbursementDTO.getReimbResolverUsername();
+		String sReimbResolverStatus = objReimbursementDTO.getReimbStatus();
+		String sReimbResolverStatusMsg = objReimbursementDTO.getReimbResolverMessage();
+
+		objLogger.debug(sMethod + "paresed values from: objReimbursementDTO: sReimbId: [" + sReimbId + "] sReimbResolverUserName: [" 
+							+ sReimbResolverUserName + "] sReimbResolverStatus: [" + sReimbResolverStatus + "] sReimbResolverStatusMsg: ["
+							+ sReimbResolverStatusMsg + "]");
+		
+		if(Validate.isInt(sReimbId) && Integer.parseInt(sReimbId) > 0) {
 			int iParseReimbId = Integer.parseInt(sReimbId);
 			objReimbursementDTO.setReimbId(iParseReimbId);
-		}		
+		}	else {
+			objLogger.debug(sMethod + "bad input parameter from DTO did not parse to int or was zero sReimbId: [" + sReimbId + "]");
+			throw new BadParameterException(csMsgBadParamGetReimbursementById);
+		}
 		int iReimbId = objReimbursementDTO.getReimbIdAsInt();	//get existing record id
 		
+		objLogger.debug(sMethod + "reimbursement record id iReimbId: [" + iReimbId + "]");
+		
+		
 		try {
-			objLogger.debug(sMethod + "get objReimbursementDBRecord by id: [" + iReimbId + "]");
+			//first get the resolver user object
+			objLogger.debug(sMethod + "getting resolver user object by sReimbResolverUserName: [" + sReimbResolverUserName + "]");
+			User objResolver = objERSUserService.getUsersByUsername(sReimbResolverUserName);
+			objLogger.debug(sMethod + "user object objResolver: [" + objResolver.toString() + "]");
+			
+			//second get the reimbursement status object
+			objLogger.debug(sMethod + "getting reimbursement status object by sReimbResolverStatus: [" + sReimbResolverStatus + "]");
+			ReimbursementStatus objReimbursementStatus = objERSAdminService.getReimbursementStatusByName(sReimbResolverStatus);
+			objLogger.debug(sMethod + "reimbursement status object objReimbursementStatus: [" + objReimbursementStatus.toString() + "]");
+			
+			//third get the Reimbursement record we are editing from the database
+			objLogger.debug(sMethod + "get Reimbursement DB Record by id: [" + iReimbId + "]");
 			Reimbursement objReimbursementDBRecord = objReimbursementDAO.getByRecordId(iReimbId);
 			objLogger.debug(sMethod + "received: objReimbursementDBRecord: [" + objReimbursementDBRecord.toString() + "]");
 			
-			//keep the record id
-			objReimbursementDTO.setReimbId(iReimbId);
-			
-			//csReimbTblReimbAmount cannot be changed by the resolver
-			objLogger.debug(sMethod + "setting reimbamount in objReimbursementDTO.");
-			objReimbursementDTO.setReimbAmount(objReimbursementDBRecord.getReimbAmount());
-			
-			objLogger.debug(sMethod + "setting submitted timestamp in objReimbursementDTO.");
-			//keep the original csReimbTblReimbSubmitted timestamp
-			objReimbursementDTO.setReimbSubmitted(objReimbursementDBRecord.getReimbSubmitted());
-			
-			objLogger.debug(sMethod + "setting new resolved timestamp in objReimbursementDTO.");
-			//set current csReimbTblReimbResolved timestamp
-			Timestamp objResolverTimestamp = Timestamp.valueOf(LocalDateTime.now());
-			objReimbursementDTO.setReimbResolved(objResolverTimestamp);
-			
-			objLogger.debug(sMethod + "setting reimb description in objReimbursementDTO.");
-			//csReimbTblReimbDescription cannot be changed by the resolver
-			objReimbursementDTO.setReimbDescription(objReimbursementDBRecord.getReimbDescription());
-			
-			objLogger.debug(sMethod + "setting reimb receipt in objReimbursementDTO.");
-			//csReimbTblReimbReceipt cannot be changed by the resolver
-			objReimbursementDTO.setReimbReceipt(objReimbursementDBRecord.getReimbReceipt());
-			
-			objLogger.debug(sMethod + "setting author id objReimbursementDTO.");
-			//keep the csReimbTblReimbAuthorId, author cannot be changed
-			objReimbursementDTO.setReimbAuthorId(objReimbursementDBRecord.getReimbAuthor().getId());
+			//now setup the DTO for the DAO update
+			objReimbursementDTO.setReimbId(iReimbId);											//value used to get db record
 
-			//the csReimbTblReimbResolverId should be passed in by the caller
-			//need to convert to integer after dto validation
+			objReimbursementDTO.setReimbAmount(objReimbursementDBRecord.getReimbAmount());		//from db record
+			objReimbursementDTO.setReimbAmount(Double.toString(objReimbursementDBRecord.getReimbAmount()));//also set as string
 			
-			//the csReimbStatusTblReimbStatusId can be changed by the resolver
+			objReimbursementDTO.setReimbSubmitted(objReimbursementDBRecord.getReimbSubmitted());//from db record
+			objReimbursementDTO.setReimbSubmitted(objReimbursementDBRecord.getReimbSubmitted().toString());//also set as string			
 			
-			//csReimbTblReimbTypeId cannot be changed by the resolver
-			objReimbursementDTO.setReimbTypeId(objReimbursementDBRecord.getReimbType().getReimbTypeId());
-						
-			objLogger.debug(sMethod + "calling isValidAuthorUpdateReimbDTO to validate the DTO.");
-			//validate just the fields the user can update
+			objReimbursementDTO.setReimbResolved(Timestamp.valueOf(LocalDateTime.now()));		//set now for being resolved
+			objReimbursementDTO.setReimbResolved(Timestamp.valueOf(LocalDateTime.now()).toString());//also set as string			
+			
+			objReimbursementDTO.setReimbDescription(objReimbursementDBRecord.getReimbDescription());//from db record
+			
+			objReimbursementDTO.setReimbReceipt(objReimbursementDBRecord.getReimbReceipt());		//from db record
+			objReimbursementDTO.setReimbReceipt(objReimbursementDBRecord.getReimbReceipt().toString());//also set as string
+			
+			objReimbursementDTO.setReimbResolverMessage(sReimbResolverStatusMsg);				//from the resolver's DTO
+			
+			objReimbursementDTO.setReimbAuthorUsername(objReimbursementDBRecord.getReimbAuthor().getUsername());//from db record
+			objReimbursementDTO.setReimbAuthorId(objReimbursementDBRecord.getReimbAuthor().getId());//from db record
+			objReimbursementDTO.setReimbAuthorId(Integer.toString(objReimbursementDBRecord.getReimbAuthor().getId()));//also as string
+			
+			
+			objReimbursementDTO.setReimbResolverUsername(objResolver.getUsername());			//from resolver's user object
+			objReimbursementDTO.setReimbResolverId(objResolver.getId());						//from resolver's user object
+			objReimbursementDTO.setReimbResolverId(Integer.toString(objResolver.getId()));		//also as string
+			
+			objReimbursementDTO.setReimbStatus(objReimbursementStatus.getReimbStatus());		//from status object
+			objReimbursementDTO.setReimbStatusId(objReimbursementStatus.getReimbStatusId());	//from status object
+			
+			objReimbursementDTO.setReimbType(objReimbursementDBRecord.getReimbType().getReimbType());//from db record
+			objReimbursementDTO.setReimbTypeId(objReimbursementDBRecord.getReimbType().getReimbTypeId());//from db record
+			
+			objLogger.debug(sMethod + "final DTO object before calling DAO objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");
+			
+			//now validate the DTO
 			if(isValidResolverUpdateReimbDTO(objReimbursementDTO)) {
-				
 				objLogger.debug(sMethod + "Validated objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");
-				
-				String sResolverId = objReimbursementDTO.getReimbResolverId();
-				objLogger.debug(sMethod + "get sResolverId from DTO: [" + sResolverId + "]");
-				
-				int iResolverId = Integer.parseInt(objReimbursementDTO.getReimbResolverId());
-				objLogger.debug(sMethod + "Set reimbResolverId as int in objReimbursementDTO: [" + iResolverId + "]");
-				objReimbursementDTO.setReimbResolverId(iResolverId);				
-				
 				objLogger.debug(sMethod + "updating the Reimbursement through the DAO.editRecord.");
-				objLogger.debug(sMethod + "sending for update: objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");
+				
+				//Finally call the DAO to update the record
 				Reimbursement objUpdatedReimbursement =  objReimbursementDAO.editRecord(objReimbursementDTO);
 				objLogger.debug(sMethod + "objUpdatedReimbursement: [" + objUpdatedReimbursement.toString() + "]");
 				return objUpdatedReimbursement;
@@ -301,12 +324,15 @@ public class ERSReimbService implements Constants {
 				throw new BadParameterException(csMsgBadParamUpdateReimb);
 			}		
 			
+
 		} catch (Exception e) {// not sure what exception hibernate throws but not SQLException
 			objLogger
 					.error(sMethod + "Exception updating Reimbursement record: [" + objReimbursementDTO.toString()
 							+ "] \n\t Exception: [" + e.toString() + "] \n\t[" + e.getMessage() + "]");
 			throw new DatabaseException(csMsgDB_ErrorUpdatingReimbursement);
 		}
+			
+/**/
 	}
 
 	//////////////////////////////////////// Utility Methods for this Class

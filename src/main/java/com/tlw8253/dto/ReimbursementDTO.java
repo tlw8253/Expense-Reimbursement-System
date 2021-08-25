@@ -76,6 +76,10 @@ public class ReimbursementDTO extends AddOrEditDTO implements Constants{
 		return super.getDataElement(csReimbTblReimbType);
 	}
 
+	public String getReimbResolverUsername() {
+		return getDataElement(csReimbTblReimbResolverUName);
+	}	
+
 
 
 
@@ -94,10 +98,17 @@ public class ReimbursementDTO extends AddOrEditDTO implements Constants{
 		super.setDataElement(csReimbTblReimbAmount, reimbAmount);
 	}
 
+
+	public void setReimbSubmitted(String reimbSubmitted) {
+		super.setDataElement(csReimbTblReimbSubmitted, reimbSubmitted);
+	}
 	public void setReimbSubmitted(Timestamp reimbSubmitted) {
 		super.setDataElement(csReimbTblReimbSubmitted, reimbSubmitted);
 	}
 
+	public void setReimbResolved(String reimbResolved) {
+		super.setDataElement(csReimbTblReimbResolved, reimbResolved);
+	}
 	public void setReimbResolved(Timestamp reimbResolved) {
 		super.setDataElement(csReimbTblReimbResolved, reimbResolved);
 	}

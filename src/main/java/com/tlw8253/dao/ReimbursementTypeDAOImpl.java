@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import com.tlw8253.app.Constants;
 import com.tlw8253.dto.AddOrEditDTO;
-import com.tlw8253.model.ReimbursementStatus;
 import com.tlw8253.model.ReimbursementType;
 import com.tlw8253.util.SessionFactorySingleton;
 
@@ -47,9 +46,37 @@ public class ReimbursementTypeDAOImpl implements GenericDAO<ReimbursementType>, 
 	}
 
 	@Override
-	public ReimbursementType getByRecordId(int sRecordId) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public ReimbursementType getByRecordId(int iRecordId) throws SQLException {
+		String sMethod = "\n\t getByRecordId(): ";
+		objLogger.trace(sMethod + "Entered");
+			
+		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+		
+		String sHQL = "";
+
+		sHQL = "FROM ReimbursementType rt WHERE rt.reimbTypeId = :reimbTypeId"; //this works with using setParameter
+		objLogger.debug(sMethod + "sHQL: [" + sHQL + "]" + " param: iRecordId: [" + iRecordId +"]");
+		
+		try {
+			ReimbursementType ojbReimbursementType = 
+					(ReimbursementType) session.createQuery(sHQL)
+					.setParameter("reimbTypeId", iRecordId)
+					.getSingleResult();
+			objLogger.debug(sMethod + "ojbReimbursementType: [" + ojbReimbursementType.toString() + "]");
+			
+			
+			tx.commit();
+			return ojbReimbursementType;
+			
+		}catch(Exception e) {
+			objLogger.error(sMethod + "Exception: cause: [" + e.getCause() + "] class name [" + e.getClass().getName() + "] [" + e.toString() + "]");
+			objLogger.error(sMethod + "Exception: message: [" + e.getMessage() + "]");	
+			return null;
+		}finally {
+			session.close();
+		}	
 	}
 
 	@Override

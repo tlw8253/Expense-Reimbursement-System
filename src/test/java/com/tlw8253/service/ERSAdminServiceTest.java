@@ -172,7 +172,7 @@ public class ERSAdminServiceTest implements Constants {
 			fail();
 			
 		}catch(DatabaseException e) {		
-		assertEquals(csMsgDB_ErrorGettingReimbursementStatus, e.getMessage());
+		assertEquals(csMsgDB_ErrorGettingAllReimbursementStatus, e.getMessage());
 		}
 	}
 

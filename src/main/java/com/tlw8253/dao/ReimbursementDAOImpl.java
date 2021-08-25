@@ -207,12 +207,7 @@ public class ReimbursementDAOImpl implements GenericDAO<Reimbursement>, Constant
 
 	//
 	//###
-	//This method will:
-	//	Cannot change: record id, reimbSubmitted, reimbAuthor
-	//	Can change: reimbAmount, reimbResolved, reimbDescription, reimbReceipt, reimbResolver, reimbStatus, reimbType
-	//It it left to the service layer to apply additional business rules such as not allowing change once approved.
-	//The record being edited will need to be shown to the user with it's database image.  All field will need to be 
-	//return with values that had values.
+	//Need to let the caller deceide what values are updated for an Author or Resolver.
 	@Override
 	public Reimbursement editRecord(AddOrEditDTO objAddOrEditDTO) throws SQLException {
 		String sMethod = "\n\t editRecord(): ";
@@ -220,41 +215,40 @@ public class ReimbursementDAOImpl implements GenericDAO<Reimbursement>, Constant
 
 		objLogger.debug(sMethod + "objAddOrEditDTO: [" + objAddOrEditDTO.toString() + "]");
 		
-		//no change to csReimbTblReimbId
-		//get csReimbTblReimbAmount
-		double dReimAmount = objAddOrEditDTO.getDoubleDataElement(csReimbTblReimbAmount);	//if zero don't change
-		//no change to csReimbTblReimbSubmitted
-		//get csReimbTblReimbResolved
-		Timestamp tsReimbResolved = objAddOrEditDTO.getTimestampDataElement(csReimbTblReimbResolved);
-		//get csReimbTblReimbDescription
-		String sReimbDescription = objAddOrEditDTO.getDataElement(csReimbTblReimbDescription); 
-		//get csReimbTblReimbReceipt
-		SerialBlob sbReimbReceipt = objAddOrEditDTO.getSerialBlobDataElement(csReimbTblReimbReceipt);
-		//no change to csReimbTblReimbAuthorId
-		//get csReimbTblReimbResolverId
-		String sReimbResolver = objAddOrEditDTO.getDataElement(csReimbTblReimbResolverUName);  //if blank, then must be editting by author
+		//The DTO should contained all the changed and unchanged elements and ids
+		//no logic here to exclude anything from the update object
 		
+		//get the program defined database objects ids from the DTO
+		int iReimbId = objAddOrEditDTO.getIntDataElement(csReimbTblReimbId);	//id of the record to update
+		objLogger.debug(sMethod + "iReimbId: [" + iReimbId + "]");
+		
+		int iReimbAuthorId = objAddOrEditDTO.getIntDataElement(csReimbTblReimbAuthorId);		//
+		objLogger.debug(sMethod + "iReimbAuthorId: [" + iReimbAuthorId + "]");
+		int iReimbResolverId = objAddOrEditDTO.getIntDataElement(csReimbTblReimbResolverId);	//
+		objLogger.debug(sMethod + "iReimbResolverId: [" + iReimbResolverId + "]");
+		int iReimbStatusId = objAddOrEditDTO.getIntDataElement(csReimbTblReimbStatusId);		//
+		objLogger.debug(sMethod + "iReimbStatusId: [" + iReimbStatusId + "]");
+		int iReimbTypeId = objAddOrEditDTO.getIntDataElement(csReimbTblReimbTypeId);
+		objLogger.debug(sMethod + "iReimbTypeId: [" + iReimbTypeId + "]");
 
-		User objReimbResolver = new User();
-		if(sReimbResolver.length()==ciUsernameLength) { //check if there is a resolver
-			//get the solver by username
-			UserDAOImpl objUserDAOImpl = new UserDAOImpl();
-			objReimbResolver = objUserDAOImpl.getByRecordIdentifer(sReimbResolver);			
-		}
+		//get the dependent objects before the record to update due to how sessions are handle
+		UserDAOImpl objUserDAOImpl = new UserDAOImpl();
+		User objAuthor = objUserDAOImpl.getByRecordId(iReimbAuthorId);
+		objLogger.debug(sMethod + "retreived author object: [" + objAuthor.toString() + "]");
 		
-		// get ReimbursementStatus object
-		String sReimbStatus = objAddOrEditDTO.getDataElement(csReimbTblReimbStatus);
+		User objResolver = objUserDAOImpl.getByRecordId(iReimbResolverId);
+		objLogger.debug(sMethod + "retreived resolver object: [" + objResolver.toString() + "]");		
+		
 		ReimbursementStatusDAOImpl objReimbursementStatusDAOImpl = new ReimbursementStatusDAOImpl();
-		ReimbursementStatus objReimbursementStatus = objReimbursementStatusDAOImpl.getByRecordIdentifer(sReimbStatus);
+		ReimbursementStatus objReimbursementStatus = objReimbursementStatusDAOImpl.getByRecordId(iReimbStatusId);
+		objLogger.debug(sMethod + "retreived status object: [" + objReimbursementStatus.toString() + "]");
 
-		// get ReimbursementStatus object
-		String sReimbType = objAddOrEditDTO.getDataElement(csReimbTblReimbType);
 		ReimbursementTypeDAOImpl objReimbursementTypeDAOImpl = new ReimbursementTypeDAOImpl();
-		ReimbursementType objReimbursementType = objReimbursementTypeDAOImpl.getByRecordIdentifer(sReimbType);
+		ReimbursementType objReimbursementType = objReimbursementTypeDAOImpl.getByRecordId(iReimbTypeId);
+		objLogger.debug(sMethod + "retrieved reimb type object: [" + objReimbursementType.toString() + "]");
 
-
-		//since this is an edit of an existing record, the DTO should have the primary key
-		int iReimbId = objAddOrEditDTO.getIntDataElement(csReimbTblReimbId);		
+		
+		//now get the Reimbursement from the database so we can update changed values
 
 		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
 		Session session = sf.openSession();
@@ -265,35 +259,23 @@ public class ReimbursementDAOImpl implements GenericDAO<Reimbursement>, Constant
 			String sHQL = "";
 			sHQL = "FROM Reimbursement r WHERE r.reimbId = :reimbId";
 			objLogger.debug(sMethod + "sHQL: [" + sHQL + "]" + " param: iReimbId: [" + iReimbId + "]");
-
-			// need to get user Reimbursement to edit here and not through class method
-			// getByRecordIdentifer()
-			// due to the way sessions are open/closed within each methods. When using the
-			// other class
-			// method we loose connection to session object and cannot update.
 			Reimbursement objReimbursementToEdit = (Reimbursement) session.createQuery(sHQL).setParameter("reimbId", iReimbId).getSingleResult();
-
-			// will not update the record id, the company username, or the company email.
-			// also password should be updated through separate process where old pwd and
-			// new pwd are entered
-			// set user object with
-
-			// The only fields allowed to change
-			objReimbursementToEdit.setReimbAmount(dReimAmount);
-			
-			if(sReimbResolver.length()==ciUsernameLength) { //check if there is a resolver
-				objReimbursementToEdit.setReimbResolved(tsReimbResolved);
-				objReimbursementToEdit.setReimbAuthor(objReimbResolver);
-			}
-			objReimbursementToEdit.setReimbDescription(sReimbDescription);
-			objReimbursementToEdit.setReimbReceipt(sbReimbReceipt);
-			objReimbursementToEdit.setReimbResolver(objReimbResolver);
-			objReimbursementToEdit.setReimbStatus(objReimbursementStatus);
-			objReimbursementToEdit.setReimbType(objReimbursementType);
-			
-
 			objLogger.debug(sMethod + "DB update with objReimbursementToEdit: [" + objReimbursementToEdit.toString() + "]");
+			
+			//we have the record locked from the data base read, now update fields from the DTO except the record id
+			objReimbursementToEdit.setReimbAmount(objAddOrEditDTO.getDoubleDataElement(csReimbTblReimbAmount));
+			objReimbursementToEdit.setReimbSubmitted(objAddOrEditDTO.getTimestampDataElement(csReimbTblReimbSubmitted));
+			objReimbursementToEdit.setReimbSubmitted(objAddOrEditDTO.getTimestampDataElement(csReimbTblReimbSubmitted));
+			objReimbursementToEdit.setReimbDescription(objAddOrEditDTO.getDataElement(csReimbTblReimbDescription));
+			objReimbursementToEdit.setReimbReceipt(objAddOrEditDTO.getSerialBlobDataElement(csReimbTblReimbReceipt));
+			objReimbursementToEdit.setReimbResolverMsg(objAddOrEditDTO.getDataElement(csReimbTblReimbResolverMsg));
+			objReimbursementToEdit.setReimbAuthor(objAuthor);
+			objReimbursementToEdit.setReimbResolver(objResolver);
+			objReimbursementToEdit.setReimbStatus(objReimbursementStatus);
+			objReimbursementToEdit.setReimbType(objReimbursementType);		
 
+			objLogger.debug(sMethod + "Values updated from the DTO for objReimbursementToEdit: [" + objReimbursementToEdit.toString() + "]");
+			
 			session.persist(objReimbursementToEdit);
 			tx.commit();
 
@@ -307,6 +289,9 @@ public class ReimbursementDAOImpl implements GenericDAO<Reimbursement>, Constant
 		} finally {
 			session.close();
 		}
+		
+		
+		
 	}
 
 	@Override

@@ -149,7 +149,8 @@ public interface Constants {
 	//Define program messages to use in the program and for testing
 	String csMsgDB_ErrorGettingWithLogin = "Error with database during employee login.";	
 	String csMsgDB_ErrorAddingReimbursementStatus = "Error with database when adding Reimbursement Status.";
-	String csMsgDB_ErrorGettingReimbursementStatus = "Error with database when getting all Reimbursement Status.";
+	String csMsgDB_ErrorGettingAllReimbursementStatus = "Error with database when getting all Reimbursement Status.";
+	String csMsgDB_ErrorGettingReimbursementStatus = "Error with database when getting a Reimbursement Status.";
 	String csMsgDB_ErrorAddingReimbursementType = "Error with database when adding Reimbursement Type.";
 	String csMsgDB_ErrorGettingReimbursementType = "Error with database when getting all Reimbursement Types.";
 	String csMsgDB_ErrorAddingUserRole = "Error with database when adding User Role.";
