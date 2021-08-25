@@ -1,5 +1,9 @@
 "use strict";
 var e = document.getElementById("reimb_status_code");
+var userPwd = "";
+var fmUsername = "";
+var authorUsername = "";
+
 
 let searchButton = document.getElementById('btn_search');
 let clearButton = document.getElementById('btn_clear');
@@ -21,6 +25,33 @@ function onPageLoad(){
     getUsercredentials();
     resetPage();        
   };
+
+
+  function gotoReimbursement(){
+    window.location.href = '/reimbursement.html';
+  }
+
+  function logout(){
+    //document.event.preventDefault();
+     
+    const logoutInfo = {
+        'username': usernameOutput.value,
+        'password': userPwd
+    };
+  
+      fetch('http://localhost:3015/ers_logout', {
+        method: 'POST',
+        credentials: 'include', // this specifies that when you receive cookies,
+        // you should include them in future requests.
+        headers: {
+            'Content-Type': 'application/json' // application/json is a MIME type
+        },
+        body: JSON.stringify(logoutInfo)}).then(() => {
+          window.location.href = '/index.html';
+  
+    })
+  };
+
 
   function resetPage(){
     hideFinMgrActionBtn();
@@ -155,7 +186,7 @@ function onPageLoad(){
   ).then((user) => {
     usernameOutput.value = user.username;
     usernroleOutput.value = user.userRole.userRole;
-  
+    userPwd = user.password;
   }
   )
 };
@@ -203,6 +234,17 @@ function searchByReimbNumber(searchByReimbNumber){
         document.getElementById('review_reimb_receipt').value = Reimbursement.reimbReceipt;
 
         document.getElementById('review_reimb_submitted').value = new Date(Reimbursement.reimbSubmitted);
+
+        fmUsername = usernameOutput.value;
+        authorUsername = document.getElementById("review_reimb_author_un").value
+        //alert(fmUsername + " == " + authorUsername);
+
+        document.getElementById("fin_mgr_actions").style.display="block";
+        if(fmUsername == authorUsername){
+          actionStatusOutput.value = "You can only view your own Reimbursement Record.";
+          document.getElementById("fin_mgr_actions").style.display="none";
+        }
+
         showFormReviewReimbRec();    
     }
     )

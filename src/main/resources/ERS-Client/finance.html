@@ -15,6 +15,13 @@
     </head>
 
     <body onload="onPageLoad()">
+
+        <p id="right_links">
+            <a href="javascript:gotoReimbursement()" >New Reimbursement</a>
+            <label for="spaces">          </label>
+            <a href="javascript:logout()" >Logout</a>
+        </p>
+
         <h1>Wally World Movie Studios</h1>
         <h2>Expense Reimbursement System</h2>
         <h3>Finance Reimbursement Review</h3>
@@ -72,7 +79,7 @@
                 <input type="text" name="review_reimb_submitted" id="review_reimb_submitted" size="55" readonly><br>   
             </div>
             <form name="finance_reimb_record_action" id="finance_reimb_record_action">
-                <div>
+                <div id="fin_mgr_actions">
                     <h3>Finance Manager Action</h3>
                     <!-- <h4>Select Reimbursement Status Code</h4> -->
                     <label for="reimb_status_code">Select Reimbursement Status Code: </label>

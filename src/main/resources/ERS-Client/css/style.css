@@ -102,3 +102,7 @@ body{
     padding: 25px 25px 25px 25px;
     display: block;
 }
+
+#logout_link, #right_links {
+    text-align: right;
+}

@@ -14,7 +14,18 @@
     
      <!-- Employee Reimbursement Page -->
     <body onload="onPageLoad()">
-        
+        <p id="logout_link">
+            <a href="javascript:logout()" >Logout</a>
+        </p>
+        <p id="right_links">
+            <a href="javascript:gotoFinance()">Back to Finance</a>
+            <label for="spaces">          </label>
+            <a href="javascript:logout()" >Logout</a>
+        </p>
+
+
+<!-- <a href="javascript:someFunction()">LINK</a> -->
+
         <h1>Wally World Movie Studios</h1>
         <h2>Expense Reimbursement System</h2>
         <h3>Employee Requests</h3>
@@ -59,7 +70,7 @@
                 </div>
             </form>
         </div>
- 
+        
             <form name="create_request" id="create_request" style="display:none" onsubmit="new_reinbursement_request(this)" method="POST">
                 <div name="select_request_type" id="select_request_type" style="display:none">                    
                     <h3>Select a Request Type</h3>
@@ -74,6 +85,7 @@
 
                 <div>
                     <div>
+
                         <h3>Reinbursement Request</h3>
                         <label for="reimb_amount">Enter Reinbursement Amount: </label>
                         <input type="text" name="reimb_amount" id="reimb_amount" required> <br>
@@ -95,7 +107,8 @@
             </form>
         </div>
 
-
+ 
+ 
         <script src="js/reimbursement.js"></script>
     </body>
 </html>

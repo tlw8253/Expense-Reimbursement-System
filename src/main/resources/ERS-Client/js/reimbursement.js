@@ -1,6 +1,7 @@
 "use strict";
 
 var e = document.getElementById("reimb_type");
+var userPwd = "";
 
 let createButton = document.getElementById('btn_create');
 let editButton = document.getElementById('btn_edit');
@@ -15,7 +16,10 @@ let addStatusOutput = document.getElementById('action_status');
 
 function onPageLoad(){
   getUsercredentials();
+  showUserLink();
 }
+
+
 function getUsercredentials(){
   //alert("getUsercredentials()");
   fetch(  'http://localhost:3015/ers_current_user', { //'http://localhost:3015/ers_session_user', {
@@ -32,9 +36,44 @@ function getUsercredentials(){
 ).then((user) => {
   usernameOutput.value = user.username;
   usernroleOutput.value = user.userRole.userRole;
-
+  userPwd = user.password;
+  showUserLink();
 }
 )};
+
+function gotoFinance(){
+  window.location.href = '/finance.html';
+}
+function showUserLink(){
+  document.getElementById("logout_link").style.display="none"; 
+  document.getElementById("right_links").style.display="none"; 
+  if (usernroleOutput.value == "FINANCEMGR"){
+    document.getElementById("right_links").style.display="block"; 
+  }else{
+    document.getElementById("logout_link").style.display="block"; 
+  }
+}
+
+function logout(){
+  //document.event.preventDefault();
+   
+  const logoutInfo = {
+      'username': usernameOutput.value,
+      'password': userPwd
+  };
+
+    fetch('http://localhost:3015/ers_logout', {
+      method: 'POST',
+      credentials: 'include', // this specifies that when you receive cookies,
+      // you should include them in future requests.
+      headers: {
+          'Content-Type': 'application/json' // application/json is a MIME type
+      },
+      body: JSON.stringify(logoutInfo)}).then(() => {
+        window.location.href = '/index.html';
+
+  })
+};
 
 function btn_edit(event) {
   event.preventDefault();
@@ -82,25 +121,6 @@ function processReimbObj(){
 };
 
 
-function submitReimburstment(){
-  fetch('http://localhost:3015/ers_current_user', {
-    'credentials': 'include',
-    'method': 'POST'
-}).then((response) => {
-    if (response.status === 401) {
-         window.location.href = '/index.html'
-    } else if (response.status === 200) {
-        return response.json();
-    }
-}
-).then((user) => {
-    sUserRole = user.userRole.userRole;
-   if (sUserRole == "EMPLOYEE"){
-    window.location.href = '/reimbursement.html';
-  }
-}
-)
-};
 
 
 function testFunc(){
