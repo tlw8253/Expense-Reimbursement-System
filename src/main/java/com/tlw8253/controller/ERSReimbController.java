@@ -98,20 +98,19 @@ public class ERSReimbController implements Controller, Constants {
 
 				objAddReimbDTO = objCtx.bodyAsClass(AddReimbDTO.class);
 				objLogger.debug(sMethod + "objAddReimbDTO body as class: [" + objAddReimbDTO.toString() + "]");
-				
+
 				objReimbursementDTO.setReimbAmount(objAddReimbDTO.getReimbAmount());
 				objReimbursementDTO.setReimbDescription(objAddReimbDTO.getReimbDescription());
 				objReimbursementDTO.setReimbReceipt(objAddReimbDTO.getReimbReceipt());
 				objReimbursementDTO.setReimbType(objAddReimbDTO.getReimbType());
 				objReimbursementDTO.setReimbAuthorUsername(sParamUsername);
-				
+
 				User objAuthor = objERSUserService.getUsersByUsername(sParamUsername);
 				objReimbursementDTO.setReimbAuthorId(Integer.toString(objAuthor.getId()));
-				
-				
+
 				objLogger.debug(sMethod + "objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");
-				
-				//dummy this for now
+
+				// dummy this for now
 				byte[] b = { 15, 16, 17, 18 };
 				SerialBlob sbBlob = null;
 				try {
@@ -122,12 +121,12 @@ public class ERSReimbController implements Controller, Constants {
 					objLogger.error(sMethod + "SQLException: [" + e.getMessage() + "]");
 				}
 				objReimbursementDTO.setReimbReceipt(sbBlob);
-		
-				
+
 				objReimbursement = objERSReimbService.addNewReimbursement(objReimbursementDTO);
+				objLogger.debug(sMethod + "objReimbursement: [" + objReimbursement.toString() + "]");
 
 				objCtx.status(ciStatusCodeSuccess);
-				//objCtx.json(objReimbursement);
+				// objCtx.json(objReimbursement);
 				objCtx.json(objAddReimbDTO);
 
 			} else {
@@ -145,9 +144,6 @@ public class ERSReimbController implements Controller, Constants {
 
 	};
 
-	
-	
-	
 	//
 	// ###
 	//
@@ -169,13 +165,11 @@ public class ERSReimbController implements Controller, Constants {
 			sParamReimbId = objCtx.pathParam(csParamPathReimbId);
 			objLogger.debug(sMethod + "Context path parameter reimb id: [" + sParamReimbId + "]");
 
-			
-				objReimbursement = objERSReimbService.getReimbursementById(sParamReimbId);
+			objReimbursement = objERSReimbService.getReimbursementById(sParamReimbId);
 
-				objCtx.status(ciStatusCodeSuccess);
-				//objCtx.json(objReimbursement);
-				objCtx.json(objReimbursement);
-
+			objCtx.status(ciStatusCodeSuccess);
+			// objCtx.json(objReimbursement);
+			objCtx.json(objReimbursement);
 
 		} else {
 			objLogger.debug(
@@ -186,7 +180,6 @@ public class ERSReimbController implements Controller, Constants {
 
 	};
 
-	
 	//
 	// ###
 	private Handler postFinMgrUpdateReimbursement = (objCtx) -> {
@@ -200,7 +193,7 @@ public class ERSReimbController implements Controller, Constants {
 
 		// expect 1 path parameters with user id
 		if (imPathParmaMapSize == 1) {
-			
+
 			objReimbursementDTO = new ReimbursementDTO();
 
 			sParamUsername = objCtx.pathParam(csParamUserName);
@@ -210,21 +203,18 @@ public class ERSReimbController implements Controller, Constants {
 
 				objReimbFinMgrDTO = objCtx.bodyAsClass(ReimbFinMgrDTO.class);
 				objLogger.debug(sMethod + "objReimbFinMgrDTO body as class: [" + objReimbFinMgrDTO.toString() + "]");
-				
+
 				objReimbursementDTO.setReimbId(objReimbFinMgrDTO.getReimbId());
 				objReimbursementDTO.setReimbStatus(objReimbFinMgrDTO.getReimbStatus());
 				objReimbursementDTO.setReimbResolverMessage(objReimbFinMgrDTO.getReimbDenyReason());
 				objReimbursementDTO.setReimbResolverUsername(sParamUsername);
-	
-//let the service do this based on username
-//				User objResolver = objERSUserService.getUsersByUsername(sParamUsername);
-//				objReimbursementDTO.setReimbResolverId(Integer.toString(objResolver.getId()));				
-				
-				objLogger.debug(sMethod + "sending to service for update by resolver: objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");				
+
+				objLogger.debug(sMethod + "sending to service for update by resolver: objReimbursementDTO: ["
+						+ objReimbursementDTO.toString() + "]");
 				objReimbursement = objERSReimbService.updateReimbursementByResolver(objReimbursementDTO);
 
 				objCtx.status(ciStatusCodeSuccess);
-				//objCtx.json(objReimbursement);
+				// objCtx.json(objReimbursement);
 				objCtx.json(objReimbFinMgrDTO);
 
 			} else {
@@ -242,9 +232,34 @@ public class ERSReimbController implements Controller, Constants {
 
 	};
 
+	//
+	// ###
+	private Handler getReimbursementAll = (objCtx) -> {
+		String sMethod = "getReimbursementAll(): ";
+		boolean bContinue = true;
+		objLogger.trace(sMethod + "Entered");
 
-	
-	
+		setContextMaps(objCtx);
+
+		// expect 1 path parameters with user id
+
+		List<Reimbursement> lstReimbursement = objERSReimbService.getAllReimbursement();
+		for (int iCtr=0; iCtr<lstReimbursement.size(); iCtr++) {
+			if(lstReimbursement.get(iCtr).getReimbResolver()==null) {
+				lstReimbursement.get(iCtr).setReimbResolver(new User());
+				objLogger.debug(sMethod + "setting null ReimbResover from list: [" + iCtr + "] to new User()");
+			}
+				
+		}
+		
+		objLogger.debug(sMethod + "setting in json(lstReimbursement): " + lstReimbursement.toString() + "]");
+
+		objCtx.status(ciStatusCodeSuccess);
+		// objCtx.json(objReimbursement);
+		objCtx.json(lstReimbursement);
+
+	};
+
 	@Override
 	public void mapEndpoints(Javalin app) {
 
@@ -252,6 +267,7 @@ public class ERSReimbController implements Controller, Constants {
 		app.post("/ers_reimb_add/:" + csParamUserName, postAddNewReimbursement);
 		app.post("/ers_reimb_fm_update/:" + csParamUserName, postFinMgrUpdateReimbursement);
 		app.get("/ers_reimb_id/:" + csParamPathReimbId, getReimbursementById);
+		app.get("/ers_reimb_all", getReimbursementAll);
 	}
 
 }

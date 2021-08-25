@@ -58,6 +58,8 @@ public class Admin implements Constants {
 		 // addNewUser("smp8253", "A_Pass12345", "Sam", "Smith", "smp8253@wws.com", csUserRoles[ciUserRoleFinanceMgr]);
 		 // addNewReimbursement("2");	//add Reimbursement for above user
 		
+		 //addNewUser("cwg8253", "A_Pass12345", "Clark", "Griswold", "cwg8253@wws.com", csUserRoles[ciUserRoleEmployee]);
+		 //addNewUser("cqe8253", "A_Pass12345", "Cousin", "Eddy", "cqe8253@wws.com", csUserRoles[ciUserRoleFinanceMgr]);
 
 	}
 

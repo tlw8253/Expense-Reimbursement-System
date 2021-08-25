@@ -39,7 +39,7 @@ public class ReimbursementDAOImpl implements GenericDAO<Reimbursement>, Constant
 		objLogger.trace(sMethod + "Entered");
 
 		// load a complete persistent objects into memory
-		String sHQL = "FROM " + csHQL_ModelClassUser; // fully qualify class name in HQL
+		String sHQL = "FROM " + csHQL_ModelClassReimbursement; // fully qualify class name in HQL
 
 		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
 		Session session = sf.openSession();
@@ -265,7 +265,7 @@ public class ReimbursementDAOImpl implements GenericDAO<Reimbursement>, Constant
 			//we have the record locked from the data base read, now update fields from the DTO except the record id
 			objReimbursementToEdit.setReimbAmount(objAddOrEditDTO.getDoubleDataElement(csReimbTblReimbAmount));
 			objReimbursementToEdit.setReimbSubmitted(objAddOrEditDTO.getTimestampDataElement(csReimbTblReimbSubmitted));
-			objReimbursementToEdit.setReimbSubmitted(objAddOrEditDTO.getTimestampDataElement(csReimbTblReimbSubmitted));
+			objReimbursementToEdit.setReimbResolved(objAddOrEditDTO.getTimestampDataElement(csReimbTblReimbResolved));
 			objReimbursementToEdit.setReimbDescription(objAddOrEditDTO.getDataElement(csReimbTblReimbDescription));
 			objReimbursementToEdit.setReimbReceipt(objAddOrEditDTO.getSerialBlobDataElement(csReimbTblReimbReceipt));
 			objReimbursementToEdit.setReimbResolverMsg(objAddOrEditDTO.getDataElement(csReimbTblReimbResolverMsg));

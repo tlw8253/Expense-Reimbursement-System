@@ -148,10 +148,12 @@ function onPageLoad(){
 
 
   function hideFormSearchResults(){
-    document.getElementById("search_all_results").style.display="none";
+    document.getElementById("all_reimb_recs").style.display="none";
+    document.getElementById("div_all_recs").style.display="none";
   }
   function showFormSearchResults(){
-    document.getElementById("search_all_results").style.display="block";
+    document.getElementById("all_reimb_recs").style.display="block";
+    document.getElementById("div_all_recs").style.display="block";
   }
 
   function hideFormSelectForSearchReq(){
@@ -199,6 +201,17 @@ function onPageLoad(){
       actionStatusOutput.value = "Please enter a search criteria.";
     } 
       
+
+    //all records raido button takes first priority when true
+    if (allRecords.checked){
+      //clear / ignore other values
+      reimbNumber.value = "";
+      rempUsername.value = "";
+      getAllReimbursementRecords();
+      //testPageLoad();
+    }
+
+
       if(reimbNumber.value){
         searchByReimbNumber(reimbNumber.value);
       }
@@ -209,6 +222,151 @@ function onPageLoad(){
     rempUsername.value = "";
     allRecords.checked = false;
   }
+
+  function getAllReimbursementRecords(){
+    //alert("getAllReimbursementRecords()");
+    fetch('http://localhost:3015/ers_reimb_all', {
+      'credentials': 'include',
+      'method': 'GET'
+  }).then((response) => {
+      if (response.status === 401) {
+           window.location.href = '/index.html'
+      } else if (response.status === 200) {
+          return response.json();
+      }
+  }
+  ).then((reimbursement) => {
+    populateReimbTable(reimbursement);
+    showFormSearchResults();
+  }
+  )
+  }
+
+  function testPageLoad() {
+    alert("testPageLoad()");
+    fetch('http://localhost:3015/ers_current_user', {
+        'credentials': 'include',
+        'method': 'GET'
+    }).then((response) => {
+        if (response.status === 401) {
+            window.location.href = '/index.html'
+        } else if (response.status === 200) {
+            return response.json();
+        }
+    }).then((user) => {
+        return fetch(`http://localhost:3015/ers_reimb_all`, {
+            'method': 'GET', 
+            'credentials': 'include'
+        });
+    }).then((response) => {
+        return response.json()
+    }).then((reimbursement) => {
+        //populateShips(ships);
+        populateReimbTable(reimbursement);
+    })
+}
+
+
+
+  function populateReimbTable(arrReimbursement) {
+    let tbody = document.querySelector('#all_reimb_recs tbody');
+
+    for (const reimbursement of arrReimbursement) {
+        /*
+        <th>Ship ID</th>
+                    <th>Ship Name</th>
+                    <th>Ship Age</th>
+                    <th>Ship Owner First Name</th>
+                    <th>Ship Owner Last Name</th>
+                    <th>Ship Status</th>
+
+                            <th>Reimb Id</th>
+                            <th>Author Username</th>
+                             <th>Type</th>
+                            <th>Amount</th>
+
+
+                    */
+
+        let tr = document.createElement('tr');
+
+        /*
+        var xRadio = document.createElement("INPUT");
+        xRadio.setAttribute("type", "radio");     
+        let radioBthTd = document.createElement('td');
+        radioBthTd.innerHTML = xRadio;
+        */
+
+        let reimbIdTd = document.createElement('td');
+        reimbIdTd.innerHTML = reimbursement.reimbId;
+
+        let authorUsernameTd = document.createElement('td');
+        authorUsernameTd.innerHTML = reimbursement.reimbAuthor.username;
+        let authorFirstNameTd = document.createElement('td');
+        authorFirstNameTd.innerHTML = reimbursement.reimbAuthor.firstName;
+        let authorLastNameTd = document.createElement('td');
+        authorLastNameTd.innerHTML = reimbursement.reimbAuthor.lastName;
+        let authorRoleTd = document.createElement('td');
+        authorRoleTd.innerHTML = reimbursement.reimbAuthor.userRole.userRole;
+
+
+        let reimbTypeTd = document.createElement('td');
+        reimbTypeTd.innerHTML = reimbursement.reimbType.reimbType;
+
+        let reimbAmountTd = document.createElement('td');
+        reimbAmountTd.innerHTML = reimbursement.reimbAmount;
+
+        let reimbDescriptionTd = document.createElement('td');
+        reimbDescriptionTd.innerHTML = reimbursement.reimbDescription;
+
+        let reimbReceiptTd = document.createElement('td');
+        reimbReceiptTd.innerHTML = reimbursement.reimbReceipt;
+
+        let reimbSubmittedTd = document.createElement('td');
+        reimbSubmittedTd.innerHTML = new Date(reimbursement.reimbSubmitted).toISOString().slice(0, 10); 
+        //new Date(reimbursement.reimbSubmitted); full date string
+
+        let reimbStatusTd = document.createElement('td');
+        reimbStatusTd.innerHTML = reimbursement.reimbStatus.reimbStatus;
+
+        let resolverUsernameTd = document.createElement('td');
+        resolverUsernameTd.innerHTML = reimbursement.reimbResolver.username;
+
+        let resolverMsgTd = document.createElement('td');
+        resolverMsgTd.innerHTML = reimbursement.reimbResolverMsg;
+
+        let reimbResolvedTd = document.createElement('td');
+        reimbResolvedTd.innerHTML = new Date(reimbursement.reimbResolved).toISOString().slice(0, 10);
+
+
+        //tr.appendChild(xRadio);
+        tr.appendChild(reimbIdTd);
+
+        tr.appendChild(authorUsernameTd);
+        tr.appendChild(authorFirstNameTd);
+        tr.appendChild(authorLastNameTd);
+        tr.appendChild(authorRoleTd);
+
+        tr.appendChild(reimbTypeTd);
+        tr.appendChild(reimbAmountTd);
+        tr.appendChild(reimbDescriptionTd);
+        tr.appendChild(reimbReceiptTd);
+        tr.appendChild(reimbSubmittedTd);
+
+        tr.appendChild(reimbStatusTd);
+        tr.appendChild(resolverUsernameTd);
+        tr.appendChild(resolverMsgTd);
+        tr.appendChild(reimbResolvedTd);
+
+        tbody.appendChild(tr);
+    }
+    document.getElementById("all_records").checked = false;
+    document.getElementById("all_reimb_recs").style.display="block";
+}
+
+
+
+
 
 function searchByReimbNumber(searchByReimbNumber){
  
@@ -224,7 +382,7 @@ function searchByReimbNumber(searchByReimbNumber){
     }
     ).then((Reimbursement) => {
         hideFormSelectForSearchReq();
-        document.getElementById('review_rec_id').value = Reimbursement.reimbId;
+        document.getElementById('review_rec_id').value = Reimbursement.reimbId;        
         document.getElementById('review_reimb_status').value = Reimbursement.reimbStatus.reimbStatus;
         document.getElementById('review_reimb_type').value = Reimbursement.reimbType.reimbType;
         document.getElementById('review_reimb_amount').value = Reimbursement.reimbAmount;
@@ -238,6 +396,10 @@ function searchByReimbNumber(searchByReimbNumber){
         fmUsername = usernameOutput.value;
         authorUsername = document.getElementById("review_reimb_author_un").value
         //alert(fmUsername + " == " + authorUsername);
+
+        if (Reimbursement.reimbStatus.reimbStatus == "DENIED"){
+          actionStatusOutput.value = "Reason Denied: [" + Reimbursement.reimbResolverMsg + "]";
+        }
 
         document.getElementById("fin_mgr_actions").style.display="block";
         if(fmUsername == authorUsername){

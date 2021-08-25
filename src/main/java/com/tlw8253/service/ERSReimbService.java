@@ -282,8 +282,9 @@ public class ERSReimbService implements Constants {
 			objReimbursementDTO.setReimbSubmitted(objReimbursementDBRecord.getReimbSubmitted());//from db record
 			objReimbursementDTO.setReimbSubmitted(objReimbursementDBRecord.getReimbSubmitted().toString());//also set as string			
 			
-			objReimbursementDTO.setReimbResolved(Timestamp.valueOf(LocalDateTime.now()));		//set now for being resolved
-			objReimbursementDTO.setReimbResolved(Timestamp.valueOf(LocalDateTime.now()).toString());//also set as string			
+			Timestamp objSubmitTimestamp = Timestamp.valueOf(LocalDateTime.now());
+			objReimbursementDTO.setReimbResolved(objSubmitTimestamp);		//set now for being resolved
+			objReimbursementDTO.setReimbResolved(objSubmitTimestamp.toString());//also set as string			
 			
 			objReimbursementDTO.setReimbDescription(objReimbursementDBRecord.getReimbDescription());//from db record
 			
