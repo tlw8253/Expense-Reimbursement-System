@@ -558,6 +558,12 @@ public class ERSReimbService implements Constants {
 				for (int iCtr=0; iCtr<lstAllReimbursement.size(); iCtr++) {
 					if(lstAllReimbursement.get(iCtr).getReimbAuthor().getUsername().equalsIgnoreCase(sUsername)) {	
 						Reimbursement objReimbursement = lstAllReimbursement.get(iCtr);
+						
+						if(objReimbursement.getReimbResolver() == null) {
+							objReimbursement.setReimbResolver(new User());
+						}
+							
+						
 						lstAllUserReimbursement.add(objReimbursement);
 						objLogger.debug(sMethod + "add to all list objReimbursement: [" + objReimbursement.toString() + "]");
 					}

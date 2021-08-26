@@ -172,9 +172,11 @@ function startAction(selectObject){
         hideSelectItem();
         showCreateRequest();
     }    
-    if (value == 'default'){        
+    if (value == 'default'){  
+      resetPage();      
       hideSelectItem();
       hideCreateRequest();
+      dispatchEvent(new Event('load'));
   }    
 
 }
@@ -222,7 +224,7 @@ function showSelectItem() {
     event.preventDefault();
     clearStatus();   
 
-    if ((getAllRecordsInput.checked == false) && (getPendingRecordsInput.checked == false) && (getByReimbNumber.value == "")){
+    if ((getAllRecordsInput.checked == false) && (getPendingRecordsInput.checked == false) && (getByReimbNumberInput.value == "")){
       setStatusMsg("Please enter a search criteria.");
     }
 
@@ -351,12 +353,84 @@ function showSelectItem() {
 
   function populateReimbTable(arrReimbursement){
 
-    console.log("populateReimbTable(arrReimbursement)");
-
-
-
-
+    console.log("populateReimbTable(arrReimbursement)");    
     
+    let tbody = document.querySelector('#all_reimb_recs tbody');
+    tbody.innerHTML = "";
+    
+ 
+    for (const reimbursement of arrReimbursement) {
+  
+      let tr = document.createElement('tr');
+
+        let reimbIdTd = document.createElement('td');
+        reimbIdTd.innerHTML = reimbursement.reimbId;
+
+        
+        let authorUsernameTd = document.createElement('td');
+        authorUsernameTd.innerHTML = reimbursement.reimbAuthor.username;
+        let authorFirstNameTd = document.createElement('td');
+        authorFirstNameTd.innerHTML = reimbursement.reimbAuthor.firstName;
+        let authorLastNameTd = document.createElement('td');
+        authorLastNameTd.innerHTML = reimbursement.reimbAuthor.lastName;
+        let authorRoleTd = document.createElement('td');
+        authorRoleTd.innerHTML = reimbursement.reimbAuthor.userRole.userRole;
+
+
+        let reimbTypeTd = document.createElement('td');
+        reimbTypeTd.innerHTML = reimbursement.reimbType.reimbType;
+
+        let reimbAmountTd = document.createElement('td');
+        reimbAmountTd.innerHTML = reimbursement.reimbAmount;
+
+        let reimbDescriptionTd = document.createElement('td');
+        reimbDescriptionTd.innerHTML = reimbursement.reimbDescription;
+
+        let reimbReceiptTd = document.createElement('td');
+        reimbReceiptTd.innerHTML = reimbursement.reimbReceipt;
+
+        let reimbSubmittedTd = document.createElement('td');
+        reimbSubmittedTd.innerHTML = new Date(reimbursement.reimbSubmitted).toISOString().slice(0, 10); 
+        //new Date(reimbursement.reimbSubmitted); full date string
+
+        let reimbStatusTd = document.createElement('td');
+        reimbStatusTd.innerHTML = reimbursement.reimbStatus.reimbStatus;
+
+        let resolverUsernameTd = document.createElement('td');
+        resolverUsernameTd.innerHTML = reimbursement.reimbResolver.username;
+
+        let resolverMsgTd = document.createElement('td');
+        resolverMsgTd.innerHTML = reimbursement.reimbResolverMsg;
+
+        let reimbResolvedTd = document.createElement('td');
+        reimbResolvedTd.innerHTML = new Date(reimbursement.reimbResolved).toISOString().slice(0, 10);
+
+
+        tr.appendChild(reimbIdTd);
+
+        tr.appendChild(authorUsernameTd);
+        tr.appendChild(authorFirstNameTd);
+        tr.appendChild(authorLastNameTd);
+        tr.appendChild(authorRoleTd);
+
+        tr.appendChild(reimbTypeTd);
+        tr.appendChild(reimbAmountTd);
+        tr.appendChild(reimbDescriptionTd);
+        tr.appendChild(reimbReceiptTd);
+        tr.appendChild(reimbSubmittedTd);
+
+        tr.appendChild(reimbStatusTd);
+        tr.appendChild(resolverUsernameTd);
+        tr.appendChild(resolverMsgTd);
+        tr.appendChild(reimbResolvedTd);
+
+        tbody.appendChild(tr);
+    }
+
+    resetSearchArea();
+    showFormSearchResults();
+
+
   }
 
 

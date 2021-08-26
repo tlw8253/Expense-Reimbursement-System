@@ -78,18 +78,19 @@ function onPageLoad(){
 
   function btn_submit_fm_action(event) {
     event.preventDefault();
-    clearStatus();
-    hideFinMgrActionBtn();
-
+ 
     const createRequest = {       
         'reimbId': reimbNumber.value,
         'reimbStatus': e.options[e.selectedIndex].text,
         'reimbDenyReason': document.getElementById('finance_reveiw_deny_reason').value
     };
  
-    console.log("create(event): e.options[e.selectedIndex].text,: " + e.options[e.selectedIndex].text,);
+    console.log("create(event): e.options[e.selectedIndex].text,: " + e.options[e.selectedIndex].text);
     console.log("create(event): document.getElementById('finance_reveiw_deny_reason').value: " + document.getElementById('finance_reveiw_deny_reason').value);
- 
+
+    clearStatus();
+    hideFinMgrActionBtn();
+
  
     fetch('http://localhost:3015/ers_reimb_fm_update/' + usernameOutput.value, {
      method: 'POST',
@@ -114,6 +115,7 @@ function onPageLoad(){
 
   function startFinMgrAction(selectObject){
     var value = selectObject.value; 
+    console.log("startFinMgrAction(): selectObject.value: [" + value + "]");
     clearStatus();
 
     //alert("startFinMgrAction()" + value);
@@ -259,7 +261,7 @@ function onPageLoad(){
  
     
     let tbody = document.querySelector('#all_reimb_recs tbody');
-    
+    tbody.innerHTML = "";
  
     for (const reimbursement of arrReimbursement) {
   
@@ -354,7 +356,7 @@ function onPageLoad(){
 function searchByReimbNumber(sReimbNum){
  
   console.log("searchByReimbNumber(" + sReimbNum + ")");
-  
+
     fetch('http://localhost:3015/ers_reimb_id/'+sReimbNum, {
         'credentials': 'include',
         'method': 'GET'
