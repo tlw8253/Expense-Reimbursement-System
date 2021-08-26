@@ -37,13 +37,21 @@
             <form name="select_for_search_req" id="select_for_search_req">
                 <div>
                     <h3>Search for Reinbursement Requests</h3>
-                    <h4>Enter one value OR select for all records</h4>
-                    <label for="reimbursement_number">Enter Reinbursement Number: </label>
-                    <input type="text" name="reimbursement_number" id="reimbursement_number"><br>
-                    <label for="employee_username">Enter Employee Username: </label>
-                    <input type="text" name="employee_username" id="employee_username"><br>
-                    <input type="radio" id="all_records" name="all_records" value="ALL">
-                    <label for="all_records" name="all_records" id="all_records" >Select to retrieve all reimbursement requests.</label><br>
+                    
+                    <label for="reimbursement_number">Search by Reinbursement Number: </label>
+                    <input type="text" name="reimbursement_number" id="reimbursement_number" size="10"><br>
+
+                    <input type="radio" id="radio_all_records" name="record_filter" value="ALL">
+                    <label for="records" name="all_records" id="all_records" >Retrieve ALL reimbursement.</label>
+
+                    <input type="radio" id="radio_pending_records" name="record_filter" value="PENDING">
+                    <label for="records" name="pending_records" id="pending_records" >Filter for PENDING reimbursement.</label><br>
+
+                    <input type="radio" id="radio_approved_records" name="record_filter" value="APPROVED">
+                    <label for="records" name="approved_records" id="approved_records" >Filter for APPROVED reimbursement.</label>
+
+                    <input type="radio" id="radio_denied_records" name="record_filter" value="DENIED">
+                    <label for="records" name="denied_records" id="denined_records" >Filter for DENIED reimbursement.</label><br>
                 </div>
                 <div>
                     <br><button class="btn btn-primary mt-3" id="btn_search">Search</button>
@@ -99,19 +107,20 @@
                         </div>
                 </div>
                 <div>
-                <br><button class="btn btn-primary mt-3" id="btn_clear_fm_action">Clear</button><br>
-            </div>
+                    <br><button class="btn btn-primary mt-3" id="btn_clear_fm_action">Clear</button><br>
+                </div>
             </form>
-            </form>
+        </form>
         
 
+        <br>
 
-            <div id="div_all_recs">
+        <div id="div_all_recs">
             <section id="all_reimb_recs">
                 <table>
                     <thead>
                         <tr>
-                          <!--<th>Select</th>-->  
+                            <!--<th>Select</th>-->  
                             <th>Reimb Id</th>
                             <th>Author</th>
                             <th>First Name</th>
@@ -138,38 +147,6 @@
                 </table>
             </section>
         </div>
-
-
-            <form name="search_all_results" id="search_all_results" style="display: none;">
-                <div>
-                    <table style="width:100%" border: 1px solid black;>
-                        <tr>
-                          <th>Select</th>
-                          <th>Username</th>
-                          <th>Request Number</th>
-                          <th>Type</th>
-                          <th>Amount</th>
-                          <th>Description</th>
-                          <th>Status</th>
-                        </tr>
-                        <tr>
-                          <td><input type="radio" id="this_record" name="this_records" value="">
-                            <label for="all_records">  </label></td>
-                          <td>Username</td>
-                          <td>Request Number</td>
-                          <td>Type</td>
-                          <td>Amount</td>
-                          <td>Description</td>
-                          <td>Status</td>
-                        </tr>
-                      </table>
-                        </div>
-                <div>
-                    <input type="submit" value="Choose">
-                </div>
-            </form>
-        </div>
-
 
         <div>
             <label for="lbl_action_status" id="lbl_action_status"><strong>Status / Messages: </strong></label>

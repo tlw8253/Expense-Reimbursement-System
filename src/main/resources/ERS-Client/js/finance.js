@@ -14,8 +14,10 @@ let fmClearButton = document.getElementById('btn_clear_fm_action');
 let actionStatusOutput = document.getElementById('action_status');
 
 let reimbNumber = document.getElementById('reimbursement_number');
-let rempUsername = document.getElementById('employee_username');
-let allRecords = document.getElementById('all_records');
+let allRecords = document.getElementById('radio_all_records');
+let pendingRecords = document.getElementById('radio_pending_records');
+let approvedRecords = document.getElementById('radio_approved_records');
+let deniedRecords = document.getElementById('radio_denied_records');
 
 let usernameOutput = document.getElementById('username');
 let usernroleOutput = document.getElementById('userrole');
@@ -60,7 +62,8 @@ function onPageLoad(){
     hideFormSelectForSearchReq();
     hideFormReviewReimbRec();
     showFormSelectForSearchReq();
-    clearStatus();    
+    clearStatus(); 
+       
   }
 
   function clearStatus(){
@@ -76,10 +79,8 @@ function onPageLoad(){
   function btn_submit_fm_action(event) {
     event.preventDefault();
     clearStatus();
-    //reimbTypeInput = e.options[e.selectedIndex].value;
- 
-    //alert("e.value: " + e.options[e.selectedIndex].text);
- 
+    hideFinMgrActionBtn();
+
     const createRequest = {       
         'reimbId': reimbNumber.value,
         'reimbStatus': e.options[e.selectedIndex].text,
@@ -108,7 +109,6 @@ function onPageLoad(){
  
  function processReimbObj(){
   actionStatusOutput.value = "Reimburstment record action sucessfully.";
-  //disableCreateRequest();
 };
 
 
@@ -160,9 +160,11 @@ function onPageLoad(){
     document.getElementById("select_for_search_req").style.display="none";
   }
   function showFormSelectForSearchReq(){
-    document.getElementById("reimbursement_number").value="";
-    document.getElementById("employee_username").value="";
-    document.getElementById("all_records").checked = false;
+    reimbNumber.value="";
+    allRecords.checked = false;
+    pendingRecords.checked = false;
+    approvedRecords.checked = false;
+    deniedRecords.checked = false;
     document.getElementById("select_for_search_req").style.display="block";
   }
 
@@ -197,34 +199,67 @@ function onPageLoad(){
     event.preventDefault();
     clearStatus();
      
-    if ((reimbNumber.value == "") && (rempUsername.value == "") && (allRecords.checked == false)){
+    if ((reimbNumber.value == "") && (allRecords.checked == false) && (pendingRecords.checked == false)
+        && (approvedRecords.checked == false) && (deniedRecords.checked == false)){
       actionStatusOutput.value = "Please enter a search criteria.";
     } 
-      
-
+          
     //all records raido button takes first priority when true
     if (allRecords.checked){
-      //clear / ignore other values
+       reimbNumber.value = "";
+      //getAllReimbursementRecords();
+      getFilteredReimbursementRecords("ALL");
+     }
+     if (pendingRecords.checked){
       reimbNumber.value = "";
-      rempUsername.value = "";
-      getAllReimbursementRecords();
-      //testPageLoad();
+      getFilteredReimbursementRecords("PENDING");
     }
-
-
-      if(reimbNumber.value){
+    if (approvedRecords.checked){
+      reimbNumber.value = "";
+      getFilteredReimbursementRecords("APPROVED");
+    }
+    if (deniedRecords.checked){
+      reimbNumber.value = "";
+      getFilteredReimbursementRecords("DENIED");
+    }
+    if(reimbNumber.value){
         searchByReimbNumber(reimbNumber.value);
       }
   }
+
   function btn_clear(event){
     event.preventDefault();
     reimbNumber.value = "";
-    rempUsername.value = "";
     allRecords.checked = false;
+    pendingRecords.checked = false;
+    approvedRecords.checked = false;
+    deniedRecords .checked = false;
   }
 
+  function getFilteredReimbursementRecords(sStatus){
+    console.log("getFilteredReimbursementRecords(" + sStatus +")");
+    console.log("getAllReimbursementRecords()");
+    fetch('http://localhost:3015/ers_reimb_filter/'+sStatus, {
+      'credentials': 'include',
+      'method': 'GET'
+  }).then((response) => {
+      if (response.status === 401) {
+           window.location.href = '/index.html'
+      } else if (response.status === 200) {
+          return response.json();
+      }
+  }
+  ).then((reimbursement) => {
+    populateReimbTable(reimbursement);
+  }
+  )
+
+  };
+ 
+  
+
   function getAllReimbursementRecords(){
-    //alert("getAllReimbursementRecords()");
+    console.log("getAllReimbursementRecords()");
     fetch('http://localhost:3015/ers_reimb_all', {
       'credentials': 'include',
       'method': 'GET'
@@ -237,58 +272,20 @@ function onPageLoad(){
   }
   ).then((reimbursement) => {
     populateReimbTable(reimbursement);
-    showFormSearchResults();
   }
   )
-  }
+  };
 
-  function testPageLoad() {
-    alert("testPageLoad()");
-    fetch('http://localhost:3015/ers_current_user', {
-        'credentials': 'include',
-        'method': 'GET'
-    }).then((response) => {
-        if (response.status === 401) {
-            window.location.href = '/index.html'
-        } else if (response.status === 200) {
-            return response.json();
-        }
-    }).then((user) => {
-        return fetch(`http://localhost:3015/ers_reimb_all`, {
-            'method': 'GET', 
-            'credentials': 'include'
-        });
-    }).then((response) => {
-        return response.json()
-    }).then((reimbursement) => {
-        //populateShips(ships);
-        populateReimbTable(reimbursement);
-    })
-}
-
-
-
+ 
   function populateReimbTable(arrReimbursement) {
+ 
+    
     let tbody = document.querySelector('#all_reimb_recs tbody');
-
+    
+ 
     for (const reimbursement of arrReimbursement) {
-        /*
-        <th>Ship ID</th>
-                    <th>Ship Name</th>
-                    <th>Ship Age</th>
-                    <th>Ship Owner First Name</th>
-                    <th>Ship Owner Last Name</th>
-                    <th>Ship Status</th>
-
-                            <th>Reimb Id</th>
-                            <th>Author Username</th>
-                             <th>Type</th>
-                            <th>Amount</th>
-
-
-                    */
-
-        let tr = document.createElement('tr');
+  
+      let tr = document.createElement('tr');
 
         /*
         var xRadio = document.createElement("INPUT");
@@ -340,6 +337,7 @@ function onPageLoad(){
 
 
         //tr.appendChild(xRadio);
+        
         tr.appendChild(reimbIdTd);
 
         tr.appendChild(authorUsernameTd);
@@ -360,8 +358,15 @@ function onPageLoad(){
 
         tbody.appendChild(tr);
     }
-    document.getElementById("all_records").checked = false;
-    document.getElementById("all_reimb_recs").style.display="block";
+
+    allRecords.checked = false;
+    pendingRecords.checked = false;
+    approvedRecords.checked = false;
+    deniedRecords.checked = false;
+    
+    showFormSearchResults();
+
+    //document.getElementById("all_reimb_recs").style.display="block";
 }
 
 
@@ -370,6 +375,7 @@ function onPageLoad(){
 
 function searchByReimbNumber(searchByReimbNumber){
  
+  console.log("searchByReimbNumber(searchByReimbNumber): [" + searchByReimbNumber +"]" );
     fetch('http://localhost:3015/ers_reimb_id/'+searchByReimbNumber, {
         'credentials': 'include',
         'method': 'GET'
@@ -395,8 +401,7 @@ function searchByReimbNumber(searchByReimbNumber){
 
         fmUsername = usernameOutput.value;
         authorUsername = document.getElementById("review_reimb_author_un").value
-        //alert(fmUsername + " == " + authorUsername);
-
+       
         if (Reimbursement.reimbStatus.reimbStatus == "DENIED"){
           actionStatusOutput.value = "Reason Denied: [" + Reimbursement.reimbResolverMsg + "]";
         }
@@ -405,6 +410,11 @@ function searchByReimbNumber(searchByReimbNumber){
         if(fmUsername == authorUsername){
           actionStatusOutput.value = "You can only view your own Reimbursement Record.";
           document.getElementById("fin_mgr_actions").style.display="none";
+        }
+        
+        if (Reimbursement.reimbStatus.reimbStatus != "PENDING"){
+          document.getElementById("fin_mgr_actions").style.display="none";
+          alert("Reimbursement is in final state.  Status cannot be changed.");
         }
 
         showFormReviewReimbRec();    

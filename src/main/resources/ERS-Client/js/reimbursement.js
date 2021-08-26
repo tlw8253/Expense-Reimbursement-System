@@ -4,7 +4,8 @@ var e = document.getElementById("reimb_type");
 var userPwd = "";
 
 let createButton = document.getElementById('btn_create');
-let editButton = document.getElementById('btn_edit');
+let clearButton1 = document.getElementById('btn_clear_1');
+let clearButton2 = document.getElementById('btn_clear_2');
 //let reimbTypeInput = e.value; //e.options[e.selectedIndex].text; //e.options[e.selectedIndex].value; //document.getElementById('reimb_type');
 let reimbAmountInput = document.getElementById('reimb_amount');
 let reimbDescrpInput = document.getElementById('reimb_description');
@@ -18,7 +19,6 @@ function onPageLoad(){
   getUsercredentials();
   showUserLink();
 }
-
 
 function getUsercredentials(){
   //alert("getUsercredentials()");
@@ -55,8 +55,7 @@ function showUserLink(){
 }
 
 function logout(){
-  //document.event.preventDefault();
-   
+    
   const logoutInfo = {
       'username': usernameOutput.value,
       'password': userPwd
@@ -75,18 +74,33 @@ function logout(){
   })
 };
 
-function btn_edit(event) {
+function btn_clear_1(event) {
   event.preventDefault();
-  alert("btn_edit event");
+  resetPage();
 }
+function btn_clear_2(event) {
+  event.preventDefault();
+  resetPage();
+}
+function resetPage(){
+  addStatusOutput.value = "";
+  hideSelectItem();
+  hideCreateRequest();
+  document.getElementById("start_action").selectedIndex=0; 
+  resetSearchArea();
+}
+
+function resetSearchArea(){
+  document.getElementById("all_records").checked = false;
+  document.getElementById("all_pending_records").checked = false;
+  document.getElementById("reimbursement_number").value = "";
+}
+
 
 function btn_create(event) {
    // this will prevent the default behavior of what happens when a button inside a form element is clicked
    event.preventDefault();
-   //reimbTypeInput = e.options[e.selectedIndex].value;
-
-   //alert("e.value: " + e.options[e.selectedIndex].text);
-
+   
    const createRequest = {       
        'reimbType': e.options[e.selectedIndex].text, //need to do this here and not outside like the other vars. //e.value, //reimbTypeInput.value,
        'reimbAmount': reimbAmountInput.value,
@@ -94,12 +108,10 @@ function btn_create(event) {
        'reimbReceipt': reimbReceiptInput.value
    };
 
-   console.log("create(event): createRequest.reimbType: " + createRequest.reimb_type);
-   console.log("create(event): createRequest.reimbAmount: " + createRequest.reimb_amount);
-   console.log("create(event): createRequest.reimbDescription: " + createRequest.reimb_description);
-   //alert("create(event): createRequest.reimb_amount: " + createRequest.reimb_amount);
-
-
+   console.log("create(event): createRequest.reimbType: " + e.options[e.selectedIndex].text);
+   console.log("create(event): createRequest.reimbAmount: " + reimbAmountInput.value);
+   console.log("create(event): createRequest.reimbDescription: " + reimbReceiptInput.value);
+   
    fetch('http://localhost:3015/ers_reimb_add/' + usernameOutput.value, {
     method: 'POST',
     credentials: 'include', //must include on calls
@@ -118,29 +130,6 @@ function btn_create(event) {
 function processReimbObj(){
   addStatusOutput.value = "Reimburstment record action sucessfully.";
   disableCreateRequest();
-};
-
-
-
-
-function testFunc(){
-  fetch('http://localhost:3015/ers_reimb_add/' + usernameOutput.value, {
-    method: 'POST',
-    credentials: 'include', //must include on calls
-    headers: {
-        'Content-Type': 'application/json' 
-    },
-    body: JSON.stringify(createRequest)}).then((response) => {
-    if (response.status === 200) {
-      processReimbObj();
-      if (sUserRole == "EMPLOYEE"){
-        window.location.href = '/test.html';
-      }
-    } else if (response.status === 400) {
-        displayInvalidLogin();
-    }
-})
-
 };
 
 
@@ -181,22 +170,24 @@ function showSelectItem() {
     document.getElementById("create_request").style.display="none";    
   }
   function disableCreateRequest() {
-    document.getElementById("btn_create").style.display="none";
-    document.getElementById("btn_edit").style.display="inline";    
+    document.getElementById("btn_create").style.display="none";        
+    document.getElementById("lbl_action_btn").style.display="none";
   }
   function enableCreateRequest() {
     document.getElementById("btn_create").style.display="inline";
-    document.getElementById("btn_edit").style.display="none"; 
+    document.getElementById("btn_clear_1").style.display="inline"; 
     document.getElementById("reimb_type").selectedIndex=0;    
     document.getElementById("reimb_amount").value=""; 
     document.getElementById("reimb_receipt").value=""; 
     document.getElementById("reimb_description").value=""; 
     document.getElementById("action_status").value="";    
+    document.getElementById("lbl_action_btn").style.display="inline";
   }
 
   function checkIfUserCurrentlyLoggedIn(event) {
   };
 
   createButton.addEventListener('click', btn_create);
-  editButton.addEventListener('click', btn_edit);
+  clearButton1.addEventListener('click', btn_clear_1);
+  clearButton2.addEventListener('click', btn_clear_2);
   window.addEventListener('load', checkIfUserCurrentlyLoggedIn)

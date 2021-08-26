@@ -150,7 +150,6 @@ public class ERSReimbController implements Controller, Constants {
 	// ###
 	private Handler getReimbursementById = (objCtx) -> {
 		String sMethod = "getReimbursementById(): ";
-		boolean bContinue = true;
 		objLogger.trace(sMethod + "Entered");
 
 		Reimbursement objReimbursement = null;
@@ -248,8 +247,7 @@ public class ERSReimbController implements Controller, Constants {
 			if(lstReimbursement.get(iCtr).getReimbResolver()==null) {
 				lstReimbursement.get(iCtr).setReimbResolver(new User());
 				objLogger.debug(sMethod + "setting null ReimbResover from list: [" + iCtr + "] to new User()");
-			}
-				
+			}				
 		}
 		
 		objLogger.debug(sMethod + "setting in json(lstReimbursement): " + lstReimbursement.toString() + "]");
@@ -260,6 +258,49 @@ public class ERSReimbController implements Controller, Constants {
 
 	};
 
+	
+	//
+	// ###
+	private Handler getReimbursementByStatus = (objCtx) -> {
+		String sMethod = "getReimbursementByStatus(): ";
+		objLogger.trace(sMethod + "Entered");
+
+		List<Reimbursement> lstReimbursement = null;
+
+		String sParamReimbStatus = "";
+
+		setContextMaps(objCtx);
+
+		// expect 1 path parameters with user id
+		if (imPathParmaMapSize == 1) {
+
+			sParamReimbStatus = objCtx.pathParam(csParamReimStatus);
+			objLogger.debug(sMethod + "Context path parameter reimb id: [" + sParamReimbStatus + "]");
+
+			lstReimbursement = objERSReimbService.getReimbursementByStatus(sParamReimbStatus);
+			for (int iCtr=0; iCtr<lstReimbursement.size(); iCtr++) {
+				if(lstReimbursement.get(iCtr).getReimbResolver()==null) {
+					lstReimbursement.get(iCtr).setReimbResolver(new User());
+					objLogger.debug(sMethod + "setting null ReimbResover from list: [" + iCtr + "] to new User()");
+				}				
+			}
+			
+			objLogger.debug(sMethod + "setting in json(lstReimbursement): " + lstReimbursement.toString() + "]");
+
+			objCtx.status(ciStatusCodeSuccess);
+			// objCtx.json(objReimbursement);
+			objCtx.json(lstReimbursement);
+
+		} else {
+			objLogger.debug(
+					sMethod + csMsgBadParamPathParmNotRightNumber + "  Did not receive the expected number of 1.");
+			objCtx.status(ciStatusCodeErrorBadRequest);
+			objCtx.json(csMsgBadParamPathParmNotRightNumber);
+		}
+
+	};
+
+	
 	@Override
 	public void mapEndpoints(Javalin app) {
 
@@ -268,6 +309,7 @@ public class ERSReimbController implements Controller, Constants {
 		app.post("/ers_reimb_fm_update/:" + csParamUserName, postFinMgrUpdateReimbursement);
 		app.get("/ers_reimb_id/:" + csParamPathReimbId, getReimbursementById);
 		app.get("/ers_reimb_all", getReimbursementAll);
+		app.get("/ers_reimb_filter/:" + csParamReimStatus, getReimbursementByStatus);
 	}
 
 }

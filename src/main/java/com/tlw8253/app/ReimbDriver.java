@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.tlw8253.dto.ReimbursementDTO;
+import com.tlw8253.exception.BadParameterException;
+import com.tlw8253.exception.DatabaseException;
 import com.tlw8253.model.Reimbursement;
 import com.tlw8253.service.ERSReimbService;
 
@@ -41,10 +43,25 @@ public class ReimbDriver implements Constants {
 		// testERSReimbursementService_getReimbursementById("1");
 		// testERSReimbursementService_getUsersByAuthorUsername("tlw8253");
 		// testERSReimbursementService_updateReimbursementByAuthor(1);
-		testERSReimbursementService_updateReimbursementByResolver(1);
+		// testERSReimbursementService_updateReimbursementByResolver(1);
+		testERSReimbursementService_getReimbursementByStatus(csReimbStatus[ciReimbStatusPending]);
 
 	}
 
+	//###
+	public static void testERSReimbursementService_getReimbursementByStatus(String sStatus) {
+		String sMethod = "\n\t testERSReimbursementService_updateReimbursementByResolver(): ";
+		objLogger.trace(sMethod + "Entered");
+		
+		try {
+			List<Reimbursement> lstReimbursement = objERSReimbursementService.getReimbursementByStatus(sStatus);
+			objLogger.debug(sMethod + "lstReimbursement: [" + lstReimbursement.toString() + "]");
+		} catch (Exception e) {
+			objLogger.error(sMethod + "Exception: [" + e.getMessage() + "]");
+		}
+
+	}
+	
 	// ###
 	public static void testERSReimbursementService_updateReimbursementByResolver(int iRecId) {
 		String sMethod = "\n\t testERSReimbursementService_updateReimbursementByResolver(): ";

@@ -1,8 +1,14 @@
-body {
+body{
     background-color:powderblue;
     font-weight: bold;
-    }
-
+    max-width: 600px;
+    margin: auto;  
+    color: black;        
+    border-width: medium 5px thick 5px;
+    border-style: solid; 
+    padding: 25px 25px 25px 25px;
+    display: block;
+}
 h1 {
     text-align: center;
     color: black;
@@ -29,19 +35,21 @@ div {
 
 label{
     display: block;
-    
-}
-
-input[type='submit'],
-label{
     margin-top:  1rem;
 }
 
+
+
 div.container {
+    max-width: 500px;
     border-width: medium 5px thick 5px;
+    margin: auto;
     border-style: solid;
-    padding: 35px 70px 40px 80px;
+    padding: 25px 25px 25px 25px;
     display: block;
+    background-color:lightblue;
+    text-align: center;
+    align-self: center;
 
 }
 

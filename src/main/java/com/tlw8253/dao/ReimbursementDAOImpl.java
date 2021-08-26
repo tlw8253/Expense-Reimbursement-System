@@ -31,6 +31,36 @@ public class ReimbursementDAOImpl implements GenericDAO<Reimbursement>, Constant
 		this.objUserDAO = new UserDAOImpl();
 	}
 
+	
+	public List<Reimbursement> getAllRecordsByStatus(String sStatus) throws SQLException {
+		String sMethod = "\n\t getAllRecordsByStatus(): ";
+		objLogger.trace(sMethod + "Entered: sStatus: [" + sStatus + "]");
+
+		// load a complete persistent objects into memory
+		String sHQL = "FROM " + csHQL_ModelClassReimbursement + " WHERE "; 
+		sHQL = "SELECT r FROM Reimbursement r JOIN r.reimbStatus rs WHERE rs.reimbStatus = :reimbStatus";
+		objLogger.trace(sMethod + "sHQL: [" + sHQL + "]" + sStatus);
+
+		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
+		Session session = sf.openSession();
+		Transaction tx = session.beginTransaction();
+
+		try {
+			List<Reimbursement> lstReimbursement = (List<Reimbursement>) session.createQuery(sHQL).setParameter("reimbStatus", sStatus).getResultList();
+			objLogger.debug(sMethod + "lstReimbursement: [" + lstReimbursement.toString() + "]");
+			tx.commit();
+			return lstReimbursement;
+		} catch (Exception e) {
+			objLogger.error(sMethod + "Exception: cause: [" + e.getCause() + "] class name [" + e.getClass().getName()
+					+ "] [" + e.toString() + "]");
+			objLogger.error(sMethod + "Exception: message: [" + e.getMessage() + "]");
+			return null;
+		} finally {
+			session.close();
+		}
+
+	}
+	
 	//
 	// ###
 	@Override // 20210820 completed
