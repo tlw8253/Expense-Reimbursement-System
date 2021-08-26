@@ -207,8 +207,7 @@ function onPageLoad(){
     //all records raido button takes first priority when true
     if (allRecords.checked){
        reimbNumber.value = "";
-      //getAllReimbursementRecords();
-      getFilteredReimbursementRecords("ALL");
+       getFilteredReimbursementRecords("ALL");
      }
      if (pendingRecords.checked){
       reimbNumber.value = "";
@@ -222,7 +221,7 @@ function onPageLoad(){
       reimbNumber.value = "";
       getFilteredReimbursementRecords("DENIED");
     }
-    if(reimbNumber.value){
+    if(reimbNumber.value != ""){
         searchByReimbNumber(reimbNumber.value);
       }
   }
@@ -238,7 +237,6 @@ function onPageLoad(){
 
   function getFilteredReimbursementRecords(sStatus){
     console.log("getFilteredReimbursementRecords(" + sStatus +")");
-    console.log("getAllReimbursementRecords()");
     fetch('http://localhost:3015/ers_reimb_filter/'+sStatus, {
       'credentials': 'include',
       'method': 'GET'
@@ -254,27 +252,7 @@ function onPageLoad(){
   }
   )
 
-  };
- 
-  
-
-  function getAllReimbursementRecords(){
-    console.log("getAllReimbursementRecords()");
-    fetch('http://localhost:3015/ers_reimb_all', {
-      'credentials': 'include',
-      'method': 'GET'
-  }).then((response) => {
-      if (response.status === 401) {
-           window.location.href = '/index.html'
-      } else if (response.status === 200) {
-          return response.json();
-      }
-  }
-  ).then((reimbursement) => {
-    populateReimbTable(reimbursement);
-  }
-  )
-  };
+  };  
 
  
   function populateReimbTable(arrReimbursement) {
@@ -373,10 +351,11 @@ function onPageLoad(){
 
 
 
-function searchByReimbNumber(searchByReimbNumber){
+function searchByReimbNumber(sReimbNum){
  
-  console.log("searchByReimbNumber(searchByReimbNumber): [" + searchByReimbNumber +"]" );
-    fetch('http://localhost:3015/ers_reimb_id/'+searchByReimbNumber, {
+  console.log("searchByReimbNumber(" + sReimbNum + ")");
+  
+    fetch('http://localhost:3015/ers_reimb_id/'+sReimbNum, {
         'credentials': 'include',
         'method': 'GET'
     }).then((response) => {

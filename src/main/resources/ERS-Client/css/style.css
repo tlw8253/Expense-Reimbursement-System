@@ -66,7 +66,6 @@ body{
     align-self: center;
     text-align: center;
     align-content: center;
-
 }
 
   font.asterisk {
@@ -83,7 +82,9 @@ body{
     display: block;
 }
 
-#review_reimb_record{
+
+
+#review_reimb_record, #single_search_results_area{
     background-color: lightblue;
     color: black;        
     border-width: medium 5px thick 5px;

@@ -3,6 +3,7 @@ package com.tlw8253.service;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
@@ -44,13 +45,13 @@ public class ERSReimbService implements Constants {
 
 	//
 	// ###
-	public List<Reimbursement> getReimbursementByStatus(String sReimbStatus) throws DatabaseException, BadParameterException {
+	public List<Reimbursement> getReimbursementByStatus(String sReimbStatus)
+			throws DatabaseException, BadParameterException {
 		String sMethod = "\n\t getReimbursementByStatus(): ";
 		objLogger.trace(sMethod + "Entered: sReimbStatus: [" + sReimbStatus + "]");
-		
-		
+
 		if (sReimbStatus.equalsIgnoreCase("ALL")) {
-			return(getAllReimbursement());
+			return (getAllReimbursement());
 		}
 
 		if (Validate.isValidValueInArray(sReimbStatus, csReimbStatus)) {
@@ -388,6 +389,41 @@ public class ERSReimbService implements Constants {
 		/**/
 	}
 
+	//
+	// ###
+	public Reimbursement getUserReimbursementByReimbId(String sReimbId, String sUsername)
+			throws DatabaseException, BadParameterException {
+		String sMethod = "\n\t getUserReimbursementByReimbId(): ";
+		objLogger.trace(sMethod + "Entered: sReimbId: [" + sReimbId + "] sUsername: [ " + sUsername + "]");
+
+		if (Validate.isAlphaNumeric(sUsername) && sUsername.length() == ciUsernameLength && Validate.isInt(sReimbId)) {
+			try {
+				Reimbursement objReimbursement = objReimbursementDAO.getByRecordId(Integer.parseInt(sReimbId));
+				objLogger.debug(sMethod + "objReimbursement: [" + objReimbursement.toString() + "]");
+
+				String sReimbUsername = objReimbursement.getReimbAuthor().getUsername();
+
+				if (sReimbUsername.equalsIgnoreCase(sUsername)) {
+					objLogger.debug(sMethod + "record being return DOES belongs to sUsername: [" + sUsername + "]");
+					return objReimbursement;
+				} else {
+					objLogger.debug(sMethod + "record found DOES NOT belongs to sUsername: [" + sUsername + "]");
+					throw new BadParameterException(csMsgBadParamGetUserReimbByIdDoesNotBelong);
+				}
+
+			} catch (Exception e) {// not sure what exception hibernate throws but not SQLException
+				objLogger.error(
+						sMethod + "Exception getting Reimbursement record sReimbId:[" + sReimbId + "] for sUsername: ["
+								+ sUsername + "] Exception: [" + e.toString() + "] [" + e.getMessage() + "]");
+				throw new DatabaseException(csMsgDB_ErrorGettingReimbursementAuthor);
+			}
+		} else {
+			objLogger.debug(sMethod + "Invalid parameters received sReimbId: [" + sReimbId + "] sUsername: ["
+					+ sUsername + "]");
+			throw new BadParameterException(csMsgBadParamGetUserReimbursementById);
+		}
+	}
+
 	//////////////////////////////////////// Utility Methods for this Class
 	////////////////////////////////////////
 
@@ -487,6 +523,77 @@ public class ERSReimbService implements Constants {
 		}
 
 		return bValid;
+	}
+
+
+	//
+	// ### 20210820 completed
+	public List<Reimbursement> getFilteredUserReimbursement(String sUsername, String sStatus) throws DatabaseException, BadParameterException {
+		String sMethod = "\n\t getFilteredUserReimbursement(): ";
+		objLogger.trace(sMethod + "Entered: [" + sUsername + "],[" + sStatus + "]");
+		boolean bFilterAll = false;
+		boolean bValidFilter = false;
+
+		if (sStatus.equalsIgnoreCase("ALL")) {
+			bFilterAll = true;
+			bValidFilter = true;
+		}
+
+		if (!bFilterAll) {
+			if (Validate.isValidValueInArray(sStatus, csReimbStatus)) {
+				bValidFilter = true;
+			}
+		}
+		
+		objLogger.debug(sMethod + "Filters: bFilterAll: [" + bFilterAll + "] bValidFilter: [" + bValidFilter +"]" );
+
+		if (bValidFilter) {
+			try {
+				List<Reimbursement> lstAllReimbursement = objReimbursementDAO.getAllRecords();
+				objLogger.debug(sMethod + "lstAllReimbursement: [" + lstAllReimbursement.toString() + "]");
+				
+				List<Reimbursement> lstAllUserReimbursement = new ArrayList<Reimbursement>();
+				
+				objLogger.debug(sMethod + "adding all records to return array for sUsername: [" + sUsername + "]");
+				for (int iCtr=0; iCtr<lstAllReimbursement.size(); iCtr++) {
+					if(lstAllReimbursement.get(iCtr).getReimbAuthor().getUsername().equalsIgnoreCase(sUsername)) {	
+						Reimbursement objReimbursement = lstAllReimbursement.get(iCtr);
+						lstAllUserReimbursement.add(objReimbursement);
+						objLogger.debug(sMethod + "add to all list objReimbursement: [" + objReimbursement.toString() + "]");
+					}
+				}
+				
+				
+				
+				objLogger.debug(sMethod + "check for status filter: [" + !bFilterAll + "]"); 
+				if (bFilterAll) {
+					objLogger.debug(sMethod + "all user reimbursements added lstAllUserReimbursement: [" + lstAllUserReimbursement.toString() + "]");
+					return lstAllUserReimbursement;
+				}else {
+					List<Reimbursement> lstFliteredReimbursement = new ArrayList<Reimbursement>();
+					
+					objLogger.debug(sMethod + "adding filtered records to return array for sStatus: [" + sStatus + "]");
+					for (int iCtr=0; iCtr<lstAllUserReimbursement.size(); iCtr++) {
+						if(lstAllUserReimbursement.get(iCtr).getReimbStatus().getReimbStatus().equalsIgnoreCase(sStatus)) {
+							Reimbursement objFilteredReimbursement = lstAllUserReimbursement.get(iCtr);
+							lstFliteredReimbursement.add(objFilteredReimbursement);
+							objLogger.debug(sMethod + "add to filtered list objFilteredReimbursement: [" + objFilteredReimbursement.toString() + "]");
+						}
+					}
+					objLogger.debug(sMethod + "filtered user reimbursements added lstFliteredReimbursement: [" + lstFliteredReimbursement.toString() + "]");
+					return lstFliteredReimbursement;
+				}				
+
+			} catch (Exception e) {// not sure what exception hibernate throws but not SQLException
+				objLogger.error(sMethod + "Exception getting all Reimbursement records from the database: Exception: ["
+						+ e.toString() + "] [" + e.getMessage() + "]");
+				throw new DatabaseException(csMsgDB_ErrorGettingReimbursements);
+			}
+		}else {
+			objLogger.debug(sMethod + "Invalid filter parameter received: [" + sStatus + "]");
+			throw new BadParameterException(csMsgBadParamReimbStatus);
+		}
+		
 	}
 
 }

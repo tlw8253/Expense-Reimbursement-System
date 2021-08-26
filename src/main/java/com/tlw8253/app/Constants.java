@@ -193,7 +193,9 @@ public interface Constants {
 	String csMsgBadParamGetUserByUsername = "The user name provided was not alpha numeric or length was invalid.";
 
 	String csMsgBadParamGetReimbursementById = "The reimbursement id provided was not a number or was zero.";
+	String csMsgBadParamGetUserReimbursementById = "The username and/or reimbursement id provided was not valid.";
 	
+	String csMsgBadParamGetUserReimbByIdDoesNotBelong = "The reimbursement does not belong to the username.";
 	
 	String csMsgBadParamAddReimb = "One or more add Reimbursement parameters are invalid.";
 	String csMsgBadParamUpdateReimb = "One or more update Reimbursement parameters are invalid.";

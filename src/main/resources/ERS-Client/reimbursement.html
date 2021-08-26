@@ -52,22 +52,106 @@
                     <div>
                         <h3>Search for Reinbursement Requests</h3>
                         <!-- name field must match to prevent both radio buttons from being marked-->
-                        <input type="radio" id="all_records" name="search_type" value="ALL">
-                        <label for="all_records">Select to retrieve all reimbursement requests.</label><br>
-                        <input type="radio" id="all_pending_records" name="search_type" value="ALL PENDING">
-                        <label for="all_pending_records">Select to retrieve all pending reimbursement requests.</label>
+                        <input type="radio" id="get_all_records" name="get_record_type" value="ALL">
+                        <label for="get_all_records">Select to retrieve all reimbursement requests.</label><br>
+
+                        <input type="radio" id="get_pending_records" name="get_record_type" value="ALL PENDING">
+                        <label for="get_pending_records">Select to retrieve all pending reimbursement requests.</label>
+
                         <br>                    
                         <b><p>Or Search by Reinbursement Number</p></b>
-                        <label for="reimbursement_number">Enter Reinbursement Number: </label>
-                        <input type="text" name="reimbursement_number" id="reimbursement_number" size="5">
+                        <label for="get_reimb_number">Enter Reinbursement Number: </label>
+                        <input type="text" name="get_reimb_number" id="get_reimb_number" size="5">
                     </div>
                     <div>
-                        <br><button class="btn btn-primary mt-3" id="search">Search</button>
+                        <br><button class="btn btn-primary mt-3" id="btn_search_req">Search</button>
                         <button class="btn btn-primary mt-3" id="btn_clear_1">Clear</button><br><br>
                     </div>
                 </form>
             </div>
         
+
+
+            <div id="single_search_results_area">
+
+                <h3>Reimbursement Record for Review</h3>
+                <div>
+                    <label for="review_rec_id">Id: </label>
+                    <input type="text" name="review_rec_id" id="review_rec_id" size="3" readonly>
+                    <label for="review_rec_id">Status: </label>
+                    <input type="text" name="review_reimb_status" id="review_reimb_status" size="8" readonly>
+                    <label for="review_reimb_amount">Type: </label>
+                    <input type="text" name="review_reimb_type" id="review_reimb_type" size="8" readonly>
+                    <label for="review_reimb_amount">Amount: </label>
+                    <input type="text" name="review_reimb_amount" id="review_reimb_amount" size="5" readonly><br>                     
+                    <label for="review_reimb_receipt">Receipt: </label>
+                    <input type="text" name="review_reimb_receipt" id="review_reimb_receipt" size="15" readonly><br><br> 
+                    <label for="reveiw_reimb_description">Description:</label>
+                    <textarea rows="3" cols="50" name="review_reimb_description"
+                        id="review_reimb_description" minlength="10" maxlength="255" readonly></textarea>
+                    <br><label for="review_reimb_submitted_ts">Submitted: </label>
+                    <input type="text" name="review_reimb_submitted_ts" id="review_reimb_submitted_ts" size="55" readonly><br><br>  
+
+                    <label for="review_reimb_resolved_by_un">Resolved By: </label>
+                    <input type="text" name="review_reimb_resolved_by_un" id="review_reimb_resolved_by_un" size="5" readonly>
+                    <label for="review_reimb_resolved_by_role">Role: </label>
+                    <input type="text" name="review_reimb_resolved_by_role" id="review_reimb_resolved_by_role" size="10" readonly>
+                    <br><label for="review_reimb_resolved_msg">Resolver Message: </label>
+                    <input type="text" name="review_reimb_resolved_msg" id="review_reimb_resolved_msg" size="55" readonly>  
+
+                    <br><label for="review_reimb_resolved_ts">Resolved: </label>
+                    <input type="text" name="review_reimb_resolved_ts" id="review_reimb_resolved_ts" size="55" readonly><br>   
+
+                </div>
+                <div>
+                    <br><button class="btn btn-primary mt-3" id="btn_clear_single_search_results_area">Clear</button><br>
+                </div>
+ 
+
+
+            </div>
+
+            <!-- ************************************************************************************************************************** -->
+
+
+            <div id="div_all_recs">
+                <section id="all_reimb_recs">
+                    <table>
+                        <thead>
+                            <tr>
+                                <!--<th>Select</th>-->  
+                                <th>Reimb Id</th>
+                                <th>Author</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Role</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Receipt</th>
+                                <th>Submitted</th>
+    
+                                <th>Status</th>
+                                <th>Resolver</th>
+                                <th>Resolver Message</th>
+                                <th>Resolved</th>
+                            </tr>
+                        </thead>
+                        
+                        
+                        <tbody id="tbody_all_recs">
+                            
+                        </tbody>
+                        
+                    </table>
+                </section>
+            </div>
+    
+
+
+
+            <!-- ************************************************************************************************************************** -->
+
             <form name="create_request" id="create_request" style="display:none" onsubmit="new_reinbursement_request(this)" method="POST">
                 <div name="select_request_type" id="select_request_type" style="display:none">                    
                     <h3>Select a Request Type</h3>
