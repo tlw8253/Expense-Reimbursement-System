@@ -45,6 +45,7 @@ public class User implements Constants {
 
 	public User() {
 		super();
+		setUserRole(new UserRole());
 	}
 	
 	public User(String sUsername, String sPassword, String sFirstName, String sLastName, String sEmail) {

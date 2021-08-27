@@ -405,6 +405,11 @@ public class ERSReimbService implements Constants {
 
 				if (sReimbUsername.equalsIgnoreCase(sUsername)) {
 					objLogger.debug(sMethod + "record being return DOES belongs to sUsername: [" + sUsername + "]");
+					
+					if (objReimbursement.getReimbResolver() == null) {
+						objReimbursement.setReimbResolver(new User());
+					}
+					
 					return objReimbursement;
 				} else {
 					objLogger.debug(sMethod + "record found DOES NOT belongs to sUsername: [" + sUsername + "]");

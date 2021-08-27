@@ -107,7 +107,7 @@ body{
 }
 
 #div_all_recs {
-    height: 15em;
+    height: 10em;
     overflow: auto;
     white-space: nowrap;
   }

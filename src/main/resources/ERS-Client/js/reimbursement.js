@@ -176,7 +176,7 @@ function startAction(selectObject){
       resetPage();      
       hideSelectItem();
       hideCreateRequest();
-      dispatchEvent(new Event('load'));
+      //dispatchEvent(new Event('load'));
   }    
 
 }
@@ -283,6 +283,8 @@ function showSelectItem() {
 
   function setSingleResultArea(objReimb){
 
+    console.log("setSingleResultArea() ENTERED");
+
     document.getElementById("review_rec_id").value= objReimb.reimbId; 
     document.getElementById("review_reimb_status").value= objReimb.reimbStatus.reimbStatus; 
     document.getElementById("review_reimb_type").value= objReimb.reimbType.reimbType; 
@@ -294,6 +296,8 @@ function showSelectItem() {
     document.getElementById("review_reimb_resolved_by_role").value= objReimb.reimbResolver.userRole.userRole; 
     document.getElementById("review_reimb_resolved_msg").value= objReimb.reimbResolverMsg; 
     document.getElementById("review_reimb_resolved_ts").value= new Date(objReimb.reimbResolved);    
+
+    console.log("setSingleResultArea() END");
 
     showSingleResultArea();
     setStatusMsg("Reimbursement recorded received from database.");   
