@@ -12,13 +12,15 @@ import javax.crypto.spec.PBEKeySpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tlw8253.app.Constants;
+
 //
 //### https://www.appsdeveloperblog.com/encrypt-user-password-example-java/
 public final class PasswordUtil {
 	private static Logger objLogger = LoggerFactory.getLogger(PasswordUtil.class);
 
     private static final Random RANDOM = new SecureRandom();
-    private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    private static final String ALPHABET = Constants.csAllPasswordCharacters;  //"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final int ITERATIONS = 10000;
     private static final int KEY_LENGTH = 256;
 
@@ -49,6 +51,7 @@ public final class PasswordUtil {
             
             return returnValue; //skf.generateSecret(spec).getEncoded();
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+        	objLogger.trace(sMethod + "Exit: NoSuchAlgorithmException | InvalidKeySpecException: [" + e.getMessage() + "]");
             throw new AssertionError("Error while hashing a password: " + e.getMessage(), e);
         } finally {
             spec.clearPassword();

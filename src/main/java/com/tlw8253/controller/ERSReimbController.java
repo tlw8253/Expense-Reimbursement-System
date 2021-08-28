@@ -106,7 +106,7 @@ public class ERSReimbController implements Controller, Constants {
 				objReimbursementDTO.setReimbAuthorUsername(sParamUsername);
 
 				User objAuthor = objERSUserService.getUsersByUsername(sParamUsername);
-				objReimbursementDTO.setReimbAuthorId(Integer.toString(objAuthor.getId()));
+				objReimbursementDTO.setReimbAuthorId(Integer.toString(objAuthor.getUserId()));
 
 				objLogger.debug(sMethod + "objReimbursementDTO: [" + objReimbursementDTO.toString() + "]");
 

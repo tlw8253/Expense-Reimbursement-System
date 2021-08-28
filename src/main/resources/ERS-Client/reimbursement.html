@@ -175,7 +175,10 @@
                         <textarea rows="5" cols="75" name="reimb_description"
                                         id="reimb_description" minlength="10" maxlength="255" required></textarea><br>       
                         <label for="reimb_receipt">Upload Reinbursement Receipt: </label>
-                        <input type="file" name="reimb_receipt" id="reimb_receipt" accept="accept=image/png, image/jpeg, image/jpg, .doc,.docx," required> <br>
+                        <input type="file" name="reimb_receipt[]" id="reimb_receipt" accept="accept=image/png, image/jpeg, image/jpg, .doc,.docx," required/> <br>
+                        <output id="receipt_list"></output>
+
+
                     </div>
                     <div>
                         <br><label for="lbl_action_btn" id="lbl_action_btn"><strong>Press to send: </strong></label>

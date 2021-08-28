@@ -122,12 +122,56 @@ function showFormSearchResults(){
   document.getElementById("div_all_recs").style.display="block";
 }
 
+//https://www.html5rocks.com/en/tutorials/file/dndfiles//
+//https://www.w3.org/TR/file-upload/
+function startRead() {
+  // obtain input element through DOM
+
+  var file =  document.getElementById('reimb_receipt').files[0];
+  if(file){
+    console.log("if(file) true");
+    getAsText(file);
+  }
+}
+
+function handleFileSelect(evt) {
+  var files = evt.target.files; // FileList object
+
+  // Loop through the FileList and render image files as thumbnails.
+  for (var i = 0, f; f = files[i]; i++) {
+
+    // Only process image files.
+    if (!f.type.match('image.*')) {
+      continue;
+    }
+
+    var reader = new FileReader();
+
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+      return function(e) {
+        // Render thumbnail.
+        var span = document.createElement('span');
+        span.innerHTML = ['<img class="thumb" src="', e.target.result,
+                          '" title="', escape(theFile.name), '"/>'].join('');
+        document.getElementById('receipt_list').insertBefore(span, null);
+      };
+    })(f);
+
+    // Read in the image file as a data URL.
+    reader.readAsDataURL(f);
+  }
+}
+
+document.getElementById('reimb_receipt').addEventListener('change', handleFileSelect, false);
 
 
 function btn_create(event) {
    // this will prevent the default behavior of what happens when a button inside a form element is clicked
    event.preventDefault();
    
+/*
+
    const createRequest = {       
        'reimbType': e.options[e.selectedIndex].text, //need to do this here and not outside like the other vars. //e.value, //reimbTypeInput.value,
        'reimbAmount': reimbAmountInput.value,
@@ -152,6 +196,7 @@ function btn_create(event) {
     addStatusOutput.value = "Issue performing reimburstment record action.";
     }
 })
+*/
 };
 
 function processReimbObj(){

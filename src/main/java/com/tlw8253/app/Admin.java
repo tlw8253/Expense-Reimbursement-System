@@ -11,11 +11,13 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tlw8253.dto.LoginDTO;
 import com.tlw8253.dto.ReimbursementDTO;
 import com.tlw8253.dto.ReimbursementStatusDTO;
 import com.tlw8253.dto.ReimbursementTypeDTO;
 import com.tlw8253.dto.UserDTO;
 import com.tlw8253.dto.UserRoleDTO;
+import com.tlw8253.exception.AuthenticationFailureException;
 import com.tlw8253.exception.BadParameterException;
 import com.tlw8253.exception.DatabaseException;
 import com.tlw8253.model.ReimbursementStatus;
@@ -23,6 +25,7 @@ import com.tlw8253.model.ReimbursementType;
 import com.tlw8253.model.User;
 import com.tlw8253.model.UserRole;
 import com.tlw8253.service.ERSAdminService;
+import com.tlw8253.service.ERSLoginService;
 import com.tlw8253.service.ERSReimbService;
 import com.tlw8253.service.ERSUserService;
 import com.tlw8253.util.*;
@@ -54,15 +57,37 @@ public class Admin implements Constants {
 		 // createTablesViaHibernate(); //NOTE: change configuration file to create
 		 // ersAdminAddStaticTableValues();
 		 // addNewUser("tlw8253", "A_Pass12345", "Tomas", "Ykel", "tlw8253@wws.com", csUserRoles[ciUserRoleEmployee]);
+		
+		 //test encrypted password validation through service layer
+		 // test_ERSLoginService_login("tlw8253", "A_Pass12345");
+		
 		 // addNewReimbursement("1");	//add Reimbursement for above user
 		 // addNewUser("smp8253", "A_Pass12345", "Sam", "Smith", "smp8253@wws.com", csUserRoles[ciUserRoleFinanceMgr]);
 		 // addNewReimbursement("2");	//add Reimbursement for above user
 		
-		 addNewUser("cwg8253", "A_Pass12345", "Clark", "Griswold", "cwg8253@wws.com", csUserRoles[ciUserRoleEmployee]);
-		 addNewUser("cqe8253", "A_Pass12345", "Cousin", "Eddy", "cqe8253@wws.com", csUserRoles[ciUserRoleFinanceMgr]);
+		 // addNewUser("cwg8253", "A_Pass12345", "Clark", "Griswold", "cwg8253@wws.com", csUserRoles[ciUserRoleEmployee]);
+		 // addNewUser("cqe8253", "A_Pass12345", "Cousin", "Eddy", "cqe8253@wws.com", csUserRoles[ciUserRoleFinanceMgr]);
 
 	}
 
+	
+	//
+	//###
+	public static void test_ERSLoginService_login(String sUsername, String sPassword) {
+		String sMethod = "\n\t test_ERSLoginService_login(): ";
+		objLogger.trace(sMethod + "Entered");
+		
+		ERSLoginService objERSLoginService = new ERSLoginService();
+		LoginDTO objLoginDTO = new LoginDTO(sUsername, sPassword);
+		
+		try {
+			User objUser = objERSLoginService.login(objLoginDTO);
+			objLogger.debug(sMethod + "User validated: [" + objUser.toString() + "]");
+		} catch (BadParameterException | AuthenticationFailureException | DatabaseException e) {
+			objLogger.error(sMethod + "Exception: [" + e.getMessage() + "]");
+		}
+	}
+	
 	//
 	// ###
 	public static void addNewReimbursement(String sUser) {

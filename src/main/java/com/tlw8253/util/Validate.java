@@ -3,6 +3,8 @@ package com.tlw8253.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tlw8253.app.Constants;
+
 public final class Validate {
 	private static Logger objLogger = LoggerFactory.getLogger(Validate.class);
 
@@ -79,6 +81,7 @@ public final class Validate {
 		String sMethod = "isPasswordFormat(): ";
 		boolean bIsValid = false;
 
+		
 		// for checking if password length
 		// is between 8 and 15
 		if (!((sValue.length() >= iMinPwdLen) && (sValue.length() <= iMaxPwdLen))) {
@@ -86,6 +89,13 @@ public final class Validate {
 			return bIsValid;
 		}
 
+		//check for any invalid characters next before continuing with validation
+		if (!hasAllowedPasswordChars(sValue)) {
+			objLogger.debug(sMethod + "password contains invalid characters: [" + sValue + "]");
+			return bIsValid;			
+		}
+
+		
 		String sStringAt0 = sValue.substring(0, 1);
 		if (!isAlpha(sStringAt0)) {
 			objLogger.debug(sMethod + "password error does not start with an alpha.");
@@ -147,15 +157,57 @@ public final class Validate {
 		return bIsValid;
 	}
 
-	private static boolean hasPasswordSpecialChar(String sValue) {
-		String sMethod = "hasPasswordSpecialChar(): ";
+	
+	public static boolean hasAllowedPasswordChars(String sValue) {
+		String sMethod = "hasAllowedPasswordChars";
 		boolean bIsValid = true;
-
-		// for password allowed special characters
-		if (!(sValue.contains("~") || sValue.contains("$") || sValue.contains("^") || sValue.contains("_"))) {
-			objLogger.debug(sMethod + "String contains no password allowed special characters.");
-			bIsValid = false;
+		
+		char[] carPwdChars = sValue.toCharArray();
+		String sSpecialChar = Constants.csPasswordAllowedSpecialChars; 
+		objLogger.debug(sMethod + "sSpecialChar: [" + sSpecialChar + "]");
+		
+		String sThisChar = "";
+		for (int iCtr=0; iCtr<carPwdChars.length; iCtr++) {
+			sThisChar = Character.toString(carPwdChars[iCtr]);
+			bIsValid = sSpecialChar.contains(sThisChar);
+			if (!bIsValid) {
+				bIsValid = Constants.csAlphabet.contains(sThisChar);
+			}
+			if (!bIsValid) {
+				bIsValid = Constants.csNumeric.contains(sThisChar);
+			}
+			if (!bIsValid) {
+				objLogger.debug(sMethod + "password has character not allowed at [" + iCtr + "] value: [" + sThisChar + "]");
+				break;
+			}
 		}
+		
+		
+		return bIsValid;
+	}
+	
+	
+	//
+	//###
+	public static boolean hasPasswordSpecialChar(String sValue) {
+		String sMethod = "hasPasswordSpecialChar(): ";
+		boolean bIsValid = false;
+
+		char[] carPwdChars = sValue.toCharArray();
+		String sSpecialChar = Constants.csPasswordAllowedSpecialChars; 
+
+		objLogger.debug(sMethod + "sSpecialChar: [" + sSpecialChar + "]");
+		
+		String sThisChar = "";
+		for (int iCtr=0; iCtr<carPwdChars.length; iCtr++) {
+			sThisChar = Character.toString(carPwdChars[iCtr]);
+			bIsValid = sSpecialChar.contains(sThisChar);
+			if(bIsValid) {
+				objLogger.debug(sMethod + "found special char at: [" + iCtr + "] char: [" + sThisChar + "]");
+				break;
+			}
+		}
+		
 
 		return bIsValid;
 	}

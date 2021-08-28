@@ -9,9 +9,21 @@ let passwordInput = document.getElementById('password');
 var sUsername = "";
 var sUserRole = "";
 
+function testFileReader(){
+
+  console.log("testFileReader()");
+  if (window.File && window.FileReader && window.FileList && window.Blob) {
+    alert('The File APIs are fully supported in this browser.');
+  } else {
+    alert('The File APIs are not fully supported in this browser.');
+  }
+};
+
+
 function login(event) {
    // this will prevent the default behavior of what happens when a button inside a form element is clicked
     event.preventDefault();
+    //testFileReader();
    
     const loginInfo = {
         'username': usernameInput.value,

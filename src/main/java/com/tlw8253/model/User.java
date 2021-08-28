@@ -30,6 +30,9 @@ public class User implements Constants {
 	@Column(name = csUserTblPassword, length = 50, nullable = false)
 	private String password = "";
 
+	@Column(name = csUserTblPasswordSalt, length = 50, nullable = false)
+	private String passwordSalt = "";
+
 	@Column(name = csUserTblFirstName, length = 100, nullable = false)
 	private String firstName = "";
 
@@ -56,65 +59,73 @@ public class User implements Constants {
 		this.email = sEmail;
 	}
 
-	public UserRole getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(UserRole userRole) {
-		this.userRole = userRole;
-	}
-
-	public int getId() {
+	public int getUserId() {
 		return userId;
-	}
-
-	public void setId(int id) {
-		this.userId = id;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public String getPasswordSalt() {
+		return passwordSalt;
 	}
 
 	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
 	public String getLastName() {
 		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
+	public UserRole getUserRole() {
+		return userRole;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void setPasswordSalt(String passwordSalt) {
+		this.passwordSalt = passwordSalt;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, firstName, lastName, password, userId, userRole, username);
+		return Objects.hash(email, firstName, lastName, password, passwordSalt, userId, userRole, username);
 	}
 
 	@Override
@@ -128,15 +139,17 @@ public class User implements Constants {
 		User other = (User) obj;
 		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
-				&& userId == other.userId && Objects.equals(userRole, other.userRole)
-				&& Objects.equals(username, other.username);
+				&& Objects.equals(passwordSalt, other.passwordSalt) && userId == other.userId
+				&& Objects.equals(userRole, other.userRole) && Objects.equals(username, other.username);
 	}
 
 	@Override
 	public String toString() {
-		return "\n\t User [userId=" + userId + ", username=" + username + ", password=********" + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", email=" + email + ", userRole=" + userRole + "]";
+		return "User [userId=" + userId + ", username=" + username + ", password=" + "********" + ", passwordSalt="
+				+ "********" + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", userRole=" + userRole + "]";
 	}
+
 
 
 

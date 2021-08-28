@@ -28,6 +28,12 @@ public interface Constants {
 
 	int ciStatusCodeInternalServerError = 500;	//The server has encountered a situation it doesn't know how to handle.
 	
+	//password special characters allowed for this program
+	String csPasswordAllowedSpecialChars = "~$^_!#%+-<>";
+	String csAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	String csNumeric = "0123456789";
+	String csAllPasswordCharacters = csNumeric + csAlphabet + csPasswordAllowedSpecialChars;
+	
 	//context parameters
 	int ciListingPort = 3015;
 	String csSessionCurrentUser = "current_user";
@@ -131,6 +137,7 @@ public interface Constants {
 	String csUserTblId = "ers_users_id";
 	String csUserTblUsername = "ers_username";
 	String csUserTblPassword = "ers_password";
+	String csUserTblPasswordSalt = "ers_password_salt";
 	String csUserTblFirstName = "ers_first_name";
 	String csUsrTblLastName = "ers_last_name";
 	String csUserTblEmail = "ers_email";

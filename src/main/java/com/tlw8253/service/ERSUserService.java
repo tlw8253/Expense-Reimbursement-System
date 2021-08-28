@@ -19,6 +19,7 @@ import com.tlw8253.dto.UserDTO;
 import com.tlw8253.exception.*;
 import com.tlw8253.model.Reimbursement;
 import com.tlw8253.model.User;
+import com.tlw8253.util.PasswordUtil;
 import com.tlw8253.util.Validate;
 
 public class ERSUserService implements Constants {
@@ -113,6 +114,15 @@ public class ERSUserService implements Constants {
 		if (isValidUserDTO(objUserDTO)) {
 			try {
 				objLogger.debug(sMethod + "Validated objUserDTO: [" + objUserDTO.toString() + "]");
+				
+				//The DTO is valid, the password is validated to program rules
+				//now encrypt the password and get the salt encryption key
+				String sPassword = objUserDTO.getPassword();
+				String sSalt = PasswordUtil.getSalt(30);
+				String sEncryptedPassword = PasswordUtil.generateSecurePassword(sPassword, sSalt);
+				//over write clear password with encrypted value and add salt key
+				objUserDTO.setPassword(sEncryptedPassword);
+				objUserDTO.setPasswordSalt(sSalt);
 
 				User objUser = objUserDAO.addRecord(objUserDTO);
 				objLogger.debug(sMethod + "objEmployee: [" + objUser.toString() + "]");

@@ -220,13 +220,13 @@ public class ERSReimbService implements Constants {
 
 			objLogger.debug(sMethod + "setting ids and types in objReimbursementDTO.");
 			// keep the csReimbTblReimbAuthorId, author cannot be changed
-			objReimbursementDTO.setReimbAuthorId(objReimbursementDBRecord.getReimbAuthor().getId());
+			objReimbursementDTO.setReimbAuthorId(objReimbursementDBRecord.getReimbAuthor().getUserId());
 
 			// keep the csReimbTblReimbResolverId, if any resolver cannot be changed by
 			// author
 			objLogger.debug(sMethod + "getting ReimbResolver object from DB record.");
 			if (objReimbursementDBRecord.getReimbResolver() != null) {
-				int iReimbResolverId = objReimbursementDBRecord.getReimbResolver().getId();
+				int iReimbResolverId = objReimbursementDBRecord.getReimbResolver().getUserId();
 				objLogger.debug(sMethod + "iReimbResolverId from DB record: [" + iReimbResolverId + "]");
 				objReimbursementDTO.setReimbResolverId(iReimbResolverId);
 			} else {
@@ -345,14 +345,14 @@ public class ERSReimbService implements Constants {
 			objReimbursementDTO.setReimbAuthorUsername(objReimbursementDBRecord.getReimbAuthor().getUsername());// from
 																												// db
 																												// record
-			objReimbursementDTO.setReimbAuthorId(objReimbursementDBRecord.getReimbAuthor().getId());// from db record
-			objReimbursementDTO.setReimbAuthorId(Integer.toString(objReimbursementDBRecord.getReimbAuthor().getId()));// also
+			objReimbursementDTO.setReimbAuthorId(objReimbursementDBRecord.getReimbAuthor().getUserId());// from db record
+			objReimbursementDTO.setReimbAuthorId(Integer.toString(objReimbursementDBRecord.getReimbAuthor().getUserId()));// also
 																														// as
 																														// string
 
 			objReimbursementDTO.setReimbResolverUsername(objResolver.getUsername()); // from resolver's user object
-			objReimbursementDTO.setReimbResolverId(objResolver.getId()); // from resolver's user object
-			objReimbursementDTO.setReimbResolverId(Integer.toString(objResolver.getId())); // also as string
+			objReimbursementDTO.setReimbResolverId(objResolver.getUserId()); // from resolver's user object
+			objReimbursementDTO.setReimbResolverId(Integer.toString(objResolver.getUserId())); // also as string
 
 			objReimbursementDTO.setReimbStatus(objReimbursementStatus.getReimbStatus()); // from status object
 			objReimbursementDTO.setReimbStatusId(objReimbursementStatus.getReimbStatusId()); // from status object

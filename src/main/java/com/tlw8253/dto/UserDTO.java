@@ -38,6 +38,9 @@ public class UserDTO extends AddOrEditDTO implements Constants{
 	public String getPassword() {
 		return super.getDataElement(csUserTblPassword);
 	}
+	public String getPasswordSalt() {
+		return super.getDataElement(csUserTblPasswordSalt);
+	}
 
 	public String getFirstName() {
 		return super.getDataElement(csUserTblFirstName);
@@ -68,6 +71,9 @@ public class UserDTO extends AddOrEditDTO implements Constants{
 
 	public void setPassword(String password) {
 		super.setDataElement(csUserTblPassword, password);
+	}
+	public void setPasswordSalt(String salt) {
+		super.setDataElement(csUserTblPasswordSalt, salt);
 	}
 
 	public void setFirstName(String firstName) {

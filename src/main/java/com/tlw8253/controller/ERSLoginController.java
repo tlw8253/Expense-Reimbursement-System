@@ -40,20 +40,25 @@ public class ERSLoginController implements Controller, Constants {
 		objLogger.trace(sMethod + "Entered");
 
 		objLoginDTO = objCtx.bodyAsClass(LoginDTO.class);
-		User objUser = objERSLoginService.login(objLoginDTO);
+		objLogger.debug(sMethod + "objLoginDTO: [" + objLoginDTO.toString() + "]");
+		
+		User objUser = objERSLoginService.login(objLoginDTO);		
 		objLogger.debug(sMethod + "objUser: [" + objUser.toString() + "]");
 
 		HttpSession httpSession = objCtx.req.getSession();
 		httpSession.setAttribute(csSessionCurrentUser, objUser);
+		
 		if (httpSession.getAttribute(csSessionCurrentUser) == null) {
 			objLogger.debug(sMethod + csSessionCurrentUser + " is null");
+			objCtx.json(csMsgAutenticationFailed);
+			objCtx.status(401);
 		}else {
 			objLogger.debug(sMethod + csSessionCurrentUser + " is not null");
+			objCtx.json(objUser);
+			objCtx.status(200);
 		}
 		
 
-		objCtx.json(objUser);
-		objCtx.status(200);
 	};
 
 	//
