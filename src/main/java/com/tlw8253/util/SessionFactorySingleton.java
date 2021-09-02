@@ -21,8 +21,8 @@ public class SessionFactorySingleton {
 			objLogger.debug(sMethod + "creating session configuration");
 			Configuration config = new Configuration();
 			config.setProperty("hibernate.connection.url", System.getenv("p1_db_url"));
-			config.setProperty("hibernate.connection.username", System.getenv("p0_db_username"));
-			config.setProperty("hibernate.connection.password", System.getenv("p0_db_password"));
+			config.setProperty("hibernate.connection.username", System.getenv("localhost_db_username"));
+			config.setProperty("hibernate.connection.password", System.getenv("localhost_db_password"));
 			config.configure("hibernate.cfg.xml");
 
 			objLogger.debug(sMethod + "building session factory");
