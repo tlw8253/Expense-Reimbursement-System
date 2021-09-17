@@ -300,10 +300,13 @@ public class UserDAOImpl implements GenericDAO<User>, Constants {
 		String sMethod = "\n\t getLogin(): ";
 		objLogger.trace(sMethod + "Entered");
 
-		SessionFactory sf = SessionFactorySingleton.getSessionFactory();
-		Session session = sf.openSession();
-
+		Session session = null;
 		try {
+			objLogger.debug(sMethod + "Getting SessionFactory.");
+			SessionFactory sf = SessionFactorySingleton.getSessionFactory();
+			objLogger.debug(sMethod + "openSession");
+			session = sf.openSession();
+
 			objLogger.debug(sMethod + "Authenticating username: [" + sUsername + "] with password provided.");
 			String sHQL = "FROM User u WHERE u.username = :username AND u.password = :password";
 			// can no longer do a direct compare in the database

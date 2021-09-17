@@ -29,7 +29,7 @@
 	<logger name="com.tlw8253.javalin.requests" level="TRACE" />
 	<logger name="com.tlw8253.model" level="TRACE" />
 	<logger name="com.tlw8253.service" level="TRACE" />
-	<logger name="com.tlw8253.util" level="INFO" />
+	<logger name="com.tlw8253.util" level="TRACE" />
 	
 	<!--  take off the include all notation: Javalin.*
 	

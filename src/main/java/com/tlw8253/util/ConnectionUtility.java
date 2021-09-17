@@ -18,17 +18,25 @@ public class ConnectionUtility {
 		String sMethod = "getConnection(): ";
 		objLogger.trace(sMethod + "Entered");
 				
+		objLogger.debug(sMethod + "registering driver: DriverManager.registerDriver(new Driver());");
 		DriverManager.registerDriver(new Driver());
-		String sURL = System.getenv("ps_db_url");		
-		sURL = "jdbc:mariadb://localhost:3306/exp_reimb_sys";
 		
-		String sUsername = System.getenv("p0_db_username");
-		String sPassword = System.getenv("p0_db_password");
+		
+		String sURL = System.getenv("localhost_db_url");	
+		objLogger.debug(sMethod + "get environment variable: localhost_db_url: [" + sURL + "]");
+		sURL = "jdbc:mariadb://localhost:3306/exp_reimb_sys";
+		objLogger.debug(sMethod + "set sURL: [" + sURL + "]");
+		
+		String sUsername = System.getenv("localhost_db_username");
+		objLogger.debug(sMethod + "get environment variable: localhost_db_username: [" + sUsername + "]");
+		String sPassword = System.getenv("localhost_db_password");
+		objLogger.debug(sMethod + "get environment variable: localhost_db_password: [" + sPassword + "]");
 		//sPassword = "bogus";	//used for exception testing
 		
 		objLogger.debug(sMethod + "Attempting database connection: URL: [" + sURL + "] username: [" + sUsername + "]");
 		Connection conConnection = DriverManager.getConnection(sURL, sUsername, sPassword);
 			
+		objLogger.debug(sMethod + "returning connection.");
 		return(conConnection);
 	}
 

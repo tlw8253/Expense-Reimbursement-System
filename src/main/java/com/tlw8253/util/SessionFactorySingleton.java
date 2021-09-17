@@ -20,9 +20,20 @@ public class SessionFactorySingleton {
 		if (sessionFactory == null) {
 			objLogger.debug(sMethod + "creating session configuration");
 			Configuration config = new Configuration();
-			config.setProperty("hibernate.connection.url", System.getenv("p1_db_url"));
-			config.setProperty("hibernate.connection.username", System.getenv("localhost_db_username"));
-			config.setProperty("hibernate.connection.password", System.getenv("localhost_db_password"));
+			String sDB_URL = System.getenv("localhost_db_url");
+			String sDB_Name = System.getenv("p1_db_name");
+			String sConnURL = sDB_URL + sDB_Name;
+			
+			objLogger.debug(sMethod + "sDB_URL: [" + sDB_URL + "] sDB_Name: [" + sDB_Name + "] sConnURL: [" + sConnURL + "]");			
+			config.setProperty("hibernate.connection.url", sConnURL);
+			
+			String sDB_Username = System.getenv("localhost_db_username");
+			objLogger.debug(sMethod + "localhost_db_username: [" + sDB_Username + "]");
+			config.setProperty("hibernate.connection.username", sDB_Username);
+			
+			String sDB_pwd = System.getenv("localhost_db_password");
+			objLogger.debug(sMethod + "localhost_db_password: [" + sDB_pwd + "]");
+			config.setProperty("hibernate.connection.password", sDB_pwd);
 			config.configure("hibernate.cfg.xml");
 
 			objLogger.debug(sMethod + "building session factory");

@@ -46,9 +46,6 @@ public class Admin implements Constants {
 	private static UserDTO objUserDTO = new UserDTO();
 	private static ReimbursementDTO objReimbDTO = new ReimbursementDTO();
 
-	public Admin() {
-		// TODO Auto-generated constructor stub
-	}
 
 	public static void main(String[] args) {
 		String sMethod = "\n\t main(): ";
