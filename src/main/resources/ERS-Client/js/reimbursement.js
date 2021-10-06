@@ -170,7 +170,7 @@ function btn_create(event) {
    // this will prevent the default behavior of what happens when a button inside a form element is clicked
    event.preventDefault();
    
-/*
+/** */
 
    const createRequest = {       
        'reimbType': e.options[e.selectedIndex].text, //need to do this here and not outside like the other vars. //e.value, //reimbTypeInput.value,
@@ -196,7 +196,7 @@ function btn_create(event) {
     addStatusOutput.value = "Issue performing reimburstment record action.";
     }
 })
-*/
+/**/
 };
 
 function processReimbObj(){
@@ -237,11 +237,13 @@ function showSelectItem() {
   function showCreateRequest() {
     document.getElementById("select_request_type").style.display="block";
     document.getElementById("create_request").style.display="block";    
+    document.getElementById("receipt_list").style.display="inline";
     enableCreateRequest();
   }
   function hideCreateRequest() {
     document.getElementById("select_request_type").style.display="none";
     document.getElementById("create_request").style.display="none";    
+    document.getElementById("receipt_list").style.display="none";  
   }
   function disableCreateRequest() {
     document.getElementById("btn_create").style.display="none";        

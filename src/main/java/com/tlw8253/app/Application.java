@@ -23,6 +23,18 @@ import io.javalin.Javalin;
  * @author tlw8253
  *
  */
+
+//http://localhost:3015/index.html
+/*
+ *	Two night stay while traveling for business.
+ * 
+ * 	tlw8253
+	smp8253
+	cwg8253
+	cqe8253
+	A_Pass12345
+ */
+
 public class Application implements Constants {
 	private final static Logger objLogger = LoggerFactory.getLogger(Application.class);
 	private static Javalin objJavalinApp;
