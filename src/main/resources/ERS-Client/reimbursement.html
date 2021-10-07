@@ -50,7 +50,7 @@
             <div class="select_item_div" style="align-self: center;">
                 <form name="select_item" id="select_item" style="display:none" method="GET" style="align-self: center;">
                     <div>
-                        <h3>Search for Reinbursement Requests</h3>
+                        <h3>Search for Reimbursement Requests</h3>
                         <!-- name field must match to prevent both radio buttons from being marked-->
                         <input type="radio" id="get_all_records" name="get_record_type" value="ALL">
                         <label for="get_all_records">Select to retrieve all reimbursement requests.</label><br>
@@ -59,8 +59,8 @@
                         <label for="get_pending_records">Select to retrieve all pending reimbursement requests.</label>
 
                         <br>                    
-                        <b><p>Or Search by Reinbursement Number</p></b>
-                        <label for="get_reimb_number">Enter Reinbursement Number: </label>
+                        <b><p>Or Search by Reimbursement Number</p></b>
+                        <label for="get_reimb_number">Enter Reimbursement Number: </label>
                         <input type="text" name="get_reimb_number" id="get_reimb_number" size="5">
                     </div>
                     <div>
@@ -168,13 +168,13 @@
                 <div>
                     <div>
 
-                        <h3>Reinbursement Request</h3>
-                        <label for="reimb_amount">Enter Reinbursement Amount: </label>
+                        <h3>Reimbursement Request</h3>
+                        <label for="reimb_amount">Enter Reimbursement Amount: </label>
                         <input type="text" name="reimb_amount" id="reimb_amount" required> <br>
                         <label for="reimb_description">Enter Reimbursment Description:</label> <br>
                         <textarea rows="5" cols="75" name="reimb_description"
                                         id="reimb_description" minlength="10" maxlength="255" required></textarea><br>       
-                        <label for="reimb_receipt">Upload Reinbursement Receipt: </label>
+                        <label for="reimb_receipt">Upload Reimbursement Receipt: </label>
                         <input type="file" name="reimb_receipt[]" id="reimb_receipt" accept="accept=image/png, image/jpeg, image/jpg, .doc,.docx," required/> <br>
                         <output id="receipt_list"></output>
 
