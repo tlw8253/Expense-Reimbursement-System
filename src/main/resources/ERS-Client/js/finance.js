@@ -12,6 +12,7 @@ let fmSubmitButton = document.getElementById('btn_submit_fm_action');
 let fmClearButton = document.getElementById('btn_clear_fm_action');
 
 let actionStatusOutput = document.getElementById('action_status');
+let actionMessageOutput = document.getElementById('action_message');
 
 let reimbNumber = document.getElementById('reimbursement_number');
 let allRecords = document.getElementById('radio_all_records');
@@ -63,11 +64,15 @@ function onPageLoad(){
     hideFormReviewReimbRec();
     showFormSelectForSearchReq();
     clearStatus(); 
+    clearMessage();
        
   }
 
   function clearStatus(){
     actionStatusOutput.value = "";
+  }
+  function clearMessage(){
+    actionMessageOutput.value = "";
   }
 
   function btn_clear_fm_action(event) {
@@ -203,7 +208,7 @@ function onPageLoad(){
      
     if ((reimbNumber.value == "") && (allRecords.checked == false) && (pendingRecords.checked == false)
         && (approvedRecords.checked == false) && (deniedRecords.checked == false)){
-      actionStatusOutput.value = "Please enter a search criteria.";
+          actionMessageOutput.value = "Please enter a search criteria.";
     } 
           
     //all records raido button takes first priority when true
@@ -384,18 +389,18 @@ function searchByReimbNumber(sReimbNum){
         authorUsername = document.getElementById("review_reimb_author_un").value
        
         if (Reimbursement.reimbStatus.reimbStatus == "DENIED"){
-          actionStatusOutput.value = "Reason Denied: [" + Reimbursement.reimbResolverMsg + "]";
+          actionMessageOutput.value = "Reason Denied: [" + Reimbursement.reimbResolverMsg + "]";
         }
 
         document.getElementById("fin_mgr_actions").style.display="block";
         if(fmUsername == authorUsername){
-          actionStatusOutput.value = "You can only view your own Reimbursement Record.";
+          actionMessageOutput.value = "You can only view your own Reimbursement Record.";
           document.getElementById("fin_mgr_actions").style.display="none";
         }
         
         if (Reimbursement.reimbStatus.reimbStatus != "PENDING"){
           document.getElementById("fin_mgr_actions").style.display="none";
-          alert("Reimbursement is in final state.  Status cannot be changed.");
+          actionStatusOutput.value="Reimbursement is in final state.  Status cannot be changed.";
         }
 
         showFormReviewReimbRec();    

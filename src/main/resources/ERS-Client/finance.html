@@ -36,9 +36,9 @@
         <div><br>
             <form name="select_for_search_req" id="select_for_search_req">
                 <div>
-                    <h3>Search for Reinbursement Requests</h3>
+                    <h3>Search for Reimbursement Requests</h3>
                     
-                    <label for="reimbursement_number">Search by Reinbursement Number: </label>
+                    <label for="reimbursement_number">Search by Reimbursement Number: </label>
                     <input type="text" name="reimbursement_number" id="reimbursement_number" size="10"><br>
 
                     <input type="radio" id="radio_all_records" name="record_filter" value="ALL">
@@ -149,8 +149,12 @@
         </div>
 
         <div>
-            <label for="lbl_action_status" id="lbl_action_status"><strong>Status / Messages: </strong></label>
+            <label for="lbl_action_status" id="lbl_action_status"><strong>Status: </strong></label>
             <input type="input" name="action_status" id="action_status" readonly size="50">            
+        </div>
+        <div>                                                                
+            <label for="lbl_action_message" id="lbl_action_message"><strong>Message: </strong></label>
+            <input type="input" name="action_message" id="action_message" readonly size="50">
         </div>
 
        <!-- include JavaScript file -->

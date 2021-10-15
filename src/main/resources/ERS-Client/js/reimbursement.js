@@ -26,6 +26,7 @@ let clearSingleResultArea = document.getElementById('btn_clear_single_search_res
 let usernameOutput = document.getElementById('username');
 let usernroleOutput = document.getElementById('userrole');
 let addStatusOutput = document.getElementById('action_status');
+let addMessageOutput = document.getElementById('action_message');
 
 function onPageLoad(){
   getUsercredentials();
@@ -256,7 +257,8 @@ function showSelectItem() {
     document.getElementById("reimb_amount").value=""; 
     document.getElementById("reimb_receipt").value=""; 
     document.getElementById("reimb_description").value=""; 
-    document.getElementById("action_status").value="";    
+    document.getElementById("action_status").value="";
+    document.getElementById("action_message").value="";     
     document.getElementById("lbl_action_btn").style.display="inline";
   }
 

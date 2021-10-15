@@ -25,6 +25,7 @@ import io.javalin.Javalin;
  */
 
 //http://localhost:3015/index.html
+//http://localhost:5500/index.html	Live server
 /*
  *	Two night stay while traveling for business.
  * 
